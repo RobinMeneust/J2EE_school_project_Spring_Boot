@@ -1,11 +1,14 @@
 version: '3.3'
 services:
     db:
-        image: mysql:5.7
+        container_name: db
+        build:
+            context: ./conf/
+            dockerfile: docker-images/DockerfileMySQL
         volumes:
             - ./mysql-dump/init.sql:/docker-entrypoint-initdb.d/init.sql
         environment:
-            MYSQL_ROOT_PASSWORD: root_password
+            MYSQL_ROOT_PASSWORD: root
             MYSQL_USER: j2ee_user
             MYSQL_PASSWORD: j2ee_password
             MYSQL_DATABASE: j2ee_project_db
@@ -20,16 +23,3 @@ services:
             - '8081:80'
         environment:
             PMA_HOST: db
-
-    web:
-        container_name: tomcat_container
-        build:
-            context: ./
-            dockerfile: DockerfileTomcat
-        depends_on:
-            - db
-        restart: always
-        volumes:
-            - ./target/J2EE_Project-1.0-SNAPSHOT.war:/usr/local/tomcat/webapps/J2EE_Project-1.0-SNAPSHOT.war
-        ports:
-            - '8082:8080'
