@@ -15,23 +15,23 @@ import java.util.Set;
 public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "date", nullable = false)
+    @Column(name = "`date`", nullable = false)
     private Date date;
     @Basic
-    @Column(name = "orderStatus", nullable = false, length = 30)
+    @Column(name = "`orderStatus`", nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     @OneToMany(mappedBy = "order", fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE})
     private Set<OrderItem> orderItems;
     @ManyToOne
-    @JoinColumn(name = "idCustomer", referencedColumnName = "idUser", nullable = false)
+    @JoinColumn(name = "`idCustomer`", referencedColumnName = "`idUser`", nullable = false)
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "idAddress", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "`idAddress`", referencedColumnName = "`id`", nullable = false)
     private Address address;
 
     @Transient

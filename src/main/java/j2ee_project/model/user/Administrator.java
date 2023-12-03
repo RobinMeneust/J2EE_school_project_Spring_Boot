@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="`Administrator`")
-@PrimaryKeyJoinColumn(name = "idModerator")
+@PrimaryKeyJoinColumn(name = "`idModerator`")
 public class Administrator extends Moderator{
     public Administrator(ModeratorDTO moderatorDTO) {
         super(moderatorDTO);

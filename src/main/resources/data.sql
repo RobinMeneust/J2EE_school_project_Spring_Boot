@@ -1,15 +1,15 @@
-INSERT INTO "LoyaltyProgram"(durationNbDays) VALUES(365);
+INSERT INTO "LoyaltyProgram"("durationNbDays") VALUES(365);
 
-INSERT INTO "Discount"("name", "startDate", "endDate", "discountPercentage") VALUES('Loyalty level reward', STR_TO_DATE('28/10/2023', '%d/%m/%Y'), STR_TO_DATE('28/12/2023', '%d/%m/%Y'), 10); -- This type of discount will be created only when it's claimed and will be filled with the current date to the current date + N days
-INSERT INTO "Discount"("name", "startDate", "endDate", "discountPercentage") VALUES('Loyalty level reward', STR_TO_DATE('28/10/2023', '%d/%m/%Y'), STR_TO_DATE('28/12/2023', '%d/%m/%Y'), 20);
+INSERT INTO "Discount"("name", "startDate", "endDate", "discountPercentage") VALUES('Loyalty level reward', '2023-10-28', '2023-12-28', 10);
+INSERT INTO "Discount"("name", "startDate", "endDate", "discountPercentage") VALUES('Loyalty level reward', '2023-10-28', '2023-12-28', 20);
 
-INSERT INTO "Discount"("name", "startDate", "endDate", "discountPercentage") VALUES('Halloween sales', STR_TO_DATE('31/10/2023', '%d/%m/%Y'), STR_TO_DATE('31/10/2023', '%d/%m/%Y'), 15);
+INSERT INTO "Discount"("name", "startDate", "endDate", "discountPercentage") VALUES('Halloween sales', '2023-10-31', '2023-10-31', 15);
 
 INSERT INTO "LoyaltyLevel"("requiredPoints", "idLoyaltyProgram", "idDiscount") VALUES(15,1,1);
 INSERT INTO "LoyaltyLevel"("requiredPoints", "idLoyaltyProgram", "idDiscount") VALUES(25,1,2);
 
-INSERT INTO "LoyaltyAccount"("loyaltyPoints", "startDate", "idLoyaltyProgram") VALUES(55, STR_TO_DATE('28/10/2023', '%d/%m/%Y'), 1);
-INSERT INTO "LoyaltyAccount"("loyaltyPoints", "startDate", "idLoyaltyProgram") VALUES(60, STR_TO_DATE('30/10/2023', '%d/%m/%Y'), 1);
+INSERT INTO "LoyaltyAccount"("loyaltyPoints", "startDate", "idLoyaltyProgram") VALUES(55,'2023-12-28', 1);
+INSERT INTO "LoyaltyAccount"("loyaltyPoints", "startDate", "idLoyaltyProgram") VALUES(60,'2023-12-30', 1);
 
 INSERT INTO "Address"("streetAddress", "postalCode", "city", "country") VALUES ('26 rue de la Mare', '34080', 'Montpellier', 'France');
 INSERT INTO "Address"("streetAddress", "postalCode", "city", "country") VALUES ('33 rue Sadi Carnot', '32000', 'Auch', 'France');
@@ -59,10 +59,10 @@ INSERT INTO "Customer"("idUser", "idAddress", "idLoyaltyAccount") VALUES(5,NULL,
 
 INSERT INTO "Cart"("idCustomer") VALUES(3);
 
-INSERT INTO "Category"("name", "description", "idDiscount") VALUES('strategy', 'A strategy game or strategic game is a game (e.g. a board game) in which the players\' uncoerced, and often autonomous, decision-making skills have a high significance in determining the outcome.', 1);
+INSERT INTO "Category"("name", "description", "idDiscount") VALUES('strategy', 'A strategy game or strategic game is a game (e.g. a board game) in which the players'' uncoerced, and often autonomous, decision-making skills have a high significance in determining the outcome.', 1);
 INSERT INTO "Category"("name", "description") VALUES('card game', 'A card game is any game using playing cards as the primary device with which the game is played, be they traditional or game-specific.');
 
-INSERT INTO "Product"("name", "stockQuantity", "unitPrice", "description", "idCategory", "imagePath") VALUES('Chess Board', 0, 15, 'A chessboard is a gameboard used to play chess. It consists of 64 squares, 8 rows by 8 columns, on which the chess pieces are placed. It is square in shape and uses two colours of squares, one light and one dark, in a chequered pattern. During play, the board is oriented such that each player\'s near-right corner square is a light square.', 1, 'products/chess.jpg');
+INSERT INTO "Product"("name", "stockQuantity", "unitPrice", "description", "idCategory", "imagePath") VALUES('Chess Board', 0, 15, 'A chessboard is a gameboard used to play chess. It consists of 64 squares, 8 rows by 8 columns, on which the chess pieces are placed. It is square in shape and uses two colours of squares, one light and one dark, in a chequered pattern. During play, the board is oriented such that each player''s near-right corner square is a light square.', 1, 'products/chess.jpg');
 INSERT INTO "Product"("name", "stockQuantity", "unitPrice", "description", "idCategory", "imagePath") VALUES('UNO cards', 10, 5, 'Uno, stylized as UNO, is a proprietary American shedding-type card game originally developed in 1971 by Merle Robbins in Reading, Ohio, a suburb of Cincinnati, that housed International Games Inc., a gaming company acquired by Mattel on January 23, 1992.\nPlayed with a specially printed deck, the game is derived from the crazy eights family of card games which, in turn, is based on the traditional German game of mau-mau.', 2, 'products/uno_cards.jpg');
 INSERT INTO "Product"("name", "stockQuantity", "unitPrice", "description", "idCategory", "imagePath") VALUES('UNO cards2', 10, 5, 'Uno, stylized as UNO, is a proprietary American shedding-type card game originally developed in 1971 by Merle Robbins in Reading, Ohio, a suburb of Cincinnati, that housed International Games Inc., a gaming company acquired by Mattel on January 23, 1992.\nPlayed with a specially printed deck, the game is derived from the crazy eights family of card games which, in turn, is based on the traditional German game of mau-mau.', 2, 'products/uno_cards.jpg');
 INSERT INTO "Product"("name", "stockQuantity", "unitPrice", "description", "idCategory", "imagePath") VALUES('UNO cards3', 10, 5, 'Uno, stylized as UNO, is a proprietary American shedding-type card game originally developed in 1971 by Merle Robbins in Reading, Ohio, a suburb of Cincinnati, that housed International Games Inc., a gaming company acquired by Mattel on January 23, 1992.\nPlayed with a specially printed deck, the game is derived from the crazy eights family of card games which, in turn, is based on the traditional German game of mau-mau.', 2, 'products/uno_cards.jpg');
@@ -94,19 +94,19 @@ INSERT INTO "Product"("name", "stockQuantity", "unitPrice", "description", "idCa
 
 
 
-INSERT INTO CartItem(quantity, idCart, idProduct) VALUES(1,1,1);
-INSERT INTO CartItem(quantity, idCart, idProduct) VALUES(3,1,2);
+INSERT INTO "CartItem"("quantity", "idCart", "idProduct") VALUES(1,1,1);
+INSERT INTO "CartItem"("quantity", "idCart", "idProduct") VALUES(3,1,2);
 
-INSERT INTO LoyaltyAccountLevelUsed(idLoyaltyAccount, idLoyaltyLevel) VALUES(1,1);
+INSERT INTO "LoyaltyAccountLevelUsed"("idLoyaltyAccount", "idLoyaltyLevel") VALUES(1,1);
 
-INSERT INTO Mail(fromAddress, toAddress, subject, body, date) VALUES('example@example.com', 'example@example.com', 'Test mail', 'This is the body of a mail used for testing purposes', STR_TO_DATE('30/10/2023', '%d/%m/%Y'));
+INSERT INTO "Mail"("fromAddress", "toAddress", "subject", "body", "date") VALUES('example@example.com', 'example@example.com', 'Test mail', 'This is the body of a mail used for testing purposes', '2023-10-30');
 
 
-INSERT INTO Orders(date, orderStatus, idCustomer, idAddress) VALUES(STR_TO_DATE('30/10/2023', '%d/%m/%Y'), 'SHIPPED', 2, 1);
-INSERT INTO OrderItem(quantity, idOrder, idProduct,total) VALUES(2,1,1,2);
+INSERT INTO "Orders"("date", "orderStatus", "idCustomer", "idAddress") VALUES('2023-10-30', 'SHIPPED', 2, 1);
+INSERT INTO "OrderItem"("quantity", "idOrder", "idProduct","total") VALUES(2,1,1,2);
 
-INSERT INTO FeaturedProduct(idProduct) VALUES(1);
-INSERT INTO FeaturedProduct(idProduct) VALUES(2);
-INSERT INTO FeaturedProduct(idProduct) VALUES(3);
-INSERT INTO FeaturedProduct(idProduct) VALUES(4);
-INSERT INTO FeaturedProduct(idProduct) VALUES(5);
+INSERT INTO "FeaturedProduct"("idProduct") VALUES(1);
+INSERT INTO "FeaturedProduct"("idProduct") VALUES(2);
+INSERT INTO "FeaturedProduct"("idProduct") VALUES(3);
+INSERT INTO "FeaturedProduct"("idProduct") VALUES(4);
+INSERT INTO "FeaturedProduct"("idProduct") VALUES(5);

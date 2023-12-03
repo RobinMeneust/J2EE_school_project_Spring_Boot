@@ -12,16 +12,16 @@ import java.util.Set;
 public class LoyaltyAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "loyaltyPoints", nullable = false)
+    @Column(name = "`loyaltyPoints`", nullable = false)
     private int loyaltyPoints;
     @Basic
-    @Column(name = "startDate", nullable = false)
+    @Column(name = "`startDate`", nullable = false)
     private Date startDate;
     @ManyToOne
-    @JoinColumn(name = "idLoyaltyProgram", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "`idLoyaltyProgram`", referencedColumnName = "`id`", nullable = false)
     private LoyaltyProgram loyaltyProgram;
 
     @ManyToMany (fetch = FetchType.EAGER)

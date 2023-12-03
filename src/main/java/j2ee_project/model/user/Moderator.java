@@ -8,14 +8,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Table(name="`Moderator`")
-@PrimaryKeyJoinColumn(name = "idUser")
+@PrimaryKeyJoinColumn(name = "`idUser`")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Moderator extends User{
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "ModeratorPermission",
-            joinColumns = @JoinColumn(name = "idModerator"),
-            inverseJoinColumns = @JoinColumn(name = "idPermission")
+    @JoinTable(name = "`ModeratorPermission`",
+            joinColumns = @JoinColumn(name = "`idModerator`"),
+            inverseJoinColumns = @JoinColumn(name = "`idPermission`")
     )
     private Set<Permission> permissions = new HashSet<>();
 

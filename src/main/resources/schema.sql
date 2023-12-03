@@ -1,8 +1,3 @@
--- DROP DATABASE j2ee_project_db;
-
--- CREATE DATABASE IF NOT EXISTS j2ee_project_db;
--- USE j2ee_project_db;
-
 CREATE TABLE IF NOT EXISTS "Address" (
     "id" INT PRIMARY KEY AUTO_INCREMENT,
     "streetAddress" VARCHAR(60) NOT NULL,

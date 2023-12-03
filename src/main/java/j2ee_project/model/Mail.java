@@ -9,22 +9,22 @@ import java.sql.Date;
 public class Mail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "fromAddress", nullable = false, length = 50)
+    @Column(name = "`fromAddress`", nullable = false, length = 50)
     private String fromAddress;
     @Basic
-    @Column(name = "toAddress", nullable = false, length = 50)
+    @Column(name = "`toAddress`", nullable = false, length = 50)
     private String toAddress;
     @Basic
-    @Column(name = "subject", nullable = false, length = 50)
+    @Column(name = "`subject`", nullable = false, length = 50)
     private String subject;
     @Basic
-    @Column(name = "body", nullable = false, length = 300)
+    @Column(name = "`body`", nullable = false, length = 300)
     private String body;
     @Basic
-    @Column(name = "date", nullable = false)
+    @Column(name = "`date`", nullable = false)
     private Date date;
 
     public int getId() {

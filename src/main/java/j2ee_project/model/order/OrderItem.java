@@ -10,20 +10,20 @@ import java.util.Objects;
 public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "`quantity`", nullable = false)
     private int quantity;
     @ManyToOne
-    @JoinColumn(name = "idProduct", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "`idProduct`", referencedColumnName = "`id`", nullable = false)
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "idOrder", referencedColumnName = "id", nullable = true)
+    @JoinColumn(name = "`idOrder`", referencedColumnName = "`id`", nullable = true)
     private Orders order;
     @Basic
-    @Column(name = "total", nullable = false)
+    @Column(name = "`total`", nullable = false)
     private float total;
 
     public int getId() {

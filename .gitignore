@@ -4,3 +4,4 @@ target/
 **/*/credentials.json
 tokens/
 .vscode/
+data/

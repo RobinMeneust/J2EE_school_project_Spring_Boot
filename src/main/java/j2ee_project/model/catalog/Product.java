@@ -22,7 +22,7 @@ public class Product {
     @Column(name = "`unitPrice`", nullable = false, precision = 2)
     private float unitPrice;
     @Basic
-    @Column(name = "`description`", nullable = true, length = 300)
+    @Column(name = "`description`", nullable = true, length = 1000)
     private String description;
     @Basic
     @Column(name = "`imagePath`", nullable = true, length = 500)

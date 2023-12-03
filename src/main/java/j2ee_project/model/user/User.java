@@ -23,7 +23,7 @@ public abstract class User {
     @Column(name = "`email`", nullable = false, length = 50)
     private String email;
     @Basic
-    @Column(name = "`password`", nullable = false, length = 128)
+    @Column(name = "`password`", nullable = false, length = 168)
     private String password;
     @Basic
     @Column(name = "`phoneNumber`", nullable = true, length = 15)

@@ -7,10 +7,10 @@ import jakarta.persistence.*;
 public class Permission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "permission", nullable = false, length = 50, unique = true)
+    @Column(name = "`permission`", nullable = false, length = 50, unique = true)
     @Enumerated(EnumType.STRING)
     private TypePermission permission;
 
