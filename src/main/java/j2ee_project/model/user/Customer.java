@@ -10,26 +10,36 @@ import jakarta.persistence.*;
 
 import java.util.Set;
 
+/**
+ * User who can buy products but without management permissions
+ */
 @Entity
-@Table(name="`Customer`")
-@PrimaryKeyJoinColumn(name = "`idUser`")
+@PrimaryKeyJoinColumn(name = "idUser")
 public class Customer extends User{
 
     @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "`idAddress`", referencedColumnName = "`id`")
+    @JoinColumn(name = "idAddress", referencedColumnName = "id")
     private Address address;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "`idLoyaltyAccount`", referencedColumnName = "`id`")
+    @JoinColumn(name = "idLoyaltyAccount", referencedColumnName = "id")
     private LoyaltyAccount loyaltyAccount;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Orders> orders;
 
+    /**
+     * Instantiates a new Customer.
+     *
+     * @param customerDTO the customer dto
+     */
     public Customer(CustomerDTO customerDTO){
         super(customerDTO);
     }
 
+    /**
+     * Instantiates a new Customer.
+     */
     public Customer() {
         super();
     }
@@ -51,34 +61,74 @@ public class Customer extends User{
         return this.getId();
     }
 
+    /**
+     * Gets cart.
+     *
+     * @return the cart
+     */
     public Cart getCart() {
         return cart;
     }
 
+    /**
+     * Sets cart.
+     *
+     * @param cart the cart
+     */
     public void setCart(Cart cart) {
         this.cart = cart;
     }
 
+    /**
+     * Gets address.
+     *
+     * @return the address
+     */
     public Address getAddress() {
         return address;
     }
 
+    /**
+     * Sets address.
+     *
+     * @param address the address
+     */
     public void setAddress(Address address) {
         this.address = address;
     }
 
+    /**
+     * Gets loyalty account.
+     *
+     * @return the loyalty account
+     */
     public LoyaltyAccount getLoyaltyAccount() {
         return loyaltyAccount;
     }
 
+    /**
+     * Sets loyalty account.
+     *
+     * @param loyaltyAccount the loyalty account
+     */
     public void setLoyaltyAccount(LoyaltyAccount loyaltyAccount) {
         this.loyaltyAccount = loyaltyAccount;
     }
 
+    /**
+     * Gets orders.
+     *
+     * @return the orders
+     */
     public Set<Orders> getOrders() {
         return orders;
     }
 
+    /**
+     * Sets orders.
+     *
+     * @param orders the orders
+     */
     public void setOrders(Set<Orders> orders) {
         this.orders = orders;
     }

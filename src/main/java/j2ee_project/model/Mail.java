@@ -4,73 +4,135 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 
+/**
+ * Email that has been sent
+ */
 @Entity
-@Table(name="`Mail`")
 public class Mail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "`id`", nullable = false)
+    @Column(name = "id", nullable = false)
     private int id;
     @Basic
-    @Column(name = "`fromAddress`", nullable = false, length = 50)
+    @Column(name = "fromAddress", nullable = false, length = 50)
     private String fromAddress;
     @Basic
-    @Column(name = "`toAddress`", nullable = false, length = 50)
+    @Column(name = "toAddress", nullable = false, length = 50)
     private String toAddress;
     @Basic
-    @Column(name = "`subject`", nullable = false, length = 50)
+    @Column(name = "subject", nullable = false, length = 50)
     private String subject;
     @Basic
-    @Column(name = "`body`", nullable = false, length = 300)
+    @Column(name = "body", nullable = false, length = 300)
     private String body;
     @Basic
-    @Column(name = "`date`", nullable = false)
+    @Column(name = "date", nullable = false)
     private Date date;
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Gets source address.
+     *
+     * @return the source address
+     */
     public String getFromAddress() {
         return fromAddress;
     }
 
+    /**
+     * Sets source address.
+     *
+     * @param fromAddress the source address
+     */
     public void setFromAddress(String fromAddress) {
         this.fromAddress = fromAddress;
     }
 
+    /**
+     * Gets destination address.
+     *
+     * @return the destination address
+     */
     public String getToAddress() {
         return toAddress;
     }
 
+    /**
+     * Sets destination address.
+     *
+     * @param toAddress the destination address
+     */
     public void setToAddress(String toAddress) {
         this.toAddress = toAddress;
     }
 
+    /**
+     * Gets subject.
+     *
+     * @return the subject
+     */
     public String getSubject() {
         return subject;
     }
 
+    /**
+     * Sets subject.
+     *
+     * @param subject the subject
+     */
     public void setSubject(String subject) {
         this.subject = subject;
     }
 
+    /**
+     * Gets body.
+     *
+     * @return the body
+     */
     public String getBody() {
         return body;
     }
 
+    /**
+     * Sets body.
+     *
+     * @param body the body
+     */
     public void setBody(String body) {
         this.body = body;
     }
 
+    /**
+     * Gets expedition date.
+     *
+     * @return the expedition date
+     */
     public Date getDate() {
         return date;
     }
 
+    /**
+     * Sets expedition date.
+     *
+     * @param date the expedition date
+     */
     public void setDate(Date date) {
         this.date = date;
     }
