@@ -13,6 +13,8 @@ import java.util.Optional;
 
 /**
  * Repository to interacts with the Product table in the DB
+ *
+ * @author Robin Meneust
  */
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAll(Specification<Product> productSpec, Pageable pageable);

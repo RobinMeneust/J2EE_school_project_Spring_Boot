@@ -8,7 +8,9 @@ import java.util.Optional;
 
 
 /**
- * The interface Category repository to interacts with the Category table in the DB
+ * Repository to interacts with the Category table in the DB
+ *
+ * @author Robin Meneust
  */
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     Category findCategoryBy(int id);
