@@ -2,11 +2,18 @@ package j2ee_project.service;
 
 import j2ee_project.dto.CustomerDTO;
 import j2ee_project.dto.ModeratorDTO;
+import j2ee_project.model.Mail;
 import j2ee_project.model.loyalty.LoyaltyAccount;
 import j2ee_project.model.loyalty.LoyaltyProgram;
 import j2ee_project.model.user.*;
 import j2ee_project.service.loyalty.LoyaltyProgramService;
+import j2ee_project.service.mail.MailService;
+import j2ee_project.service.order.CartService;
+import j2ee_project.service.user.ForgottenPasswordService;
 import j2ee_project.service.user.UserService;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +21,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+
+// import static j2ee_project.service.CartManager.copySessionCartToCustomer;
 
 
 /**
@@ -28,6 +41,55 @@ public class AuthService {
 
     @Autowired
     private LoyaltyProgramService loyaltyProgramService;
+
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private CartManager cartManager;
+
+    @Autowired
+    private ForgottenPasswordService forgottenPasswordService;
+
+
+    /**
+     * Process the login
+     *
+     * @param email the email
+     * @param password the password
+     * @param request the request object
+     * @return Error if it needs
+     */
+    public String loginProcess(String email, String password, HttpServletRequest request){
+        try {
+            User user = this.logIn(email, password);
+            if(user == null) {
+                return "Error during logging, check your email and your password";
+            }
+            else {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+
+                // Copy the session cart to the current user cart (and override it if it's not empty) if the user is a customer
+                if(user instanceof Customer customer) {
+                    cartManager.copySessionCartToCustomerEmptyCart(request, customer);
+
+                    // Refresh the user's cart
+                    customer.setCart(cartService.getCartFromCustomerId(customer.getId()));
+                    session.setAttribute("user", customer);
+                }
+
+                return null;
+            }
+        }catch (Exception e) {
+            System.err.println(e.getMessage());
+            return "Error during logging, check your email and your password";
+        }
+    }
+
 
     /**
      * Method used to check if the login information are in the database
@@ -50,6 +112,48 @@ public class AuthService {
     }
 
     /**
+     * Treat the new customer registering
+     *
+     * @param customerDTO the customerDto of the customer to register
+     * @param request the request object
+     * @return Error if it needs
+     */
+    public Map<String, String> newCustomerProcess(CustomerDTO customerDTO, HttpServletRequest request){
+        Map<String, String> inputErrors = DTOService.userDataValidation(customerDTO);
+
+        if(!inputErrors.isEmpty()){
+            return inputErrors;
+        }
+        if (userService.emailOrPhoneNumberIsInDb(customerDTO.getEmail(), customerDTO.getPhoneNumber())) {
+            inputErrors.put("emailOrPhoneNumberInDbError", "Email or phone number already used");
+            return inputErrors;
+        }
+
+        try {
+            User user = this.registerCustomer(customerDTO);
+
+            sendConfirmationMail(user.getEmail());
+
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+
+            // Copy the session cart to the current user cart (and override it if it's not empty) if the user is a customer
+            if (user instanceof Customer customer) {
+                cartManager.copySessionCartToCustomerEmptyCart(request, customer);
+
+                // Refresh the user's cart
+                customer.setCart(cartService.getCartFromCustomerId(customer.getId()));
+                session.setAttribute("user", customer);
+            }
+            return null;
+        } catch (Exception exception) {
+            System.err.println(exception.getMessage());
+            inputErrors.put("RegisterProcessError", "Error during register process");
+            return inputErrors;
+        }
+    }
+
+    /**
      * Register a customer in the database after hashed password generation
      * @param customerDTO customer data transfer object
      * @return the registered user
@@ -68,6 +172,126 @@ public class AuthService {
         userService.addUser(customer);
         return customer;
     }
+
+    private void sendConfirmationMail(String email){
+        Mail mail = new Mail();
+        MailManager mailManager = MailManager.getInstance();
+
+        try
+        {
+            mail.setFromAddress("jeewebproject@gmail.com");
+            mail.setToAddress(email);
+            mail.setSubject("Register confirmation on Boarder Games website");
+            mail.setBody("Hello,\nWe confirm your registration on the Boarder Games website.\n");
+
+            // Set the date to current time if it's null
+            if(mail.getDate() == null) {
+                mail.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
+            }
+
+            mailService.addMail(mail);
+            mailManager.send(mail);
+        }
+        catch(Exception ignore) {}
+    }
+
+    public String startForgottenPasswordProcess(String email, HttpServletRequest request){
+
+        Map<String, String> errorMessages = new HashMap<>();
+
+        if(!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")){
+            return "Email is not valid.";
+        }
+
+        User user = userService.getUserFromEmail(email);
+
+        if(user == null || user.getForgottenPassword() != null){
+            return "You're not registered or you have already ask to change your password. Check your mail box.";
+        }
+
+        String token;
+        do{
+            token = HashService.generateToken(20);
+        }while(forgottenPasswordService.getForgottenPasswordFromToken(token) != null);
+
+        String link = "http://localhost:8080" + request.getContextPath() + "/change-password?token=" + token;
+        sendForgottenPasswordEmail(email, link);
+        ForgottenPassword forgottenPassword = new ForgottenPassword(user, token);
+        forgottenPasswordService.addForgottenPassword(forgottenPassword);
+        return null;
+    }
+
+    private void sendForgottenPasswordEmail(String email, String link){
+        Mail mail = new Mail();
+        MailManager mailManager = MailManager.getInstance();
+
+        try
+        {
+            mail.setFromAddress("jeewebproject@gmail.com");
+            mail.setToAddress(email);
+            mail.setSubject("Forgotten password on Boarder Games website");
+            mail.setBody("Hello,\n\nThere is the link to change your password.\n\n"+link);
+
+            // Set the date to current time if it's null
+            if(mail.getDate() == null) {
+                mail.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
+            }
+
+            mailService.addMail(mail);
+            mailManager.send(mail);
+        }
+        catch(Exception ignore) {}
+    }
+
+    public String  changePasswordPageVerifications(String token){
+        ForgottenPassword forgottenPassword = forgottenPasswordService.getForgottenPasswordFromToken(token);
+
+        if(forgottenPassword == null){
+            return "There is no forgotten password linked to this link. You can do a demand here.";
+        }
+
+        return null;
+    }
+
+    public Map<String, String> changePassword(String password, String confirmPassword, String token){
+
+        ForgottenPassword forgottenPassword = forgottenPasswordService.getForgottenPasswordFromToken(token);
+        System.out.println(forgottenPassword);
+        Map<String, String> errorMessage = new HashMap<>();
+
+        if(forgottenPassword == null){
+            errorMessage.put("Error1", "You don't have started change password process.");
+            return errorMessage;
+        }
+
+        if(!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,24}$") || !password.equals(confirmPassword)){
+            errorMessage.put("Error2", "Password is not valid : it needs letters, numbers, special characters @$!%*#?& and length between 8 and 24.\nPassword and confirm password much match.");
+            return errorMessage;
+        }
+
+        System.out.println(forgottenPassword);
+        User user =forgottenPasswordService.getUser(forgottenPassword);
+        System.out.println(user);
+
+        if(user == null){
+            errorMessage.put("Error2", "An error occur");
+            return errorMessage;
+
+        }
+
+        try {
+            user.setPassword(HashService.generatePasswordHash(password));
+            userService.updateUser(user);
+            forgottenPasswordService.removeForgottenPassword(forgottenPassword);
+            return null;
+        }catch (Exception e) {
+            System.out.println(e);
+            //request.setAttribute("forgottenPasswordToken", forgottenPassword.getToken());
+            errorMessage.put("Error2", "An error occur");
+            return errorMessage;
+        }
+    }
+
 
     /**
      * Register a moderator in the database after hashed password generation

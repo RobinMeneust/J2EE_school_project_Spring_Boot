@@ -17,7 +17,7 @@
 <jsp:include page="../../layout/header.jsp"/>
 <main  class="container">
     <h1>Forgotten password</h1>
-    <form id="forgottenPasswordForm" method="post" action="${pageContext.request.contextPath}/forgotten-password-controller">
+    <form id="forgottenPasswordForm" method="post" action="${pageContext.request.contextPath}/forgotten-password">
         <c:if test="${requestScope.errorMessage != null}">
             <div class="alert alert-danger" role="alert">
                 <c:out value="${requestScope.errorMessage}"/>

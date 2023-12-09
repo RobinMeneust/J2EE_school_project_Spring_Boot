@@ -11,22 +11,22 @@
 <head>
     <title>Register</title>
     <jsp:include page="../../include.jsp"/>
-    <script src="${pageContext.request.contextPath}/dependencies/jquery/jquery.validate.min.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth_pages.css">
+    <script src="../../dependencies/jquery/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="../../css/auth_pages.css">
 </head>
 <body>
     <jsp:include page="../../layout/header.jsp"/>
     <main class="container">
         <h1>Register</h1>
-        <form id="registerForm" name="registerForm" method="post" action="${pageContext.request.contextPath}/register-customer-controller">
-            <c:if test="${requestScope.emailOrPhoneNumberInDbError != null}">
+        <form id="registerForm" name="registerForm" method="post" action="${pageContext.request.contextPath}/register">
+            <c:if test="${InputError.emailOrPhoneNumberInDbError != null}">
                 <div class="alert alert-danger" role="alert">
-                    <c:out value="${requestScope.emailOrPhoneNumberInDbError}"/>
+                    <c:out value="${InputError.emailOrPhoneNumberInDbError}"/>
                 </div>
             </c:if>
-            <c:if test="${requestScope.RegisterProcessError != null}">
+            <c:if test="${InputError.RegisterProcessError != null}">
                 <div class="alert alert-danger" role="alert">
-                    <c:out value="${requestScope.RegisterProcessError}"/>
+                    <c:out value="${InputError.RegisterProcessError}"/>
                 </div>
             </c:if>
             <div class="form-group">

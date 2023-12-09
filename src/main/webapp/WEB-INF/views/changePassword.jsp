@@ -22,7 +22,7 @@
     %>
     <main  class="container">
         <h1>Register</h1>
-        <form id="registerForm" name="registerForm" method="post" action="${pageContext.request.contextPath}/change-password-controller">
+        <form id="changePasswordForm" name="changePasswordForm" method="post" action="${pageContext.request.contextPath}/change-password">
             <c:if test="${requestScope.errorMessage != null}">
                 <div class="alert alert-danger" role="alert">
                     <c:out value="${requestScope.errorMessage}"/>
