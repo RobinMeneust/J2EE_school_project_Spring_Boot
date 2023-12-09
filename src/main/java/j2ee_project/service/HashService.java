@@ -1,5 +1,7 @@
 package j2ee_project.service;
 
+import org.springframework.stereotype.Service;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.math.BigInteger;
@@ -11,6 +13,7 @@ import java.util.Base64;
 /**
  * Manage hashing functions
  */
+@Service
 public class HashService {
 
     /**
@@ -127,11 +130,10 @@ public class HashService {
         byte[] tokenBytes = new byte[length];
 
         try {
-            secureRandom = SecureRandom.getInstanceStrong(); // Utilisation d'un algorithme sécurisé
-            secureRandom.nextBytes(tokenBytes); // Remplissage du tableau de bytes avec des données aléatoires
+            secureRandom = SecureRandom.getInstanceStrong();
+            secureRandom.nextBytes(tokenBytes);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            // Gérer l'exception comme nécessaire
         }
 
         return Base64.getUrlEncoder().withoutPadding().encodeToString(tokenBytes);

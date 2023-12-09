@@ -1,0 +1,15 @@
+.hover-shadow {
+    transition: box-shadow 0.2s;
+}
+
+.hover-shadow:hover {
+    box-shadow: 1px 1px 5px;
+}
+
+.hover-zoom {
+    transition: transform 0.2s;
+}
+
+.hover-zoom:hover {
+    transform: scale(1.1);
+}

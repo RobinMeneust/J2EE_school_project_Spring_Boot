@@ -1,12 +1,14 @@
 package j2ee_project.service;
 
-import j2ee_project.dao.loyalty.LoyaltyProgramDAO;
-import j2ee_project.dao.user.UserDAO;
 import j2ee_project.dto.CustomerDTO;
 import j2ee_project.dto.ModeratorDTO;
 import j2ee_project.model.loyalty.LoyaltyAccount;
 import j2ee_project.model.loyalty.LoyaltyProgram;
 import j2ee_project.model.user.*;
+import j2ee_project.service.loyalty.LoyaltyProgramService;
+import j2ee_project.service.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -19,7 +21,13 @@ import java.time.LocalDate;
  *
  * @author Lucas VELAY
  */
+@Service
 public class AuthService {
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private LoyaltyProgramService loyaltyProgramService;
 
     /**
      * Method used to check if the login information are in the database
@@ -30,8 +38,8 @@ public class AuthService {
      * @throws NoSuchAlgorithmException exception throws by password hash methods
      * @throws InvalidKeySpecException exception throws by password hash methods
      */
-    public static User logIn(String email, String password) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        User user = UserDAO.getUserFromEmail(email);
+    public User logIn(String email, String password) throws NoSuchAlgorithmException, InvalidKeySpecException{
+        User user = userService.getUserFromEmail(email);
         if(user == null){
             return null;
         }
@@ -48,16 +56,16 @@ public class AuthService {
      * @throws NoSuchAlgorithmException exception throws by password hash methods
      * @throws InvalidKeySpecException exception throws by password hash methods
      */
-    public static User registerCustomer(CustomerDTO customerDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public User registerCustomer(CustomerDTO customerDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
         customerDTO.setPassword(HashService.generatePasswordHash(customerDTO.getPassword()));
         Customer customer = new Customer(customerDTO);
         LoyaltyAccount loyaltyAccount = new LoyaltyAccount();
         loyaltyAccount.setLoyaltyPoints(0);
-        LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.getLoyaltyProgram();
+        LoyaltyProgram loyaltyProgram = loyaltyProgramService.getLoyaltyProgram();
         loyaltyAccount.setEndDate(Date.valueOf(LocalDate.now().plusDays(loyaltyProgram.getDurationNbDays())));
         loyaltyAccount.setLoyaltyProgram(loyaltyProgram);
         customer.setLoyaltyAccount(loyaltyAccount);
-        UserDAO.addUser(customer);
+        userService.addUser(customer);
         return customer;
     }
 
@@ -68,10 +76,10 @@ public class AuthService {
      * @throws NoSuchAlgorithmException exception throws by password hash methods
      * @throws InvalidKeySpecException exception throws by password hash methods
      */
-    public static User registerModerator(ModeratorDTO moderatorDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public User registerModerator(ModeratorDTO moderatorDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
         moderatorDTO.setPassword(HashService.generatePasswordHash(moderatorDTO.getPassword()));
         Moderator moderator = new Moderator(moderatorDTO);
-        UserDAO.addUser(moderator);
+        userService.addUser(moderator);
         return moderator;
     }
 
@@ -83,7 +91,7 @@ public class AuthService {
      * @param typePermission the tested permission
      * @return true or false if the moderator has or no the permission
      */
-    public static boolean checkModerator(User user, TypePermission typePermission){
+    public boolean checkModerator(User user, TypePermission typePermission){
         if(user == null){
             return false;
         }
@@ -104,7 +112,7 @@ public class AuthService {
      * @param user the user
      * @return the customer or null
      */
-    public static Customer getCustomer(User user) {
+    public Customer getCustomer(User user) {
         if(user instanceof Customer) {
             return (Customer) user;
         } else {
@@ -118,7 +126,7 @@ public class AuthService {
      * @param user the user
      * @return the moderator or null
      */
-    public static Moderator getModerator(User user) {
+    public Moderator getModerator(User user) {
         if(user instanceof Moderator) {
             return (Moderator) user;
         } else {

@@ -1,11 +1,12 @@
 package j2ee_project.service.discount;
 
-import j2ee_project.dao.catalog.category.CategoryRepository;
-import j2ee_project.dao.discount.DiscountRepository;
+import j2ee_project.repository.discount.DiscountRepository;
 import j2ee_project.model.Discount;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class DiscountService {
     private final DiscountRepository discountRepository;
 

@@ -1,8 +1,10 @@
 package j2ee_project.service.user;
 
-import j2ee_project.dao.user.UserRepository;
+import j2ee_project.repository.user.UserRepository;
 import j2ee_project.model.user.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
     private final UserRepository userRepository;
 

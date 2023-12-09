@@ -9,6 +9,7 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.sql.Date;
@@ -22,6 +23,7 @@ import java.util.Properties;
  *
  * @author Robin Meneust
  */
+@Service
 public class MailManager {
     /**
      * Unique instance of this class (lazy instantiation).

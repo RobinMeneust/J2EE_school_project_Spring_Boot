@@ -1,15 +1,17 @@
 package j2ee_project.service.user;
 
-import j2ee_project.dao.address.AddressRepository;
-import j2ee_project.dao.order.OrdersRepository;
-import j2ee_project.dao.user.CustomerRepository;
+import j2ee_project.repository.address.AddressRepository;
+import j2ee_project.repository.order.OrdersRepository;
+import j2ee_project.repository.user.CustomerRepository;
 import j2ee_project.model.Address;
 import j2ee_project.model.user.Customer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CustomerService {
 
     @PersistenceContext

@@ -1,8 +1,8 @@
 package j2ee_project.service.order;
 
-import j2ee_project.dao.order.CartItemRepository;
-import j2ee_project.dao.order.CartRepository;
-import j2ee_project.dao.user.CustomerRepository;
+import j2ee_project.repository.order.CartItemRepository;
+import j2ee_project.repository.order.CartRepository;
+import j2ee_project.repository.user.CustomerRepository;
 import j2ee_project.model.Discount;
 import j2ee_project.model.order.Cart;
 import j2ee_project.model.order.CartItem;

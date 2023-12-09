@@ -1,9 +1,7 @@
 package j2ee_project.service.catalog.category;
 
-import j2ee_project.dao.catalog.category.CategoryRepository;
-import j2ee_project.dao.catalog.product.FeaturedProductRepository;
+import j2ee_project.repository.catalog.category.CategoryRepository;
 import j2ee_project.model.catalog.Category;
-import j2ee_project.model.catalog.FeaturedProduct;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public class CategoryService {
     }
 
     public Category getCategory(int categoryId) {
-        return categoryRepository.findCategoryBy(categoryId);
+        return categoryRepository.findCategoryById(categoryId);
     }
 
     public void deleteCategory(int categoryId) {

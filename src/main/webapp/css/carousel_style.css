@@ -1,0 +1,20 @@
+.carousel-control-prev-icon {
+    width: 80px;
+    height: 80px;
+    background-image: url("../img/icons/left-arrow.svg");
+}
+
+.carousel-control-next-icon {
+    width: 80px;
+    height: 80px;
+    background-image: url("../img/icons/right-arrow.svg");
+}
+
+.carousel-indicators li {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: #9c36b5;
+    border-radius: 50%;
+}

@@ -1,8 +1,10 @@
 package j2ee_project.service.loyalty;
 
-import j2ee_project.dao.loyalty.LoyaltyProgramRepository;
+import j2ee_project.repository.loyalty.LoyaltyProgramRepository;
 import j2ee_project.model.loyalty.LoyaltyProgram;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LoyaltyProgramService {
     private final LoyaltyProgramRepository loyaltyProgramRepository;
 

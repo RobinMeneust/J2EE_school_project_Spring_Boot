@@ -1,10 +1,12 @@
 package j2ee_project.service.user;
 
-import j2ee_project.dao.user.ModeratorRepository;
+import j2ee_project.repository.user.ModeratorRepository;
 import j2ee_project.model.user.Moderator;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ModeratorService {
     ModeratorRepository moderatorRepository;
 

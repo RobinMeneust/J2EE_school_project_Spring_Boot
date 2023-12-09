@@ -1,0 +1,41 @@
+.hidden{
+    display:none;
+}
+
+div.container{
+    width: 100%;
+    max-width: 100%;
+}
+
+div.div-tabs{
+    width: 20%;
+}
+
+div.tab-content{
+    width: 78%;
+}
+
+button.nav-link{
+    width: 100%;
+}
+
+table td li{
+    width:205px;
+}
+
+td.td-description{
+    width : 50%;
+}
+
+hr{
+    width: 95%;
+    margin: 8px 0;
+}
+
+span.field-title{
+    margin-top: 5px;
+}
+
+div.div-tabs{
+    margin-left: 10px;
+}

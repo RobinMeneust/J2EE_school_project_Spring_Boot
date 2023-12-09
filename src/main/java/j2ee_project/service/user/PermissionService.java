@@ -1,9 +1,11 @@
 package j2ee_project.service.user;
 
-import j2ee_project.dao.user.PermissionRepository;
+import j2ee_project.repository.user.PermissionRepository;
 import j2ee_project.model.user.Permission;
 import j2ee_project.model.user.TypePermission;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PermissionService {
     PermissionRepository permissionRepository;
 

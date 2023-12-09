@@ -1,9 +1,11 @@
 package j2ee_project.service.user;
 
-import j2ee_project.dao.user.ForgottenPasswordRepository;
+import j2ee_project.repository.user.ForgottenPasswordRepository;
 import j2ee_project.model.user.ForgottenPassword;
 import j2ee_project.model.user.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ForgottenPasswordService {
     private final ForgottenPasswordRepository forgottenPasswordRepository;
 

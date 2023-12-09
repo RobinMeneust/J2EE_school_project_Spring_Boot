@@ -1,0 +1,45 @@
+#dark-mode-button {
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.toggle-dark-mode {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    background: white;
+    border: lightgrey solid 1px;
+    border-radius: 50px;
+    transition: 500ms;
+    overflow: hidden;
+}
+
+.toggle-dark-mode-button {
+    position: absolute;
+    display: inline-block;
+    top: 7px;
+    left: 6px;
+    width: 35px;
+    height: 35px;
+    font-size: 30px;
+    border-radius: 50%;
+    background: black;
+    overflow: hidden;
+    transition: all 500ms ease-out;
+    color: white;
+}
+
+#dark-mode-button:checked + .toggle-dark-mode {
+    background: #211042;
+}
+
+
+#dark-mode-button:checked + .toggle-dark-mode .toggle-dark-mode-button {
+    background: white;
+    color:black;
+    transform: translateX(50px);
+}
+

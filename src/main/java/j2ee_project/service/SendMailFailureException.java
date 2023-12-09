@@ -1,10 +1,13 @@
 package j2ee_project.service;
 
+import org.springframework.stereotype.Service;
+
 /**
  * Exception used to describe the case where the mail could not be sent
  *
  * @author Robin Meneust
  */
+
 public class SendMailFailureException extends Exception {
     /**
      * Constructs a new exception with the given error message that is added to the exception: "ERROR: The mail could not be sent\n " followed by the full error message

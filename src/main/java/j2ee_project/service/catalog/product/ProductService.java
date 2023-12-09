@@ -1,10 +1,7 @@
 package j2ee_project.service.catalog.product;
 
-import j2ee_project.dao.catalog.product.ProductRepository;
+import j2ee_project.repository.catalog.product.ProductRepository;
 import j2ee_project.model.catalog.Product;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

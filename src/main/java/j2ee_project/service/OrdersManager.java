@@ -4,10 +4,12 @@ import j2ee_project.model.order.OrderStatus;
 import j2ee_project.model.order.Orders;
 import j2ee_project.model.user.Customer;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Service;
 
 /**
  * Manages orders
  */
+@Service
 public class OrdersManager {
     /**
      * Check if an order is associated to the given customer who is not null, and if it has already been paid.

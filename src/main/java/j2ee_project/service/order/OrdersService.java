@@ -1,13 +1,13 @@
 package j2ee_project.service.order;
 
-import j2ee_project.dao.order.OrdersRepository;
+import j2ee_project.repository.order.OrdersRepository;
 import j2ee_project.model.order.OrderStatus;
 import j2ee_project.model.order.Orders;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OrdersService {
 
     private final OrdersRepository ordersRepository;

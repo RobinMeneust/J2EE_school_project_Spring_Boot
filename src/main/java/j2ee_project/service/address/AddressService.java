@@ -1,8 +1,10 @@
 package j2ee_project.service.address;
 
-import j2ee_project.dao.address.AddressRepository;
+import j2ee_project.repository.address.AddressRepository;
 import j2ee_project.model.Address;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AddressService {
     private final AddressRepository addressRepository;
 

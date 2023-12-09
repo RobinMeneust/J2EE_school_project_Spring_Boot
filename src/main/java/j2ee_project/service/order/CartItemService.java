@@ -1,15 +1,10 @@
 package j2ee_project.service.order;
 
-import j2ee_project.dao.order.CartItemRepository;
-import j2ee_project.dao.order.CartRepository;
+import j2ee_project.repository.order.CartItemRepository;
 import j2ee_project.model.order.Cart;
 import j2ee_project.model.order.CartItem;
 import j2ee_project.model.user.Customer;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 public class CartItemService {

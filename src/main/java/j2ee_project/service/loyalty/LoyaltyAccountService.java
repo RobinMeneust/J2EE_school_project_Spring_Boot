@@ -1,14 +1,16 @@
 package j2ee_project.service.loyalty;
 
-import j2ee_project.dao.discount.DiscountRepository;
-import j2ee_project.dao.loyalty.LoyaltyAccountRepository;
-import j2ee_project.dao.loyalty.LoyaltyLevelRepository;
+import j2ee_project.repository.discount.DiscountRepository;
+import j2ee_project.repository.loyalty.LoyaltyAccountRepository;
+import j2ee_project.repository.loyalty.LoyaltyLevelRepository;
 import j2ee_project.model.Discount;
 import j2ee_project.model.loyalty.LoyaltyAccount;
 import j2ee_project.model.loyalty.LoyaltyLevel;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class LoyaltyAccountService {
     private final LoyaltyAccountRepository loyaltyAccountRepository;
     private final DiscountRepository discountRepository;

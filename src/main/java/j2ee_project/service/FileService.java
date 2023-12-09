@@ -1,10 +1,12 @@
 package j2ee_project.service;
 
 import jakarta.servlet.http.Part;
+import org.springframework.stereotype.Service;
 
 /**
  * File manager
  */
+@Service
 public class FileService {
     /**
      * Gets file extension from a Part object

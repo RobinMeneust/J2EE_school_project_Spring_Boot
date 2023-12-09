@@ -1,15 +1,20 @@
 package j2ee_project.service;
 
-import j2ee_project.dao.order.CartDAO;
 import j2ee_project.model.order.Cart;
 import j2ee_project.model.user.Customer;
+import j2ee_project.service.order.CartService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Provide helper functions to manage the cart (session and DB)
  */
+@Service
 public class CartManager {
+	@Autowired
+	CartService cartService;
 	/**
 	 * Gets session cart.
 	 *
@@ -68,14 +73,14 @@ public class CartManager {
 	 * @param request  the request with the session
 	 * @param customer the customer whose cart might  change
 	 */
-	public static void copySessionCartToCustomerEmptyCart(HttpServletRequest request, Customer customer) {
+	public void copySessionCartToCustomerEmptyCart(HttpServletRequest request, Customer customer) {
 		HttpSession session = request.getSession();
 		if(customer != null) {
 			Cart cart = CartManager.getSessionCart(session);
 
 			if(cart != null && cart.getCartItems() != null && !cart.getCartItems().isEmpty()) {
 				// Copy the cart
-				CartDAO.updateCart(customer, cart);
+				cartService.updateCart(customer, cart);
 			}
 			// The session cart and the user cart won't be sync, so it's better to clear the session cart and just use the user cart
 			session.removeAttribute("sessionCart");
