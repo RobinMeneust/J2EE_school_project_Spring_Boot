@@ -1,25 +1,27 @@
 package j2ee_project.controller.auth;
 
-import j2ee_project.repository.MailDAO;
-import j2ee_project.repository.order.CartDAO;
-import j2ee_project.repository.user.UserDAO;
+import j2ee_project.Application;
 import j2ee_project.dto.CustomerDTO;
 import j2ee_project.model.Mail;
 import j2ee_project.model.user.Customer;
 import j2ee_project.model.user.User;
 import j2ee_project.service.AuthService;
+import j2ee_project.service.CartManager;
 import j2ee_project.service.DTOService;
 import j2ee_project.service.MailManager;
+import j2ee_project.service.mail.MailService;
+import j2ee_project.service.order.CartService;
+import j2ee_project.service.user.UserService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Map;
 
-import static j2ee_project.service.CartManager.copySessionCartToCustomerEmptyCart;
 
 /**
  * This class is a servlet used register customer. It's a controller in the MVC architecture of this project.
@@ -28,6 +30,22 @@ import static j2ee_project.service.CartManager.copySessionCartToCustomerEmptyCar
  */
 @WebServlet(name = "RegisterCustomerController", value = "/register-customer-controller")
 public class RegisterCustomerController extends HttpServlet {
+
+    private static CartService cartService;
+    private static CartManager cartManager;
+    private static UserService userService;
+    private static MailService mailService;
+    private static AuthService authService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        cartService = context.getBean(CartService.class);
+        cartManager = context.getBean(CartManager.class);
+        userService = context.getBean(UserService.class);
+        mailService = context.getBean(MailService.class);
+        authService = context.getBean(AuthService.class);
+    }
 
     /**
      * Redirect to the sender of this request and set an error message since GET queries aren't accepted by this servlet
@@ -69,9 +87,9 @@ public class RegisterCustomerController extends HttpServlet {
         String noErrorDestination = "/index.jsp";
         RequestDispatcher dispatcher = null;
         if(inputErrors.isEmpty()){
-            if (!UserDAO.emailOrPhoneNumberIsInDb(customerDTO.getEmail(), customerDTO.getPhoneNumber())){
+            if (!userService.emailOrPhoneNumberIsInDb(customerDTO.getEmail(), customerDTO.getPhoneNumber())){
                 try {
-                    User user = AuthService.registerCustomer(customerDTO);
+                    User user = authService.registerCustomer(customerDTO);
 
                     sendConfirmationMail(user.getEmail());
 
@@ -81,10 +99,10 @@ public class RegisterCustomerController extends HttpServlet {
                     // Copy the session cart to the current user cart (and override it if it's not empty) if the user is a customer
                     if(user instanceof Customer) {
                         Customer customer = (Customer) user;
-                        CartManager.copySessionCartToCustomerEmptyCart(request, customer);
+                        cartManager.copySessionCartToCustomerEmptyCart(request, customer);
 
                         // Refresh the user's cart
-                        customer.setCart(CartDAO.getCartFromCustomerId(customer.getId()));
+                        customer.setCart(cartService.getCartFromCustomerId(customer.getId()));
                         session.setAttribute("user", customer);
                     }
 
@@ -125,7 +143,7 @@ public class RegisterCustomerController extends HttpServlet {
                 mail.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
             }
 
-            MailDAO.addMail(mail);
+            mailService.addMail(mail);
             mailManager.send(mail);
         }
         catch(Exception ignore) {}

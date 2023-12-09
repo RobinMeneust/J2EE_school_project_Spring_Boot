@@ -1,4 +1,4 @@
-package j2ee_project.controller;
+package j2ee_project.controller.contact;
 
 import j2ee_project.repository.MailDAO;
 import j2ee_project.dto.ContactDTO;

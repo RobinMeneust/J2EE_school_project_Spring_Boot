@@ -1,4 +1,4 @@
-package j2ee_project.controller;
+package j2ee_project.controller.mail;
 
 import java.io.BufferedReader;
 import java.io.IOException;

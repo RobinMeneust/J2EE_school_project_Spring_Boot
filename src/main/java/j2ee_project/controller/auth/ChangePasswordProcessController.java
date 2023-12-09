@@ -1,16 +1,18 @@
 package j2ee_project.controller.auth;
 
-import j2ee_project.repository.user.ForgottenPasswordDAO;
-import j2ee_project.repository.user.UserDAO;
+import j2ee_project.Application;
 import j2ee_project.model.user.ForgottenPassword;
 import j2ee_project.model.user.User;
 import j2ee_project.service.HashService;
+import j2ee_project.service.user.ForgottenPasswordService;
+import j2ee_project.service.user.UserService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -25,6 +27,15 @@ import java.util.Map;
  */
 @WebServlet(name = "ChangePasswordController", value = "/change-password-controller")
 public class ChangePasswordProcessController extends HttpServlet {
+    private static ForgottenPasswordService forgottenPasswordService;
+    private static UserService userService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        forgottenPasswordService = context.getBean(ForgottenPasswordService.class);
+        userService = context.getBean(UserService.class);
+    }
     /**
      * Redirect to the sender of this request and set an error message since GET queries aren't accepted by this servlet
      * @param request Request object received by the servlet
@@ -55,7 +66,7 @@ public class ChangePasswordProcessController extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
         String token = request.getParameter("forgottenPasswordToken");
-        ForgottenPassword forgottenPassword = ForgottenPasswordDAO.getForgottenPasswordFromToken(token);
+        ForgottenPassword forgottenPassword = forgottenPasswordService.getForgottenPasswordFromToken(token);
         String errorDestinationFP = "WEB-INF/views/forgottenPassword.jsp";
         String errorDestination = "WEB-INF/views/changePassword.jsp";
         String noErrorDestination = "/index.jsp";
@@ -66,13 +77,13 @@ public class ChangePasswordProcessController extends HttpServlet {
         if(forgottenPassword != null){
             if(password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,24}$") && password.equals(confirmPassword)){
                 System.out.println(forgottenPassword);
-                User user = ForgottenPasswordDAO.getUser(forgottenPassword);
+                User user = forgottenPasswordService.getUser(forgottenPassword);
                 System.out.println(user);
                 if(user != null){
                     try {
                         user.setPassword(HashService.generatePasswordHash(password));
-                        UserDAO.updateUser(user);
-                        ForgottenPasswordDAO.removeForgottenPassword(forgottenPassword);
+                        userService.updateUser(user);
+                        forgottenPasswordService.removeForgottenPassword(forgottenPassword);
                         response.sendRedirect(request.getContextPath() + noErrorDestination);
                     }catch (Exception e) {
                         System.out.println(e);

@@ -1,9 +1,11 @@
 package j2ee_project.controller.catalog.category;
 
-import j2ee_project.repository.catalog.category.CategoryDAO;
+import j2ee_project.Application;
+import j2ee_project.service.catalog.category.CategoryService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -12,6 +14,13 @@ import java.io.IOException;
  */
 @WebServlet("/delete-category")
 public class DeleteCategoryController extends HttpServlet {
+    private static CategoryService categoryService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        categoryService = context.getBean(CategoryService.class);
+    }
     /**
      * Remove the category whose id is given in the param "id"
      * @param request Request object received by the servlet
@@ -34,7 +43,7 @@ public class DeleteCategoryController extends HttpServlet {
         if(categoryId<=0) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Category ID must be positive");
         }
-        CategoryDAO.deleteCategory(categoryId);
+        categoryService.deleteCategory(categoryId);
         try {
             response.sendRedirect("dashboard?tab=categories");
         }catch (Exception err){

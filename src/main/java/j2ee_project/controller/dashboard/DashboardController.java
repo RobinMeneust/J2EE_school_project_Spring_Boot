@@ -1,4 +1,4 @@
-package j2ee_project.controller;
+package j2ee_project.controller.dashboard;
 
 import j2ee_project.model.user.Moderator;
 import j2ee_project.model.user.TypePermission;

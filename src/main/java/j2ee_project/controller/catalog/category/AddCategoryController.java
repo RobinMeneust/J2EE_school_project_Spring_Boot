@@ -1,20 +1,33 @@
-package j2ee_project.controller.catalog;
+package j2ee_project.controller.catalog.category;
 
-import j2ee_project.repository.catalog.category.CategoryDAO;
-import j2ee_project.repository.discount.DiscountDAO;
+import j2ee_project.Application;
 import j2ee_project.model.Discount;
 import j2ee_project.model.catalog.Category;
+import j2ee_project.service.catalog.category.CategoryService;
+import j2ee_project.service.discount.DiscountService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
+
 
 /**
  * This class is a servlet used to add a category. It's a controller in the MVC architecture of this project.
  */
 @WebServlet("/add-category")
 public class AddCategoryController extends HttpServlet {
+
+    private static CategoryService categoryService;
+    private static DiscountService discountService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        categoryService = context.getBean(CategoryService.class);
+        discountService = context.getBean(DiscountService.class);
+    }
     /**
      * Get the page to add a category
      * @param request Request object received by the servlet
@@ -25,7 +38,7 @@ public class AddCategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("discounts", DiscountDAO.getDiscounts());
+            request.setAttribute("discounts", discountService.getDiscounts());
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/dashboard/add/addCategory.jsp");
             view.forward(request,response);
         }catch (Exception err){
@@ -52,10 +65,10 @@ public class AddCategoryController extends HttpServlet {
         String discountStr = (request.getParameter("discount").isEmpty()) ? null : request.getParameter(("discount"));
         if (discountStr != null) {
             int discountId = Integer.parseInt(discountStr);
-            Discount discount = DiscountDAO.getDiscount(discountId);
+            Discount discount = discountService.getDiscount(discountId);
             category.setDiscount(discount);
         }
-        CategoryDAO.addCategory(category);
+        categoryService.addCategory(category);
 
         try {
             response.sendRedirect("dashboard?tab=categories");

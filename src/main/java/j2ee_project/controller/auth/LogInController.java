@@ -1,16 +1,17 @@
 package j2ee_project.controller.auth;
 
-import j2ee_project.repository.order.CartDAO;
+import j2ee_project.Application;
 import j2ee_project.model.user.Customer;
 import j2ee_project.model.user.User;
 import j2ee_project.service.AuthService;
+import j2ee_project.service.order.CartService;
+import j2ee_project.service.CartManager;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
-
-import static j2ee_project.service.CartManager.copySessionCartToCustomerEmptyCart;
 
 /**
  * This class is a servlet used to log in a user. It's a controller in the MVC architecture of this project.
@@ -19,6 +20,17 @@ import static j2ee_project.service.CartManager.copySessionCartToCustomerEmptyCar
  */
 @WebServlet(name = "LogInController", value = "/login-controller")
 public class LogInController extends HttpServlet {
+    private static CartService cartService;
+    private static CartManager cartManager;
+    private static AuthService authService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        cartService = context.getBean(CartService.class);
+        cartManager = context.getBean(CartManager.class);
+        authService = context.getBean(AuthService.class);
+    }
 
     /**
      * Redirect to the sender of this request and set an error message since GET queries aren't accepted by this servlet
@@ -55,7 +67,7 @@ public class LogInController extends HttpServlet {
         RequestDispatcher dispatcher = null;
 
         try {
-            User user = AuthService.logIn(email, password);
+            User user = authService.logIn(email, password);
             if(user == null) {
                 request.setAttribute("LoggingProcessError","Error during logging, check your email and your password");
                 dispatcher = request.getRequestDispatcher(errorDestination);
@@ -67,10 +79,10 @@ public class LogInController extends HttpServlet {
                 // Copy the session cart to the current user cart (and override it if it's not empty) if the user is a customer
                 if(user instanceof Customer) {
                     Customer customer = (Customer) user;
-                    CartManager.copySessionCartToCustomerEmptyCart(request, customer);
+                    cartManager.copySessionCartToCustomerEmptyCart(request, customer);
 
                     // Refresh the user's cart
-                    customer.setCart(CartDAO.getCartFromCustomerId(customer.getId()));
+                    customer.setCart(cartService.getCartFromCustomerId(customer.getId()));
                     session.setAttribute("user", customer);
                 }
 

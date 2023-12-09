@@ -1,9 +1,8 @@
 package j2ee_project.controller.catalog.product;
 
-import j2ee_project.repository.catalog.category.CategoryDAO;
-import j2ee_project.repository.catalog.product.ProductDAO;
 import j2ee_project.model.catalog.Category;
 import j2ee_project.model.catalog.Product;
+import j2ee_project.service.catalog.category.CategoryService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -25,7 +24,7 @@ public class AddProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("categories", CategoryDAO.getCategories());
+            request.setAttribute("categories", CategoryService.getCategories());
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/dashboard/add/addProduct.jsp");
             view.forward(request,response);
         }catch (Exception err){

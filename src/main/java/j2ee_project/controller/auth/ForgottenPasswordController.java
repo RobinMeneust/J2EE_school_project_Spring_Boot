@@ -1,19 +1,21 @@
 package j2ee_project.controller.auth;
 
-import j2ee_project.repository.MailDAO;
-import j2ee_project.repository.user.ForgottenPasswordDAO;
-import j2ee_project.repository.user.UserDAO;
+import j2ee_project.Application;
 import j2ee_project.model.Mail;
 import j2ee_project.model.user.ForgottenPassword;
 import j2ee_project.model.user.User;
 import j2ee_project.service.HashService;
 import j2ee_project.service.MailManager;
+import j2ee_project.service.mail.MailService;
+import j2ee_project.service.user.ForgottenPasswordService;
+import j2ee_project.service.user.UserService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -28,7 +30,17 @@ import java.util.Map;
  */
 @WebServlet(name = "ForgottenPasswordController", value = "/forgotten-password-controller")
 public class ForgottenPasswordController extends HttpServlet {
+    private static ForgottenPasswordService forgottenPasswordService;
+    private static UserService userService;
+    private static MailService mailService;
 
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        forgottenPasswordService = context.getBean(ForgottenPasswordService.class);
+        userService = context.getBean(UserService.class);
+        mailService = context.getBean(MailService.class);
+    }
     /**
      * Redirect to the sender of this request and set an error message since GET queries aren't accepted by this servlet
      * @param request Request object received by the servlet
@@ -65,17 +77,17 @@ public class ForgottenPasswordController extends HttpServlet {
         Map<String, String> errorMessages = new HashMap<>();
 
         if(email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")){
-            User user = UserDAO.getUserFromEmail(email);
+            User user = userService.getUserFromEmail(email);
             if(user != null && user.getForgottenPassword() == null){
                 String token;
                 do{
                     token = HashService.generateToken(20);
-                }while(ForgottenPasswordDAO.getForgottenPasswordFromToken(token) != null);
+                }while(forgottenPasswordService.getForgottenPasswordFromToken(token) != null);
 
                 String link = "http://localhost:8082" + request.getContextPath() + "/change-password?token=" + token;
                 sendForgottenPasswordEmail(email, link);
                 ForgottenPassword forgottenPassword = new ForgottenPassword(user, token);
-                ForgottenPasswordDAO.addForgottenPassword(forgottenPassword);
+                forgottenPasswordService.addForgottenPassword(forgottenPassword);
                 response.sendRedirect(request.getContextPath() + noErrorDestination);
             }
             else{
@@ -107,7 +119,7 @@ public class ForgottenPasswordController extends HttpServlet {
                 mail.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
             }
 
-            MailDAO.addMail(mail);
+            mailService.addMail(mail);
             mailManager.send(mail);
         }
         catch(Exception ignore) {}

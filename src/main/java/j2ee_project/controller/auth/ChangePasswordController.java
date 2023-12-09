@@ -1,6 +1,6 @@
 package j2ee_project.controller.auth;
 
-import j2ee_project.repository.user.ForgottenPasswordDAO;
+import j2ee_project.Application;
 import j2ee_project.model.user.ForgottenPassword;
 import j2ee_project.service.user.ForgottenPasswordService;
 import jakarta.servlet.RequestDispatcher;
@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,6 +22,13 @@ import java.util.Map;
  */
 @WebServlet(value = "/change-password")
 public class ChangePasswordController extends HttpServlet {
+    private static ForgottenPasswordService forgottenPasswordService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        forgottenPasswordService = context.getBean(ForgottenPasswordService.class);
+    }
 
     /**
      * Get page to change password on the website
@@ -33,7 +41,7 @@ public class ChangePasswordController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String token = request.getParameter("token");
-        ForgottenPassword forgottenPassword = ForgottenPasswordService.getForgottenPasswordFromToken(token);
+        ForgottenPassword forgottenPassword = forgottenPasswordService.getForgottenPasswordFromToken(token);
         RequestDispatcher dispatcher;
         String noErrorDestination = "WEB-INF/views/changePassword.jsp";
         String errorDestination = "WEB-INF/views/forgottenPassword.jsp";

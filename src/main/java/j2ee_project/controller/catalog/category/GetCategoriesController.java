@@ -1,9 +1,12 @@
 package j2ee_project.controller.catalog.category;
 
+import j2ee_project.Application;
 import j2ee_project.repository.catalog.category.CategoryDAO;
+import j2ee_project.service.catalog.category.CategoryService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -12,6 +15,13 @@ import java.io.IOException;
  */
 @WebServlet("/get-categories")
 public class GetCategoriesController extends HttpServlet {
+    private static CategoryService categoryService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        categoryService = context.getBean(CategoryService.class);
+    }
     /**
      * Get the categories list
      * @param request Request object received by the servlet
@@ -22,7 +32,7 @@ public class GetCategoriesController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("categories", CategoryDAO.getCategories());
+            request.setAttribute("categories", categoryService.getCategories());
         }catch (Exception err){
             System.err.println(err.getMessage());
             response.sendError(HttpServletResponse.SC_NOT_FOUND);

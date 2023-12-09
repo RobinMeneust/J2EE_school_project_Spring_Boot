@@ -1,4 +1,4 @@
-package j2ee_project.controller;
+package j2ee_project.controller.contact;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
