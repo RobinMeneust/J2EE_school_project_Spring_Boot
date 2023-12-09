@@ -1,16 +1,23 @@
 package j2ee_project.dao.catalog.product;
 
 import j2ee_project.model.catalog.Category;
+import j2ee_project.model.catalog.Product;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 
 /**
  * Repository to interacts with the Product table in the DB
  */
-public interface ProductRepository extends JpaRepository<Category, Long> {
-    Optional<Category> findCategoryBy(Long id);
-    Optional<Category> deleteCategoryById(Long id);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findAll(Specification<Product> productSpec, Pageable pageable);
+    Long count(Specification<Product> productSpec);
+    Product findProductById(Long id);
+    void deleteProductById(Long id);
 
 }
