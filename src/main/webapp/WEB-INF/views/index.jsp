@@ -8,7 +8,7 @@
 <html>
 <head>
 	<jsp:include page="../../include.jsp" />
-	<link href="../../css/carousel_style.css" rel="stylesheet" type="text/css">
+	<link href="/content/css/carousel_style.css" rel="stylesheet" type="text/css">
 	<title>Home</title>
 </head>
 <body>

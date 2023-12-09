@@ -11,14 +11,14 @@
 <head>
     <title>Login</title>
     <jsp:include page="../../include.jsp"/>
-    <script src="${pageContext.request.contextPath}/dependencies/jquery/jquery.validate.min.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth_pages.css">
+    <script src="/content/dependencies/jquery/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="/content/css/auth_pages.css">
 </head>
 <body>
     <jsp:include page="../../layout/header.jsp"/>
 <main class="container">
     <h1>Login</h1>
-    <form id="loginForm" method="post" action="${pageContext.request.contextPath}/login-controller">
+    <form id="loginForm" method="post" action="${pageContext.request.contextPath}/login">
         <c:if test="${requestScope.LoggingProcessError != null}">
             <div class="alert alert-danger" role="alert">
                 <c:out value="${requestScope.LoggingProcessError}"/>

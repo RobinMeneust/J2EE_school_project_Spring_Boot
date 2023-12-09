@@ -12,7 +12,7 @@
 <head>
     <title>Change password</title>
     <jsp:include page="../../include.jsp"/>
-    <script src="${pageContext.request.contextPath}/dependencies/jquery/jquery.validate.min.js"></script>
+    <script src="/content/dependencies/jquery/jquery.validate.min.js"></script>
 </head>
 <body>
     <jsp:include page="../../layout/header.jsp"/>
@@ -22,7 +22,7 @@
     %>
     <main  class="container">
         <h1>Register</h1>
-        <form id="registerForm" name="registerForm" method="post" action="${pageContext.request.contextPath}/change-password-controller">
+        <form id="changePasswordForm" name="changePasswordForm" method="post" action="${pageContext.request.contextPath}/change-password">
             <c:if test="${requestScope.errorMessage != null}">
                 <div class="alert alert-danger" role="alert">
                     <c:out value="${requestScope.errorMessage}"/>

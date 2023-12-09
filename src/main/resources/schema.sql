@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS "ModeratorPermission" (
     PRIMARY KEY("idModerator", "idPermission")
 );
 
-CREATE TABLE IF NOT EXISTS ForgottenPassword(
+CREATE TABLE IF NOT EXISTS "ForgottenPassword" (
     "id" INT PRIMARY KEY AUTO_INCREMENT,
     "idUser" INT NOT NULL,
     "token" VARCHAR(50) NOT NULL,
