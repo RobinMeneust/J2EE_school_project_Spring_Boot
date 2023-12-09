@@ -15,7 +15,7 @@ public class CategoryHelper {
     private static final CategoryService categoryService;
 
     static {
-        ApplicationContext context = new Application().getContext();
+        ApplicationContext context = Application.getContext();
         categoryService = context.getBean(CategoryService.class);
     }
 

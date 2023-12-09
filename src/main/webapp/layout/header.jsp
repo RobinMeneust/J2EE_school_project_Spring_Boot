@@ -15,8 +15,8 @@
         </button>
 
 
-        <a href="${pageContext.request.contextPath}/" class="navbar-brand" title="Home">
-            <img class="d-inline-block align-top" style="height:80px; width:80px;" src="${pageContext.request.contextPath}/img/logo_boarder_games.png" alt="logo_boarder_games">
+        <a href="/" class="navbar-brand" title="Home">
+            <img class="d-inline-block align-top" style="height:80px; width:80px;" src="${pageContext.request.contextPath}/content/img/logo_boarder_games.png" alt="logo_boarder_games">
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <form class="form-inline my-2 my-lg-0 mx-5 w-50" action="browse-products" method="get">

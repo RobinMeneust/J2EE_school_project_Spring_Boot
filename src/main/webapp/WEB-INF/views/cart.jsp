@@ -14,7 +14,7 @@
 <head>
     <title>Cart</title>
     <jsp:include page="../../include.jsp" />
-    <script src="${pageContext.request.contextPath}/js/cart.js"></script>
+    <script src="${pageContext.request.contextPath}/static/js/cart.js"></script>
 </head>
 <body>
 <jsp:include page="../../layout/header.jsp" />

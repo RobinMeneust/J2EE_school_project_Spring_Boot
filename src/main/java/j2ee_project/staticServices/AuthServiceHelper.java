@@ -19,7 +19,7 @@ public class AuthServiceHelper {
     private static final AuthService authService;
 
     static {
-        ApplicationContext context = new Application().getContext();
+        ApplicationContext context = Application.getContext();
         authService = context.getBean(AuthService.class);
     }
 

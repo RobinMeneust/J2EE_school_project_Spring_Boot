@@ -20,7 +20,7 @@
     <script src="${pageContext.request.contextPath}/dependencies/rangeSlider/toolcool-range-slider.min.js"></script>
     <script src="${pageContext.request.contextPath}/dependencies/rangeSlider/tcrs-generated-labels.min.js"></script>
     <script src="${pageContext.request.contextPath}/dependencies/rangeSlider/tcrs-moving-tooltip.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/cart.js"></script>
+    <script src="${pageContext.request.contextPath}/static/js/cart.js"></script>
 </head>
 <body>
 <jsp:include page="../../layout/header.jsp" />

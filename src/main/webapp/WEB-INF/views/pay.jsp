@@ -17,7 +17,7 @@
     <title>Pay</title>
     <jsp:include page="../../include.jsp" />
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="${pageContext.request.contextPath}/js/checkout.js" defer></script>
+    <script src="${pageContext.request.contextPath}/static/js/checkout.js" defer></script>
 </head>
 <body>
 <jsp:include page="../../layout/header.jsp" />

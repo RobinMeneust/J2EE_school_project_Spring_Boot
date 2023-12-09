@@ -13,7 +13,7 @@ public class FeatureProductHelper {
     private static final FeatureProductService featureProductService;
 
     static {
-        ApplicationContext context = new Application().getContext();
+        ApplicationContext context = Application.getContext();
         featureProductService = context.getBean(FeatureProductService.class);
     }
 
