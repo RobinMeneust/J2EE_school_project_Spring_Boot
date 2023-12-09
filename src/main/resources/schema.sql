@@ -119,6 +119,8 @@ CREATE TABLE IF NOT EXISTS "Orders" (
     "orderStatus" VARCHAR(30) NOT NULL,
     "idCustomer" INT NOT NULL,
     "idAddress" INT NOT NULL,
+    "idDiscount" INT DEFAULT NULL,
+    FOREIGN KEY ("idDiscount") REFERENCES "Discount"("id"),
     FOREIGN KEY ("idCustomer") REFERENCES "Customer"("idUser"),
     FOREIGN KEY ("idAddress") REFERENCES "Address"("id")
 );
@@ -172,4 +174,12 @@ CREATE TABLE IF NOT EXISTS "ModeratorPermission" (
     FOREIGN KEY ("idModerator") REFERENCES "Moderator"("idUser"),
     FOREIGN KEY ("idPermission") REFERENCES "Permission"("id"),
     PRIMARY KEY("idModerator", "idPermission")
+);
+
+CREATE TABLE IF NOT EXISTS ForgottenPassword(
+    "id" INT PRIMARY KEY AUTO_INCREMENT,
+    "idUser" INT NOT NULL,
+    "token" VARCHAR(50) NOT NULL,
+    "expiryDate" DATETIME NOT NULL,
+    FOREIGN KEY ("idUser") REFERENCES "User"("id")
 );

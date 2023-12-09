@@ -10,22 +10,23 @@ import java.util.Set;
  * Discount (reduce the price of one or many products at once)
  */
 @Entity
+@Table(name = "`Discount`")
 public class Discount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "name", nullable = true, length = 30)
+    @Column(name = "`name`", nullable = true, length = 30)
     private String name;
     @Basic
-    @Column(name = "startDate", nullable = false)
+    @Column(name = "`startDate`", nullable = false)
     private Date startDate;
     @Basic
-    @Column(name = "endDate", nullable = false)
+    @Column(name = "`endDate`", nullable = false)
     private Date endDate;
     @Basic
-    @Column(name = "discountPercentage", nullable = false)
+    @Column(name = "`discountPercentage`", nullable = false)
     private int discountPercentage;
 
     /**

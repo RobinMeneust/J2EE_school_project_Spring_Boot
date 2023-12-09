@@ -9,7 +9,7 @@ public class HomePageController {
     @GetMapping(value = "/")
     public ModelAndView firstView()
     {
-        ModelAndView modelAndView = new ModelAndView("/WEB-INF/views/index.jsp");
+        ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("key", "value");
         return modelAndView;
     }

@@ -12,19 +12,20 @@ import java.util.Objects;
  * Forgotten password query
  */
 @Entity
+@Table(name = "`ForgottenPassword`")
 public class ForgottenPassword {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "idUser")
+    @JoinColumn(nullable = false, name = "`idUser`")
     private User user;
     @Basic
-    @Column(name = "token", nullable = false, length = 50)
+    @Column(name = "`token`", nullable = false, length = 50)
     private String token;
     @Basic
-    @Column(name = "expiryDate", nullable = false)
+    @Column(name = "`expiryDate`", nullable = false)
     private LocalDateTime expiryDate;
 
     /**

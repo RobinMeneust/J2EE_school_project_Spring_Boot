@@ -14,16 +14,17 @@ import java.util.Set;
  * User who can buy products but without management permissions
  */
 @Entity
-@PrimaryKeyJoinColumn(name = "idUser")
+@Table(name = "`Customer`")
+@PrimaryKeyJoinColumn(name = "`idUser`")
 public class Customer extends User{
 
     @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idAddress", referencedColumnName = "id")
+    @JoinColumn(name = "`idAddress`", referencedColumnName = "`id`")
     private Address address;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idLoyaltyAccount", referencedColumnName = "id")
+    @JoinColumn(name = "`idLoyaltyAccount`", referencedColumnName = "`id`")
     private LoyaltyAccount loyaltyAccount;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Orders> orders;

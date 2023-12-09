@@ -6,5 +6,6 @@ import jakarta.persistence.*;
  * Product featured on the hoem page
  */
 @Entity
-@PrimaryKeyJoinColumn(name = "idProduct")
+@Table(name = "`FeaturedProduct`")
+@PrimaryKeyJoinColumn(name = "`idProduct`")
 public class FeaturedProduct extends Product { }

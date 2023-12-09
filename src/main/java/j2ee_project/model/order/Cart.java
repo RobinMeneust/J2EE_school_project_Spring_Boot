@@ -11,16 +11,17 @@ import java.util.Set;
  * Cart that a customer can buy or edit
  */
 @Entity
+@Table(name = "`Cart`")
 public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @ManyToOne
-    @JoinColumn(name = "idDiscount", referencedColumnName = "id")
+    @JoinColumn(name = "`idDiscount`", referencedColumnName = "`id`")
     private Discount discount;
     @OneToOne
-    @JoinColumn(name = "idCustomer", referencedColumnName = "idUser", nullable = false)
+    @JoinColumn(name = "`idCustomer`", referencedColumnName = "`idUser`", nullable = false)
     private Customer customer;
     @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE})
     private Set<CartItem> cartItems;

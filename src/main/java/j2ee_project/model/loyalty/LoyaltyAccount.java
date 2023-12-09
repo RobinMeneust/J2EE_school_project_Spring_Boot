@@ -11,32 +11,33 @@ import java.util.Set;
  * Loyalty account associated to a loyalty program with different loyalty levels with rewards
  */
 @Entity
+@Table(name = "`LoyaltyAccount`")
 public class LoyaltyAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "loyaltyPoints", nullable = false)
+    @Column(name = "`loyaltyPoints`", nullable = false)
     private int loyaltyPoints;
     @Basic
-    @Column(name = "endDate", nullable = false)
+    @Column(name = "`endDate`", nullable = false)
     private Date endDate;
     @ManyToOne
-    @JoinColumn(name = "idLoyaltyProgram", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "`idLoyaltyProgram`", referencedColumnName = "`id`", nullable = false)
     private LoyaltyProgram loyaltyProgram;
 
     @ManyToMany (fetch = FetchType.EAGER)
-    @JoinTable(name = "LoyaltyAccountLevelUsed",
-            joinColumns = @JoinColumn(name = "idLoyaltyAccount"),
-            inverseJoinColumns = @JoinColumn(name = "idLoyaltyLevel")
+    @JoinTable(name = "`LoyaltyAccountLevelUsed`",
+            joinColumns = @JoinColumn(name = "`idLoyaltyAccount`"),
+            inverseJoinColumns = @JoinColumn(name = "`idLoyaltyLevel`")
     )
     private Set<LoyaltyLevel> loyaltyLevelsUsed = new HashSet<>();
 
     @ManyToMany (fetch = FetchType.EAGER)
-    @JoinTable(name = "LoyaltyAccountDiscounts",
-            joinColumns = @JoinColumn(name = "idLoyaltyAccount"),
-            inverseJoinColumns = @JoinColumn(name = "idDiscount")
+    @JoinTable(name = "`LoyaltyAccountDiscounts`",
+            joinColumns = @JoinColumn(name = "`idLoyaltyAccount`"),
+            inverseJoinColumns = @JoinColumn(name = "`idDiscount`")
     )
     private Set<Discount> availableDiscounts = new HashSet<>();
 

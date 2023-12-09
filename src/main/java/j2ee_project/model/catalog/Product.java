@@ -8,32 +8,33 @@ import java.util.Objects;
  * Product
  */
 @Entity
+@Table(name = "`Product`")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "name", nullable = true, length = 30)
+    @Column(name = "`name`", nullable = true, length = 30)
     private String name;
     @Basic
-    @Column(name = "stockQuantity", nullable = false)
+    @Column(name = "`stockQuantity`", nullable = false)
     private Integer stockQuantity;
     @Basic
-    @Column(name = "unitPrice", nullable = false, precision = 2)
+    @Column(name = "`unitPrice`", nullable = false, precision = 2)
     private float unitPrice;
     @Basic
-    @Column(name = "description", nullable = true, length = 300)
+    @Column(name = "`description`", nullable = true, length = 300)
     private String description;
     @Basic
-    @Column(name = "imagePath", nullable = true, length = 500)
+    @Column(name = "`imagePath`", nullable = true, length = 500)
     private String imagePath;
     @Basic
-    @Column(name = "weight", nullable = true, precision = 0)
+    @Column(name = "`weight`", nullable = true, precision = 0)
     private Float weight;
     @ManyToOne
-    @JoinColumn(name = "idCategory", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "`idCategory`", referencedColumnName = "`id`", nullable = false)
     private Category category;
 
     /**

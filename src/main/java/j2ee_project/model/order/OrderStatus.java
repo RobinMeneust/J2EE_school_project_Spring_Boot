@@ -1,8 +1,12 @@
 package j2ee_project.model.order;
 
+import jakarta.persistence.Table;
+
 /**
  * The enum Order status.
  */
+
+@Table(name = "`OrderStatus`")
 public enum OrderStatus {
     /**
      * Waiting payment

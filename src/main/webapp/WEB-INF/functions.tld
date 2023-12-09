@@ -15,33 +15,32 @@
     </function>
     <function>
         <name>getFeaturedProducts</name>
-        <function-class>j2ee_project.repository.catalog.product.ProductDAO</function-class>
+        <function-class>j2ee_project.staticServices.FeatureProductHelper</function-class>
         <function-signature>java.util.List getFeaturedProducts()</function-signature>
     </function>
     <function>
         <name>getCategories</name>
-        <function-class>j2ee_project.repository.catalog.category.CategoryDAO</function-class>
+        <function-class>j2ee_project.staticServices.CategoryHelper</function-class>
         <function-signature>java.util.List getCategories()</function-signature>
     </function>
     <function>
         <name>getCustomer</name>
-        <function-class>j2ee_project.service.AuthService</function-class>
+        <function-class>j2ee_project.staticServices.AuthServiceHelper</function-class>
         <function-signature>j2ee_project.model.user.Customer getCustomer(j2ee_project.model.user.User)</function-signature>
     </function>
     <function>
         <name>getModerator</name>
-        <function-class>j2ee_project.service.AuthService</function-class>
+        <function-class>j2ee_project.staticServices.AuthServiceHelper</function-class>
         <function-signature>j2ee_project.model.user.Moderator getModerator(j2ee_project.model.user.User)</function-signature>
     </function>
-    <function>
-        <name>getOrder</name>
-        <function-class>j2ee_project.repository.order.OrdersDAO</function-class>
-        <function-signature>j2ee_project.model.order.Orders getOrder(java.lang.String)</function-signature>
-    </function>
-    <function>
-        <name>getPermission</name>
-        <function-class>j2ee_project.repository.user.PermissionDAO</function-class>
-        <function-signature>j2ee_project.model.user.Permission getPermission(j2ee_project.model.user.TypePermission)</function-signature>
-    </function>
+<!--    <function>-->
+<!--        <name>getOrder</name>-->
+<!--        <function-class>j2ee_project.dao.order.OrdersDAO</function-class>-->
+<!--        <function-signature>j2ee_project.model.order.Orders getOrder(java.lang.String)</function-signature>-->
+<!--    </function>-->
+<!--    <function>-->
+<!--        <name>getPermission</name>-->
+<!--        <function-class>j2ee_project.dao.user.PermissionDAO</function-class>-->
+<!--        <function-signature>j2ee_project.model.user.Permission getPermission(j2ee_project.model.user.TypePermission)</function-signature>-->
+<!--    </function>-->
 </taglib>
-

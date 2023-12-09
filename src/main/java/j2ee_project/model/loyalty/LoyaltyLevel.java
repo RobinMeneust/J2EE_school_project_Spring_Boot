@@ -7,19 +7,20 @@ import jakarta.persistence.*;
  * Loyalty level associated to a loyalty program. It requires a specific amount of points to be claimed and is associated to a discount
  */
 @Entity
+@Table(name = "`LoyaltyLevel`")
 public class LoyaltyLevel implements Comparable<LoyaltyLevel> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "requiredPoints", nullable = false)
+    @Column(name = "`requiredPoints`", nullable = false)
     private int requiredPoints;
     @ManyToOne
-    @JoinColumn(name = "idDiscount", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "`idDiscount`", referencedColumnName = "`id`", nullable = false)
     private Discount discount;
     @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "idLoyaltyProgram", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "`idLoyaltyProgram`", referencedColumnName = "`id`", nullable = false)
     private LoyaltyProgram loyaltyProgram;
 
     /**

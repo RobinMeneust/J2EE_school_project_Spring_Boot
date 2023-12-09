@@ -9,26 +9,27 @@ import java.util.Objects;
  * User
  */
 @Entity
+@Table(name = "`User`")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "firstName", nullable = true, length = 30)
+    @Column(name = "`firstName`", nullable = true, length = 30)
     private String firstName;
     @Basic
-    @Column(name = "lastName", nullable = true, length = 30)
+    @Column(name = "`lastName`", nullable = true, length = 30)
     private String lastName;
     @Basic
-    @Column(name = "email", nullable = false, length = 50)
+    @Column(name = "`email`", nullable = false, length = 50)
     private String email;
     @Basic
-    @Column(name = "password", nullable = false, length = 128)
+    @Column(name = "`password`", nullable = false, length = 128)
     private String password;
     @Basic
-    @Column(name = "phoneNumber", nullable = true, length = 15)
+    @Column(name = "`phoneNumber`", nullable = true, length = 15)
     private String phoneNumber;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

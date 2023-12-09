@@ -7,7 +7,8 @@ import jakarta.persistence.*;
  * Moderator with all permission and additional special ones (e.g. delete moderators)
  */
 @Entity
-@PrimaryKeyJoinColumn(name = "idModerator")
+@Table(name = "`Administrator`")
+@PrimaryKeyJoinColumn(name = "`idModerator`")
 public class Administrator extends Moderator{
     /**
      * Instantiates a new Administrator.

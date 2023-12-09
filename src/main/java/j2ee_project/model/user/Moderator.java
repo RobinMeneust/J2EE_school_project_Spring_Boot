@@ -11,14 +11,15 @@ import java.util.Set;
  * User with special permissions which are given specified in his attributes
  */
 @Entity
-@PrimaryKeyJoinColumn(name = "idUser")
+@Table(name = "`Moderator`")
+@PrimaryKeyJoinColumn(name = "`idUser`")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Moderator extends User{
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "ModeratorPermission",
-            joinColumns = @JoinColumn(name = "idModerator"),
-            inverseJoinColumns = @JoinColumn(name = "idPermission")
+    @JoinTable(name = "`ModeratorPermission`",
+            joinColumns = @JoinColumn(name = "`idModerator`"),
+            inverseJoinColumns = @JoinColumn(name = "`idPermission`")
     )
     private Set<Permission> permissions = new HashSet<>();
 

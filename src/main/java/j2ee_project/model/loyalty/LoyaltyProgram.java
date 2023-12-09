@@ -8,13 +8,14 @@ import java.util.Set;
  * Loyalty program that contains a list of loyalty levels
  */
 @Entity
+@Table(name = "`LoyaltyProgram`")
 public class LoyaltyProgram {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private int id;
     @Basic
-    @Column(name = "durationNbDays", nullable = false)
+    @Column(name = "`durationNbDays`", nullable = false)
     private int durationNbDays;
     @OneToMany(fetch = FetchType.EAGER, targetEntity = LoyaltyLevel.class, mappedBy = "loyaltyProgram")
     private Set<LoyaltyLevel> loyaltyLevels;
