@@ -11,8 +11,8 @@
 <head>
     <title>Login</title>
     <jsp:include page="../../include.jsp"/>
-    <script src="${pageContext.request.contextPath}/dependencies/jquery/jquery.validate.min.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth_pages.css">
+    <script src="/content/dependencies/jquery/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="/content/css/auth_pages.css">
 </head>
 <body>
     <jsp:include page="../../layout/header.jsp"/>
