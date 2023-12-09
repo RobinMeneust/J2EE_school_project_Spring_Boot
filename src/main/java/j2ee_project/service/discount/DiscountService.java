@@ -17,11 +17,11 @@ public class DiscountService {
         return discountRepository.findAll();
     }
 
-    public Discount getDiscount(Long discountId) {
+    public Discount getDiscount(int discountId) {
         return discountRepository.findDiscountById(discountId);
     }
 
-    public void deleteDiscount(Long discountId) {
+    public void deleteDiscount(int discountId) {
         discountRepository.deleteDiscountById(discountId);
     }
 

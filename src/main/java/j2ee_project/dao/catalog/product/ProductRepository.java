@@ -16,8 +16,8 @@ import java.util.Optional;
  */
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAll(Specification<Product> productSpec, Pageable pageable);
-    Long count(Specification<Product> productSpec);
-    Product findProductById(Long id);
-    void deleteProductById(Long id);
+    int count(Specification<Product> productSpec);
+    Product findProductById(int id);
+    void deleteProductById(int id);
 
 }

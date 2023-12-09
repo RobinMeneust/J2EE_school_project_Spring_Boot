@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS "LoyaltyProgram" (
 CREATE TABLE IF NOT EXISTS "LoyaltyAccount" (
     "id" INT PRIMARY KEY AUTO_INCREMENT,
     "loyaltyPoints" INT NOT NULL,
-    "startDate" DATE NOT NULL,
+    "endDate" DATE NOT NULL,
     "idLoyaltyProgram" INT NOT NULL,
     FOREIGN KEY ("idLoyaltyProgram") REFERENCES "LoyaltyProgram"("id")
 );

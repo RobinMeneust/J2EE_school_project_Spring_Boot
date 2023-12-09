@@ -20,11 +20,11 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category getCategory(Long categoryId) {
+    public Category getCategory(int categoryId) {
         return categoryRepository.findCategoryBy(categoryId);
     }
 
-    public void deleteCategory(Long categoryId) {
+    public void deleteCategory(int categoryId) {
         categoryRepository.deleteCategoryById(categoryId);
     }
 

@@ -31,15 +31,15 @@ public class ProductService {
         return productRepository.findAll(buildSpecification(name, category, minPrice, maxPrice), pageable);
     }
 
-    public Long getSize(String name, String category, Float minPrice, Float maxPrice) {
+    public int getSize(String name, String category, Float minPrice, Float maxPrice) {
         return productRepository.count( buildSpecification(name, category, minPrice, maxPrice));
     }
 
-    public void deleteProduct(Long productId){
+    public void deleteProduct(int productId){
         productRepository.deleteProductById(productId);
     }
 
-    public void setProductImagePath(Long productId, String path) {
+    public void setProductImagePath(int productId, String path) {
         if(path==null || path.trim().isEmpty()) {
             return;
         }
@@ -53,7 +53,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public Product getProduct(Long productId) {
+    public Product getProduct(int productId) {
         return productRepository.findProductById(productId);
     }
 

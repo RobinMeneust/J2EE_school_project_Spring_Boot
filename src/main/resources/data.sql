@@ -8,8 +8,8 @@ INSERT INTO "Discount"("name", "startDate", "endDate", "discountPercentage") VAL
 INSERT INTO "LoyaltyLevel"("requiredPoints", "idLoyaltyProgram", "idDiscount") VALUES(15,1,1);
 INSERT INTO "LoyaltyLevel"("requiredPoints", "idLoyaltyProgram", "idDiscount") VALUES(25,1,2);
 
-INSERT INTO "LoyaltyAccount"("loyaltyPoints", "startDate", "idLoyaltyProgram") VALUES(55,'2023-12-28', 1);
-INSERT INTO "LoyaltyAccount"("loyaltyPoints", "startDate", "idLoyaltyProgram") VALUES(60,'2023-12-30', 1);
+INSERT INTO "LoyaltyAccount"("loyaltyPoints", "endDate", "idLoyaltyProgram") VALUES(55,'2023-12-28', 1);
+INSERT INTO "LoyaltyAccount"("loyaltyPoints", "endDate", "idLoyaltyProgram") VALUES(60,'2023-12-30', 1);
 
 INSERT INTO "Address"("streetAddress", "postalCode", "city", "country") VALUES ('26 rue de la Mare', '34080', 'Montpellier', 'France');
 INSERT INTO "Address"("streetAddress", "postalCode", "city", "country") VALUES ('33 rue Sadi Carnot', '32000', 'Auch', 'France');
