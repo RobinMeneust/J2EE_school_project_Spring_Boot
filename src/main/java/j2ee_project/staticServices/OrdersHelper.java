@@ -18,6 +18,12 @@ public class OrdersHelper {
         ordersService = context.getBean(OrdersService.class);
     }
 
+    /**
+     * Get an order according to its id
+     *
+     * @param idOrder the order id
+     * @return the found order
+     */
     public static Orders getOrder(int idOrder) {
         return ordersService.getOrder(idOrder);
     }

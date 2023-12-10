@@ -15,6 +15,12 @@ public class PermissionHelper {
         permissionService = context.getBean(PermissionService.class);
     }
 
+    /**
+     * Get a permission according to its permission type
+     *
+     * @param typePermission the permission type
+     * @return the found permission
+     */
     public static Permission getPermission(TypePermission typePermission){
         return permissionService.getPermission(typePermission);
     }

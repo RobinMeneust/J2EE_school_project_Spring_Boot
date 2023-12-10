@@ -17,6 +17,11 @@ public class FeatureProductHelper {
         featureProductService = context.getBean(FeatureProductService.class);
     }
 
+    /**
+     * Get all the featured products
+     *
+     * @return the list
+     */
     public static List<FeaturedProduct> getFeaturedProducts() {
         return featureProductService.getFeaturedProducts();
     }

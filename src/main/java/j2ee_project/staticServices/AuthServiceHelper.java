@@ -23,9 +23,22 @@ public class AuthServiceHelper {
         authService = context.getBean(AuthService.class);
     }
 
+    /**
+     * Get a customer from a user
+     *
+     * @param user the user
+     * @return the customer or null
+     */
     public static Customer getCustomer(User user) {
         return authService.getCustomer(user);
     }
+
+    /**
+     * Get a moderator from a user
+     *
+     * @param user the user
+     * @return the customer or null
+     */
     public static Moderator getModerator(User user) {
         return authService.getModerator(user);
     }

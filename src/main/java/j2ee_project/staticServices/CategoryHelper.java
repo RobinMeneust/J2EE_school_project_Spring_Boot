@@ -19,6 +19,11 @@ public class CategoryHelper {
         categoryService = context.getBean(CategoryService.class);
     }
 
+    /**
+     * Get all the categories
+     *
+     * @return the list of category
+     */
     public static List<Category> getCategories() {
         return categoryService.getCategories();
     }
