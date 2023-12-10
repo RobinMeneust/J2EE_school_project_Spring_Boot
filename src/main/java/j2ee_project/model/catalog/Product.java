@@ -1,5 +1,6 @@
 package j2ee_project.model.catalog;
 
+import j2ee_project.dto.catalog.ProductDTO;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -62,6 +63,20 @@ public class Product {
         this.imagePath = imagePath;
         this.weight = weight;
         this.category = category;
+    }
+
+    /**
+     * Instantiates a new Product.
+     *
+     * @param productDTO the product dto
+     */
+    public Product(ProductDTO productDTO){
+        this.name = productDTO.getName();
+        this.stockQuantity = productDTO.getStockQuantity();
+        this.unitPrice = productDTO.getUnitPrice();
+        this.description = productDTO.getDescription();
+        this.weight = productDTO.getWeight();
+        this.category = productDTO.getCategory();
     }
 
     /**

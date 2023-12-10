@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class CategoryService {
@@ -41,7 +43,7 @@ public class CategoryService {
      * @param categoryId the category id
      */
     public void deleteCategory(int categoryId) {
-        categoryRepository.deleteCategoryById(categoryId);
+        categoryRepository.deleteById(categoryId);
     }
 
     /**
@@ -50,6 +52,10 @@ public class CategoryService {
      * @param category the category
      */
     public void addCategory(Category category) {
+        categoryRepository.save(category);
+    }
+
+    public void updateCategory(Category category) {
         categoryRepository.save(category);
     }
 }

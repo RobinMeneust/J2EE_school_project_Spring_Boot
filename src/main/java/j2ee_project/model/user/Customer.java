@@ -36,6 +36,7 @@ public class Customer extends User{
      */
     public Customer(CustomerDTO customerDTO){
         super(customerDTO);
+        this.address = customerDTO.getAddress();
     }
 
     /**

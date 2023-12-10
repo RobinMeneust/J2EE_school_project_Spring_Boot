@@ -1,5 +1,6 @@
 package j2ee_project.model;
 
+import j2ee_project.dto.discount.DiscountDTO;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -28,6 +29,23 @@ public class Discount {
     @Basic
     @Column(name = "`discountPercentage`", nullable = false)
     private int discountPercentage;
+
+    /**
+     * Instantiates a new Discount.
+     */
+    public Discount(){}
+
+    /**
+     * Instantiates a new Discount.
+     *
+     * @param discountDTO the discount dto
+     */
+    public Discount(DiscountDTO discountDTO) {
+        this.name = discountDTO.getName();
+        this.startDate = discountDTO.getStartDate();
+        this.endDate = discountDTO.getEndDate();
+        this.discountPercentage = discountDTO.getDiscountPercentage();
+    }
 
     /**
      * Gets id.

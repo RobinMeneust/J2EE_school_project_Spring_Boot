@@ -90,7 +90,7 @@
                 return value.match(/^\d{4}-\d{2}-\d{2}$/) != null;
             }, "End Date not valid.")
             $.validator.addMethod("compareDate", function (value){
-                let startDate = $("start-date").val();
+                let startDate = document.getElementById("start-date").value;
                 return Date.parse(startDate) <= Date.parse(value);
             }, "End date must be after start date.")
 

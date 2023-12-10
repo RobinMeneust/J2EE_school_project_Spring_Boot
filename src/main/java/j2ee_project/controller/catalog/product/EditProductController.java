@@ -20,18 +20,12 @@ import java.util.Optional;
 
 import static j2ee_project.staticServices.PermissionHelper.getPermission;
 
-/**
- * This class is a servlet used to add a product. It's a controller in the MVC architecture of this project.
- */
-@WebServlet("/add-product")
-public class AddProductController extends HttpServlet {
+@WebServlet("/edit-product")
+public class EditProductController extends HttpServlet {
 
     private static CategoryService categoryService;
     private static ProductService productService;
 
-    /**
-     * Initialize the services used by the class
-     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
@@ -40,7 +34,7 @@ public class AddProductController extends HttpServlet {
     }
 
     /**
-     * Get the page to add a product
+     * Get the page to edit a product
      * @param request Request object received by the servlet
      * @param response Response to be sent
      * @throws ServletException If the request for the GET could not be handled
@@ -53,8 +47,27 @@ public class AddProductController extends HttpServlet {
             Object obj = session.getAttribute("user");
             if (obj instanceof Moderator moderator
                     && moderator.isAllowed(getPermission(TypePermission.CAN_MANAGE_PRODUCT))) {
+
+                String productIdStr = request.getParameter("id");
+                int productId = -1;
+
+                if (productIdStr != null && !productIdStr.trim().isEmpty()) {
+                    try {
+                        productId = Integer.parseInt(productIdStr);
+                    } catch (Exception ignore) {
+                    }
+                }
+
+                if (productId <= 0) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product ID must be positive");
+                }
+
+                Product product = productService.getProduct(productId);
+                request.setAttribute("product", product);
+
                 request.setAttribute("categories", categoryService.getCategories());
-                RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/dashboard/add/addProduct.jsp");
+
+                RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/dashboard/edit/editProduct.jsp");
                 view.forward(request, response);
             } else {
                 response.sendRedirect("dashboard");
@@ -66,7 +79,7 @@ public class AddProductController extends HttpServlet {
     }
 
     /**
-     * Add a product to the DB
+     * Edit a product to the DB
      * @param request Request object received by the servlet
      * @param response Response to be sent
      * @throws ServletException If the request for the GET could not be handled
@@ -74,22 +87,45 @@ public class AddProductController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int categoryId = Integer.parseInt(request.getParameter("category"));
-        Optional<Category> optionalCategory = categoryService.getCategory(categoryId);
-        if (optionalCategory.isPresent()) {
-            Category category = optionalCategory.get();
+        String productIdStr = request.getParameter("id");
+        int productId = -1;
 
-            String weightStr = request.getParameter("weight");
-            Float weight = null;
-            if (weightStr != null && !weightStr.isEmpty()) {
-                weight = Float.valueOf(weightStr);
+        if (productIdStr != null && !productIdStr.trim().isEmpty()) {
+            try {
+                productId = Integer.parseInt(productIdStr);
+            } catch (Exception ignore) {
             }
+        }
+
+        if (productId <= 0) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product ID must be positive");
+        }
+
+        Product product = productService.getProduct(productId);
+
+        int categoryId = Integer.parseInt(request.getParameter("category"));
+        Optional<Category> categoryOptional = categoryService.getCategory(categoryId);
+        Category category = null;
+        if (categoryOptional.isPresent()){
+            category = categoryOptional.get();
+        }
+
+        String imagePath = request.getParameter("imagePath");
+
+        String weightStr = request.getParameter("weight");
+        Float weight = null;
+        if (weightStr != null && !weightStr.isEmpty()) {
+            weight = Float.valueOf(weightStr);
+        }
+
+        try {
 
             ProductDTO productDTO = new ProductDTO(
                     request.getParameter("name"),
                     Integer.parseInt(request.getParameter("stockQuantity")),
                     Float.parseFloat(request.getParameter("unitPrice")),
                     request.getParameter("description"),
+                    imagePath,
                     weight,
                     category
             );
@@ -101,11 +137,30 @@ public class AddProductController extends HttpServlet {
 
             if (inputErrors.isEmpty()) {
                 try {
-                    productService.addProduct(new Product(productDTO));
+
+                    if (productDTO.getName() != null && !productDTO.getName().isEmpty()) {
+                        product.setName(productDTO.getName());
+                    }
+                    if (productDTO.getStockQuantity() != null) {
+                        product.setStockQuantity(productDTO.getStockQuantity());
+                    }
+                    product.setUnitPrice(productDTO.getUnitPrice());
+                    if (productDTO.getDescription() != null && !productDTO.getDescription().isEmpty()) {
+                        product.setDescription(productDTO.getDescription());
+                    }
+                    if (productDTO.getWeight() != null) {
+                        product.setWeight(productDTO.getWeight());
+                    }
+                    if (productDTO.getCategory() != null) {
+                        product.setCategory(productDTO.getCategory());
+                    }
+
+                    productService.updateProduct(product);
+                    productService.setProductImagePath(product.getId(), productDTO.getImagePath());
                     response.sendRedirect("dashboard?tab=products");
                 } catch (Exception exception) {
                     System.err.println(exception.getMessage());
-                    request.setAttribute("RegisterProcessError", "Error during register process");
+                    request.setAttribute("ModificationProcessError", "Error during modification process");
                     dispatcher = request.getRequestDispatcher(errorDestination);
                     dispatcher.include(request, response);
                 }
@@ -116,6 +171,10 @@ public class AddProductController extends HttpServlet {
             }
 
             if (dispatcher != null) doGet(request, response);
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 }

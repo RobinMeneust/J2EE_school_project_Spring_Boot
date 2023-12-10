@@ -57,7 +57,7 @@ public class CustomerService {
      */
     @Transactional
     public void deleteCustomer(int customerId){
-        this.customerRepository.removeCustomerById(customerId);
+        this.customerRepository.deleteById(customerId);
     }
 
     /**

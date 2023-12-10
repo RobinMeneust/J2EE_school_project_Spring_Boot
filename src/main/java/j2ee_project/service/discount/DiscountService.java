@@ -41,7 +41,7 @@ public class DiscountService {
      * @param discountId the discount id
      */
     public void deleteDiscount(int discountId) {
-        discountRepository.deleteDiscountById(discountId);
+        discountRepository.deleteById(discountId);
     }
 
     /**
@@ -50,6 +50,10 @@ public class DiscountService {
      * @param discount the discount added
      */
     public void addDiscount(Discount discount) {
+        discountRepository.save(discount);
+    }
+
+    public void updateDiscount(Discount discount) {
         discountRepository.save(discount);
     }
 }

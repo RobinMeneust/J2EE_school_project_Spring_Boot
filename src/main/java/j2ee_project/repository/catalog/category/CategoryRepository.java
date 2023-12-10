@@ -4,6 +4,8 @@ import j2ee_project.model.catalog.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 /**
  * Repository to interacts with the Category table in the DB
