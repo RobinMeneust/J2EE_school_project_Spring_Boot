@@ -8,6 +8,7 @@ import j2ee_project.model.user.Customer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class CustomerService {
         this.addressRepository = addressRepository;
     }
 
+    @Transactional
     public List<Customer> getCustomers(){
         return this.customerRepository.findAll();
     }
@@ -38,6 +40,7 @@ public class CustomerService {
      * @param customerId the customer's id
      * @return the customer
      */
+    @Transactional
     public Customer getCustomer(int customerId){
         return this.customerRepository.findCustomerById(customerId);
     }
@@ -47,6 +50,7 @@ public class CustomerService {
      *
      * @param customerId the customer's id
      */
+    @Transactional
     public void deleteCustomer(int customerId){
         this.customerRepository.removeCustomerById(customerId);
     }
@@ -56,6 +60,7 @@ public class CustomerService {
      *
      * @param customer the customer
      */
+    @Transactional
     public void addCustomer(Customer customer){
         this.customerRepository.save(customer);
     }
@@ -65,6 +70,7 @@ public class CustomerService {
      *
      * @param customer Customer's new data (but with the same id)
      */
+    @Transactional
     public void modifyCustomer(Customer customer){
 
         Customer customerToBeEdited = null;

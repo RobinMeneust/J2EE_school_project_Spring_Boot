@@ -3,10 +3,12 @@ package j2ee_project.service.discount;
 import j2ee_project.repository.discount.DiscountRepository;
 import j2ee_project.model.Discount;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class DiscountService {
     private final DiscountRepository discountRepository;
 

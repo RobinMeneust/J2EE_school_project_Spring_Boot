@@ -18,7 +18,6 @@
     <jsp:include page="../../layout/header.jsp"/>
     <%
         String forgottenPasswordToken = request.getAttribute("forgottenPasswordToken").toString();
-        System.out.println(forgottenPasswordToken);
     %>
     <main  class="container">
         <h1>Register</h1>

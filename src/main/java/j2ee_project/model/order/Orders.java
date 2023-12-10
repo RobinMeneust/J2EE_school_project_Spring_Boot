@@ -174,10 +174,18 @@ public class Orders implements Comparable<Orders> {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + date.hashCode();
-        result = 31 * result + orderStatus.ordinal();
-        result = 31 * result + customer.getId();
-        result = 31 * result + address.getId();
+        if(date != null) {
+            result = 31 * result + date.hashCode();
+        }
+        if(orderStatus != null) {
+            result = 31 * result + orderStatus.ordinal();
+        }
+        if(customer != null) {
+            result = 31 * result + customer.hashCode();
+        }
+        if(address != null) {
+            result = 31 * result + address.hashCode();
+        }
         return result;
     }
 

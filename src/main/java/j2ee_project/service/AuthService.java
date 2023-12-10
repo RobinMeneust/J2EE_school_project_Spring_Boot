@@ -256,7 +256,6 @@ public class AuthService {
     public Map<String, String> changePassword(String password, String confirmPassword, String token){
 
         ForgottenPassword forgottenPassword = forgottenPasswordService.getForgottenPasswordFromToken(token);
-        System.out.println(forgottenPassword);
         Map<String, String> errorMessage = new HashMap<>();
 
         if(forgottenPassword == null){
@@ -269,9 +268,7 @@ public class AuthService {
             return errorMessage;
         }
 
-        System.out.println(forgottenPassword);
         User user =forgottenPasswordService.getUser(forgottenPassword);
-        System.out.println(user);
 
         if(user == null){
             errorMessage.put("Error2", "An error occur");
@@ -285,8 +282,6 @@ public class AuthService {
             forgottenPasswordService.removeForgottenPassword(forgottenPassword);
             return null;
         }catch (Exception e) {
-            System.out.println(e);
-            //request.setAttribute("forgottenPasswordToken", forgottenPassword.getToken());
             errorMessage.put("Error2", "An error occur");
             return errorMessage;
         }

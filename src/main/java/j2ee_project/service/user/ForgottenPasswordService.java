@@ -4,6 +4,7 @@ import j2ee_project.repository.user.ForgottenPasswordRepository;
 import j2ee_project.model.user.ForgottenPassword;
 import j2ee_project.model.user.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ForgottenPasswordService {
@@ -18,6 +19,7 @@ public class ForgottenPasswordService {
      *
      * @param forgottenPassword the forgotten password request
      */
+    @Transactional
     public void addForgottenPassword(ForgottenPassword forgottenPassword) {
         forgottenPasswordRepository.save(forgottenPassword);
     }
@@ -27,6 +29,7 @@ public class ForgottenPasswordService {
      *
      * @param forgottenPassword the forgotten password request
      */
+    @Transactional
     public void removeForgottenPassword(ForgottenPassword forgottenPassword) {
         forgottenPasswordRepository.delete(forgottenPassword);
     }
@@ -37,6 +40,7 @@ public class ForgottenPasswordService {
      * @param token the token
      * @return the forgotten password
      */
+    @Transactional
     public ForgottenPassword getForgottenPasswordFromToken(String token){
         return forgottenPasswordRepository.getByToken(token);
     }
@@ -47,6 +51,7 @@ public class ForgottenPasswordService {
      * @param forgottenPassword the forgotten password query
      * @return the user
      */
+    @Transactional
     public User getUser(ForgottenPassword forgottenPassword){
         ForgottenPassword forgottenPasswordDBObj = forgottenPasswordRepository.save(forgottenPassword);
         return forgottenPasswordDBObj.getUser();

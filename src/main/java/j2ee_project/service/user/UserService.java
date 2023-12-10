@@ -3,6 +3,7 @@ package j2ee_project.service.user;
 import j2ee_project.repository.user.UserRepository;
 import j2ee_project.model.user.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -17,6 +18,7 @@ public class UserService {
      *
      * @param user the user to delete
      */
+    @Transactional
     public void deleteUser(User user){
         userRepository.delete(user);
     }
@@ -26,6 +28,7 @@ public class UserService {
      *
      * @param user the user to add
      */
+    @Transactional
     public void addUser(User user){
         userRepository.save(user);
     }
@@ -35,6 +38,7 @@ public class UserService {
      *
      * @param user the user to update
      */
+    @Transactional
     public void updateUser(User user){
         userRepository.save(user);
     }
@@ -46,6 +50,7 @@ public class UserService {
      * @param phoneNumber the phone number
      * @return the boolean indicating the presence of the email
      */
+    @Transactional
     public boolean emailOrPhoneNumberIsInDb(String email, String phoneNumber){
         Integer count = userRepository.countByEmailOrPhoneNumber(email,phoneNumber);
         return count != null && count > 0;
@@ -57,6 +62,7 @@ public class UserService {
      * @param email the email of the user to get
      * @return the recovered user or null if not
      */
+    @Transactional
     public User getUserFromEmail(String email){
         return userRepository.findByEmail(email);
     }
@@ -67,6 +73,7 @@ public class UserService {
      * @param id ID of the user
      * @return User fetched
      */
+    @Transactional
     public User getUser(int id) {
         return userRepository.findById(id);
     }

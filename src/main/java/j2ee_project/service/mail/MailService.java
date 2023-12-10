@@ -3,8 +3,10 @@ package j2ee_project.service.mail;
 import j2ee_project.repository.mail.MailRepository;
 import j2ee_project.model.Mail;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class MailService {
     MailRepository mailRepository;
 

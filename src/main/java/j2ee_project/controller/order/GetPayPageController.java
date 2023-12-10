@@ -43,6 +43,7 @@ public class GetPayPageController extends HttpServlet
         Object obj = session.getAttribute("user");
         if(!(obj instanceof Customer)) {
             response.sendRedirect("login");
+            return;
         }
 
         int orderId = Integer.parseInt(request.getParameter("order-id"));

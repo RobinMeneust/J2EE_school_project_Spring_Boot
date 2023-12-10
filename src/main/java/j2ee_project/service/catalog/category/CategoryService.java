@@ -3,9 +3,11 @@ package j2ee_project.service.catalog.category;
 import j2ee_project.repository.catalog.category.CategoryRepository;
 import j2ee_project.model.catalog.Category;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
+@Transactional
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;

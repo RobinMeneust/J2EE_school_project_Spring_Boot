@@ -8,8 +8,10 @@ import j2ee_project.model.order.Cart;
 import j2ee_project.model.order.CartItem;
 import j2ee_project.model.user.Customer;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class CartService {
 
     private final CartRepository cartRepository;
@@ -29,6 +31,7 @@ public class CartService {
      * @param cart the cart to which an item is added
      * @param item the item added
      */
+    @Transactional
     public void addItem(Cart cart, CartItem item) {
         CartItem itemDBObj = this.cartItemRepository.save(item);
         itemDBObj.setCart(cart);
@@ -41,6 +44,7 @@ public class CartService {
      *
      * @param cart the cart added
      */
+    @Transactional
     public void addCart(Cart cart) {
         this.cartRepository.save(cart);
     }
@@ -50,6 +54,7 @@ public class CartService {
      *
      * @param cart the cart removed
      */
+    @Transactional
     public void removeCart(Cart cart) {
         if(cart == null) {
             return;
@@ -65,6 +70,7 @@ public class CartService {
      * @param customer the customer
      * @param cart     the new cart
      */
+    @Transactional
     public void updateCart(Customer customer, Cart cart) {
         Cart oldCart = customer.getCart();
         if(oldCart != null && oldCart.getCartItems() != null && !oldCart.getCartItems().isEmpty()) {
@@ -98,6 +104,7 @@ public class CartService {
      * @param id the id of the customer
      * @return the cart of the customer
      */
+    @Transactional
     public Cart getCartFromCustomerId(int id) {
         return this.cartRepository.getCartByCustomerId(id);
     }
@@ -108,6 +115,7 @@ public class CartService {
      * @param cartId   the cart id whose discount is set
      * @param discount the discount set
      */
+    @Transactional
     public void setDiscount(int cartId, Discount discount) {
         Cart cart = this.cartRepository.getCartById(cartId);
         if(cart != null) {

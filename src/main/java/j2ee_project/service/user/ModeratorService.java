@@ -3,6 +3,7 @@ package j2ee_project.service.user;
 import j2ee_project.repository.user.ModeratorRepository;
 import j2ee_project.model.user.Moderator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class ModeratorService {
      *
      * @return the list of all moderators
      */
+    @Transactional
     public List<Moderator> getModerators(){
         return moderatorRepository.findAll();
     }
@@ -29,6 +31,7 @@ public class ModeratorService {
      * @param moderatorId the moderator's id
      * @return the moderator
      */
+    @Transactional
     public Moderator getModerator(int moderatorId){
         return moderatorRepository.findById(moderatorId);
     }
@@ -38,6 +41,7 @@ public class ModeratorService {
      *
      * @param moderatorId the moderator's id
      */
+    @Transactional
     public void deleteModerator(int moderatorId){
         moderatorRepository.deleteById(moderatorId);
     }
@@ -47,6 +51,7 @@ public class ModeratorService {
      *
      * @param moderator the moderator to be added
      */
+    @Transactional
     public void addModerator(Moderator moderator){
         moderatorRepository.save(moderator);
     }

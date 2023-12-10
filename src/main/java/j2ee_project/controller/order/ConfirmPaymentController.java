@@ -92,6 +92,7 @@ public class ConfirmPaymentController extends HttpServlet
             ordersService.setStatus(order, OrderStatus.PREPARING);
             order.setOrderStatus(OrderStatus.PREPARING);
             request.setAttribute("order",order);
+            loyaltyAccountService.addPoints(customer.getLoyaltyAccount(), (int) Math.floor(order.getTotal()*0.1));
 
             sendReceiptMail(customer, order);
         }

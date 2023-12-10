@@ -4,6 +4,7 @@ import j2ee_project.repository.order.OrdersRepository;
 import j2ee_project.model.order.OrderStatus;
 import j2ee_project.model.order.Orders;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
 public class OrdersService {
 
     private final OrdersRepository ordersRepository;
+
 
     public OrdersService(OrdersRepository ordersRepository) {
         this.ordersRepository = ordersRepository;
@@ -22,6 +24,7 @@ public class OrdersService {
      * @param customerId the customer id whose orders are got
      * @return the list of orders
      */
+    @Transactional
     public List<Orders> getOrders(int customerId){
         return this.ordersRepository.searchOrdersByCustomerId(customerId);
     }
@@ -31,6 +34,7 @@ public class OrdersService {
      *
      * @param newOrder the new order
      */
+    @Transactional
     public void addOrder(Orders newOrder) {
         this.ordersRepository.save(newOrder);
     }
@@ -41,6 +45,7 @@ public class OrdersService {
      * @param orderId the order's id
      * @return the order fetched
      */
+    @Transactional
     public Orders getOrder(int orderId) {
         return this.ordersRepository.findOrdersById(orderId);
     }
@@ -51,6 +56,7 @@ public class OrdersService {
      * @param order       the order whose status is changed
      * @param orderStatus the new order status
      */
+    @Transactional
     public void setStatus(Orders order, OrderStatus orderStatus) {
         Orders orderDBObj = this.getOrder(order.getId());
         if(orderDBObj != null) {

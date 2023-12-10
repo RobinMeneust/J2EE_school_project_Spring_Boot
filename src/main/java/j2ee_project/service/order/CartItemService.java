@@ -4,11 +4,15 @@ import j2ee_project.repository.order.CartItemRepository;
 import j2ee_project.model.order.Cart;
 import j2ee_project.model.order.CartItem;
 import j2ee_project.model.user.Customer;
+import j2ee_project.repository.order.CartRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class CartItemService {
-
     private final CartItemRepository cartItemRepository;
 
     public CartItemService(CartItemRepository cartItemRepository) {
@@ -22,6 +26,7 @@ public class CartItemService {
      * @param cartItemId the cart item id whose quantity is changed
      * @param quantity   the new quantity
      */
+    @Transactional
     public void editItemQuantity(Customer customer, int cartItemId, int quantity) {
         CartItem cartItemDBObj = this.cartItemRepository.getCartItemById(cartItemId);
 
@@ -30,8 +35,10 @@ public class CartItemService {
         }
 
         if(quantity<=0) {
-            cartItemDBObj.getCart().getCartItems().remove(cartItemDBObj);
-            this.cartItemRepository.removeCartItemsById(cartItemId);
+            System.out.println(cartItemId);
+            cartItemDBObj.setCart(null);
+            cartItemRepository.save(cartItemDBObj);
+            cartItemRepository.removeCartItemsById(cartItemDBObj.getId());
         } else {
             cartItemDBObj.setQuantity(quantity);
             this.cartItemRepository.save(cartItemDBObj);
@@ -44,6 +51,7 @@ public class CartItemService {
      *
      * @param cart the cart whose items are removed
      */
+    @Transactional
     public void removeCartItems(Cart cart) {
         this.cartItemRepository.removeCartItemsByCart(cart);
     }
@@ -54,6 +62,7 @@ public class CartItemService {
      * @param item the item added
      * @return the new item's ID
      */
+    @Transactional
     public int newItem(CartItem item) {
         this.cartItemRepository.save(item);
         return item.getId();

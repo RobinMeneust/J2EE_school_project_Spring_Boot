@@ -7,10 +7,12 @@ import j2ee_project.model.Discount;
 import j2ee_project.model.loyalty.LoyaltyAccount;
 import j2ee_project.model.loyalty.LoyaltyLevel;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
 @Service
+@Transactional
 public class LoyaltyAccountService {
     private final LoyaltyAccountRepository loyaltyAccountRepository;
     private final DiscountRepository discountRepository;
@@ -40,5 +42,19 @@ public class LoyaltyAccountService {
         LoyaltyLevel loyaltyLevel = loyaltyLevelRepository.findLoyaltyLevelById(idLoyaltyLevel);
         loyaltyAccount.addLoyaltyLevelUsed(loyaltyLevel);
         loyaltyAccountRepository.save(loyaltyAccount);
+    }
+
+    /**
+     * Add points to the given loyalty account
+     *
+     * @param loyaltyAccount the loyalty account
+     * @param nbPointsAdded  the nb points added
+     */
+    public void addPoints(LoyaltyAccount loyaltyAccount, int nbPointsAdded) {
+        LoyaltyAccount loyaltyAccountDBObj = loyaltyAccountRepository.findLoyaltyAccountById(loyaltyAccount.getId());
+        if(loyaltyAccountDBObj != null && nbPointsAdded>0) {
+            loyaltyAccountDBObj.addLoyaltyPoints(nbPointsAdded);
+            loyaltyAccountRepository.save(loyaltyAccountDBObj);
+        }
     }
 }
