@@ -6,8 +6,14 @@ import j2ee_project.model.user.TypePermission;
 import j2ee_project.service.user.PermissionService;
 import org.springframework.context.ApplicationContext;
 
+/**
+ * The type Permission helper.
+ */
 public class PermissionHelper {
 
+    /**
+     * The constant permissionService.
+     */
     public static final PermissionService permissionService;
 
     static {

@@ -18,6 +18,9 @@ import java.util.Map;
 
 import static j2ee_project.staticServices.PermissionHelper.getPermission;
 
+/**
+ * The type Edit discount controller.
+ */
 @WebServlet("/edit-discount")
 public class EditDiscountController extends HttpServlet {
 

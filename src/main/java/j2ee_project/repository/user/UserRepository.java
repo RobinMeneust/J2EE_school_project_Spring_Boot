@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     /**
      * Count user in the database according to its email and phone number
      *
-     * @param email the email
+     * @param email       the email
      * @param phoneNumber the phone number
      * @return the number of found user
      */
@@ -32,7 +32,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     /**
      * Search user in the database according to its email or its phone number
      *
-     * @param email the email
+     * @param email       the email
      * @param phoneNumber the phone number
      * @return the found user
      */

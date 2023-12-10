@@ -5,6 +5,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+
 /**
  * This class is a servlet used to get the contact page. It's a controller in the MVC architecture of this project.
  *

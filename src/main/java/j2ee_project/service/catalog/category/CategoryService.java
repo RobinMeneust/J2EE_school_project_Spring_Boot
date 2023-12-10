@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * The type Category service.
+ */
 @Service
 @Transactional
 public class CategoryService {
@@ -17,6 +20,12 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
+    /**
+     * Instantiates a new Category service.
+     *
+     * @param categoryRepository the category repository
+     * @param productRepository  the product repository
+     */
     public CategoryService(CategoryRepository categoryRepository,  ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;

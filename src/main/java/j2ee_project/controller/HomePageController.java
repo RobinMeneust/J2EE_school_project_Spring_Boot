@@ -4,11 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Go to the home page
+ */
 @Controller
 public class HomePageController {
 
     /**
      * Get the first page (root) of the website
+     *
      * @return the page to go
      */
     @GetMapping(value = "/")

@@ -10,12 +10,18 @@ import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The type Db initializer.
+ */
 @Component
 public class DBInitializer {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    /**
+     * Initialize database.
+     */
     @PostConstruct
     public void initializeDatabase() {
         String schemaSql = readSqlFile("schema.sql");

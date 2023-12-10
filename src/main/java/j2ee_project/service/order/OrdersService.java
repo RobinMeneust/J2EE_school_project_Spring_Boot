@@ -8,12 +8,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * The type Orders service.
+ */
 @Service
 public class OrdersService {
 
     private final OrdersRepository ordersRepository;
 
 
+    /**
+     * Instantiates a new Orders service.
+     *
+     * @param ordersRepository the orders repository
+     */
     public OrdersService(OrdersRepository ordersRepository) {
         this.ordersRepository = ordersRepository;
     }

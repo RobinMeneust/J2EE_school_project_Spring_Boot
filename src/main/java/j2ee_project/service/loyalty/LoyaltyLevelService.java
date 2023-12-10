@@ -7,11 +7,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * The type Loyalty level service.
+ */
 @Service
 @Transactional
 public class LoyaltyLevelService {
     private final LoyaltyLevelRepository loyaltyLevelRepository;
 
+    /**
+     * Instantiates a new Loyalty level service.
+     *
+     * @param loyaltyLevelRepository the loyalty level repository
+     */
     public LoyaltyLevelService(LoyaltyLevelRepository loyaltyLevelRepository) {
         this.loyaltyLevelRepository = loyaltyLevelRepository;
     }

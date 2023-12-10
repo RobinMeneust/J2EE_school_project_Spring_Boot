@@ -11,12 +11,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * The type Discount service.
+ */
 @Service
 @Transactional
 public class DiscountService {
     private final DiscountRepository discountRepository;
     private final CategoryRepository categoryRepository;
 
+    /**
+     * Instantiates a new Discount service.
+     *
+     * @param discountRepository the discount repository
+     * @param categoryRepository the category repository
+     */
     public DiscountService(DiscountRepository discountRepository, CategoryRepository categoryRepository) {
         this.discountRepository = discountRepository;
         this.categoryRepository = categoryRepository;
@@ -65,6 +74,11 @@ public class DiscountService {
         discountRepository.save(discount);
     }
 
+    /**
+     * Update discount.
+     *
+     * @param discount the discount
+     */
     public void updateDiscount(Discount discount) {
         discountRepository.save(discount);
     }

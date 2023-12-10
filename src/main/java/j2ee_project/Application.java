@@ -17,6 +17,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+/**
+ * The type Application.
+ */
 @EnableJpaRepositories(basePackages = "j2ee_project.repository")
 @SpringBootApplication
 @ServletComponentScan
@@ -28,10 +31,20 @@ public class Application extends SpringBootServletInitializer implements Applica
 		Application.applicationContext = applicationContext;
 	}
 
+	/**
+	 * Gets context.
+	 *
+	 * @return the context
+	 */
 	public static ApplicationContext getContext() {
 		return applicationContext;
 	}
 
+	/**
+	 * The entry point of application.
+	 *
+	 * @param args the input arguments
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 		try {
@@ -44,7 +57,13 @@ public class Application extends SpringBootServletInitializer implements Applica
 		Desktop.getDesktop().browse(new URI("http://localhost:8080"));
 	}
 
-    @Bean
+	/**
+	 * Command line runner command line runner.
+	 *
+	 * @param ctx the ctx
+	 * @return the command line runner
+	 */
+	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
 			String[] beanNames = ctx.getBeanDefinitionNames();

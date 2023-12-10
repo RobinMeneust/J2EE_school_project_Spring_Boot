@@ -23,6 +23,9 @@ import java.util.Map;
 
 import static j2ee_project.staticServices.PermissionHelper.getPermission;
 
+/**
+ * The type Edit moderator controller.
+ */
 @WebServlet("/edit-moderator")
 public class EditModeratorController extends HttpServlet {
 

@@ -10,11 +10,19 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The type Cart item service.
+ */
 @Service
 @Transactional
 public class CartItemService {
     private final CartItemRepository cartItemRepository;
 
+    /**
+     * Instantiates a new Cart item service.
+     *
+     * @param cartItemRepository the cart item repository
+     */
     public CartItemService(CartItemRepository cartItemRepository) {
         this.cartItemRepository = cartItemRepository;
     }

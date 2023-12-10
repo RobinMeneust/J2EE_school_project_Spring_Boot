@@ -5,7 +5,6 @@ import jakarta.persistence.Table;
 /**
  * The enum Order status.
  */
-
 @Table(name = "`OrderStatus`")
 public enum OrderStatus {
     /**

@@ -20,6 +20,9 @@ import java.util.Optional;
 
 import static j2ee_project.staticServices.PermissionHelper.getPermission;
 
+/**
+ * The type Edit category controller.
+ */
 @WebServlet("/edit-category")
 public class EditCategoryController extends HttpServlet {
     private CategoryService categoryService;

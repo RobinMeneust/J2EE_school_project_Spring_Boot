@@ -13,6 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Forgotten password controller
+ */
 @RestController
 public class ForgottenPasswordController {
 
@@ -21,6 +24,7 @@ public class ForgottenPasswordController {
 
     /**
      * Get page to ask to change password on the website
+     *
      * @return the page to go
      */
     @GetMapping(value = "/forgotten-password")
@@ -31,6 +35,7 @@ public class ForgottenPasswordController {
 
     /**
      * Get page to change password on the website
+     *
      * @param token the token in the url to authenticate the user
      * @return the page to go
      */
@@ -52,6 +57,8 @@ public class ForgottenPasswordController {
 
     /**
      * Start the changing password process for a user with the parameters given in the request object. Different errors can be sent to the sender in the request object if a problem occur
+     *
+     * @param email   the email
      * @param request Request object received by the servlet
      * @return the page to go
      */
@@ -73,7 +80,11 @@ public class ForgottenPasswordController {
 
     /**
      * Get page to change password on the website
-     * @param request Request object received by the servlet
+     *
+     * @param password               the password
+     * @param confirmPassword        the confirm password (must be the same as password)
+     * @param forgottenPasswordToken the forgotten password token
+     * @param request                Request object received by the servlet
      * @return the page to go
      */
     @PostMapping(value = "/change-password")

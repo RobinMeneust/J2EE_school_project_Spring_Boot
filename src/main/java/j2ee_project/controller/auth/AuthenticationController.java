@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.util.Map;
 
+/**
+ * The type Authentication controller.
+ */
 @RestController
 public class AuthenticationController {
 
@@ -21,6 +24,7 @@ public class AuthenticationController {
 
     /**
      * Get a page to register on the website
+     *
      * @return the page to go
      */
     @GetMapping(value = "/register")
@@ -31,6 +35,7 @@ public class AuthenticationController {
 
     /**
      * Get a page to login on the website
+     *
      * @return the page to go
      */
     @GetMapping(value = "/login")
@@ -55,7 +60,9 @@ public class AuthenticationController {
 
     /**
      * Register a customer with the parameters given in the request object. Different errors can be sent to the sender in the request object if a problem occur
-     * @param request Request object received by the servlet
+     *
+     * @param customerDTO the customer dto
+     * @param request     Request object received by the servlet
      * @return the page to go
      */
     @PostMapping(value = "/register")
@@ -74,7 +81,10 @@ public class AuthenticationController {
 
     /**
      * Log in a user with the parameters given in the request object. Different errors can be sent to the sender in the request object if a problem occur
-     * @param request Request object received by the servlet
+     *
+     * @param email    the email
+     * @param password the password
+     * @param request  Request object received by the servlet
      * @return the page to go
      */
     @PostMapping(value = "/login")

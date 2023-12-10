@@ -9,6 +9,9 @@ import j2ee_project.service.AuthService;
 import j2ee_project.service.order.OrdersService;
 import org.springframework.context.ApplicationContext;
 
+/**
+ * The type Orders helper.
+ */
 public class OrdersHelper {
 
     private static final OrdersService ordersService;
