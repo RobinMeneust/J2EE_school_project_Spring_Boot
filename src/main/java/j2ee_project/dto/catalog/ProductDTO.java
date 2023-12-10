@@ -51,6 +51,20 @@ public class ProductDTO {
     }
 
     /**
+     * Instantiates a new Product dto without the image path.
+     *
+     * @param name          the name
+     * @param stockQuantity the stock quantity
+     * @param unitPrice     the unit price
+     * @param description   the description
+     * @param weight        the weight
+     * @param category      the category
+     */
+    public ProductDTO(String name, Integer stockQuantity, float unitPrice, String description, Float weight, Category category) {
+        this(name, stockQuantity, unitPrice, description, null, weight, category);
+    }
+
+    /**
      * Gets name.
      *
      * @return the name

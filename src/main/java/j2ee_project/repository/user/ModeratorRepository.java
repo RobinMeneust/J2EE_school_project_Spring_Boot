@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
  * @author Robin Meneust
  */
 @Repository
-public interface ModeratorRepository extends JpaRepository<Moderator,Long> {
+public interface ModeratorRepository extends JpaRepository<Moderator,Integer> {
     Moderator findById(int id);
-    void deleteById(int id);
 }

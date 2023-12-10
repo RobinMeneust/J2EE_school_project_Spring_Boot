@@ -23,10 +23,14 @@ public class DiscountService {
     }
 
     public void deleteDiscount(int discountId) {
-        discountRepository.deleteDiscountById(discountId);
+        discountRepository.deleteById(discountId);
     }
 
     public void addDiscount(Discount discount) {
+        discountRepository.save(discount);
+    }
+
+    public void updateDiscount(Discount discount) {
         discountRepository.save(discount);
     }
 }

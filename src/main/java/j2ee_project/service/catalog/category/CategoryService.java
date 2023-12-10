@@ -5,6 +5,8 @@ import j2ee_project.model.catalog.Category;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CategoryService {
 
@@ -18,15 +20,19 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category getCategory(int categoryId) {
-        return categoryRepository.findCategoryById(categoryId);
+    public Optional<Category> getCategory(int categoryId) {
+        return categoryRepository.findById(categoryId);
     }
 
     public void deleteCategory(int categoryId) {
-        categoryRepository.deleteCategoryById(categoryId);
+        categoryRepository.deleteById(categoryId);
     }
 
     public void addCategory(Category category) {
+        categoryRepository.save(category);
+    }
+
+    public void updateCategory(Category category) {
         categoryRepository.save(category);
     }
 }

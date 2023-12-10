@@ -15,10 +15,9 @@ import java.util.List;
  * @author Robin Meneust
  */
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAll(Specification<Product> productSpec, Pageable pageable);
     int count(Specification<Product> productSpec);
     Product findProductById(int id);
-    void deleteProductById(int id);
 
 }

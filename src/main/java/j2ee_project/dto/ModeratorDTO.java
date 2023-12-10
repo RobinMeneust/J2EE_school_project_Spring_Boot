@@ -3,6 +3,7 @@ package j2ee_project.dto;
 import j2ee_project.model.user.Permission;
 import j2ee_project.model.user.TypePermission;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Set;
  */
 public class ModeratorDTO extends UserDTO{
 
-    private Set<Permission> permissions;
+    private Set<Permission> permissions = new HashSet<>();
 
     /**
      * Instantiates a new Moderator dto.

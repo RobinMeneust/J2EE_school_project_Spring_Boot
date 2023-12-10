@@ -48,7 +48,7 @@ public class CustomerService {
      * @param customerId the customer's id
      */
     public void deleteCustomer(int customerId){
-        this.customerRepository.removeCustomerById(customerId);
+        this.customerRepository.deleteById(customerId);
     }
 
     /**

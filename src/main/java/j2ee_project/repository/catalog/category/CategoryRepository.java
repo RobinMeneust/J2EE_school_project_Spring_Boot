@@ -4,6 +4,8 @@ import j2ee_project.model.catalog.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 /**
  * Repository to interacts with the Category table in the DB
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author Robin Meneust
  */
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
-    Category findCategoryById(int id);
-    void deleteCategoryById(int id);
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
+    public Optional<Category> findById(int id);
 }

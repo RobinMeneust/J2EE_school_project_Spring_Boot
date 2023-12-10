@@ -3,6 +3,9 @@ package j2ee_project.service;
 import j2ee_project.dto.AddressDTO;
 import j2ee_project.dto.ContactDTO;
 import j2ee_project.dto.UserDTO;
+import j2ee_project.dto.catalog.CategoryDTO;
+import j2ee_project.dto.catalog.ProductDTO;
+import j2ee_project.dto.discount.DiscountDTO;
 import j2ee_project.model.Address;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -33,7 +36,6 @@ public class DTOService {
 		return violationsMap;
 	}
 
-
 	/**
 	 * Validate a contact data transfer object
 	 *
@@ -52,6 +54,36 @@ public class DTOService {
 	 */
 	public static Map<String, String> addressDataValidation(AddressDTO addressDTO){
 		return dataValidation(addressDTO);
+	}
+
+	/**
+	 * Validate a discount data transfer object
+	 *
+	 * @param discountDTO the address dto
+	 * @return a map with error message
+	 */
+	public static Map<String, String> discountDataValidation(DiscountDTO discountDTO){
+		return dataValidation(discountDTO);
+	}
+
+	/**
+	 * Validate a product data transfer object
+	 *
+	 * @param productDTO the address dto
+	 * @return a map with error message
+	 */
+	public static Map<String, String> productDataValidation(ProductDTO productDTO){
+		return dataValidation(productDTO);
+	}
+
+	/**
+	 * Validate a category data transfer object
+	 *
+	 * @param categoryDTO the address dto
+	 * @return a map with error message
+	 */
+	public static Map<String, String> categoryDataValidation(CategoryDTO categoryDTO){
+		return dataValidation(categoryDTO);
 	}
 
 	/**

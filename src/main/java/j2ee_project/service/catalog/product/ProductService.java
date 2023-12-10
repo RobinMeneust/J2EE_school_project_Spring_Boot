@@ -33,7 +33,7 @@ public class ProductService {
     }
 
     public void deleteProduct(int productId){
-        productRepository.deleteProductById(productId);
+        productRepository.deleteById(productId);
     }
 
     public void setProductImagePath(int productId, String path) {
@@ -81,5 +81,9 @@ public class ProductService {
                         criteriaBuilder.between(root.get("unitPrice"), minPrice, maxPrice) :
                         minPrice != null ? criteriaBuilder.greaterThanOrEqualTo(root.get("unitPrice"), minPrice)  :
                                 maxPrice != null ? criteriaBuilder.lessThanOrEqualTo(root.get("unitPrice"), maxPrice) : null;
+    }
+
+    public void updateProduct(Product product) {
+        productRepository.save(product);
     }
 }
