@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="cf" uri="/WEB-INF/functions.tld"%>
-<%@ page import="j2ee_project.repository.order.OrdersDAO"%>
 <%@ page import="j2ee_project.model.order.Orders"%>
+<%@ page import="j2ee_project.staticServices.OrdersHelper" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -17,7 +17,7 @@
     <title>Pay</title>
     <jsp:include page="../../include.jsp" />
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="${pageContext.request.contextPath}/static/js/checkout.js" defer></script>
+    <script src="/content/js/checkout.js" defer></script>
 </head>
 <body>
 <jsp:include page="../../layout/header.jsp" />
@@ -29,7 +29,7 @@
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,"order-id param is required and must be an integer");
         }
-        Orders order = OrdersDAO.getOrder(orderIdStr);
+        Orders order = OrdersHelper.getOrder(Integer.parseInt(orderIdStr));
 
         if(order == null || order.getOrderItems() == null || order.getOrderItems().isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,"The order associated to order-id is invalid or empty");
