@@ -63,7 +63,7 @@
             },
             messages: {
                 email: {
-                    required: "Last name can not be blank.",
+                    required: "Email can not be blank.",
                     email: "Email is not valid."
                 },
                 password: {
