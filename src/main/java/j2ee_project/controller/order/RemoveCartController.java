@@ -1,26 +1,21 @@
 package j2ee_project.controller.order;
 
-import j2ee_project.repository.catalog.product.ProductDAO;
-import j2ee_project.repository.order.CartDAO;
-import j2ee_project.repository.user.CustomerDAO;
-import j2ee_project.model.catalog.Product;
+import j2ee_project.Application;
 import j2ee_project.model.order.Cart;
-import j2ee_project.model.order.CartItem;
 import j2ee_project.model.user.Customer;
-import j2ee_project.service.AuthService;
 import j2ee_project.service.CartManager;
+import j2ee_project.service.order.CartService;
+import j2ee_project.service.user.CustomerService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.json.JSONObject;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This class is a servlet used to remove the current user's cart. It's a controller in the MVC architecture of this project.
@@ -29,6 +24,17 @@ import java.util.Set;
  */
 @WebServlet("/remove-cart")
 public class RemoveCartController extends HttpServlet {
+
+    private static CartService cartService;
+    private static CustomerService customerService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        cartService = context.getBean(CartService.class);
+        customerService = context.getBean(CustomerService.class);
+    }
+
     /**
      * Remove the cart of the user in the session
      * @param request Request object received by the servlet
@@ -43,8 +49,8 @@ public class RemoveCartController extends HttpServlet {
         if(obj instanceof Customer) {
             // DB cart (logged in customer)
             Customer customer = (Customer) obj;
-            CartDAO.removeCart(customer.getCart());
-            session.setAttribute("user", CustomerDAO.getCustomer(customer.getId())); // update the session variable
+            cartService.removeCart(customer.getCart());
+            session.setAttribute("user", customerService.getCustomer(customer.getId())); // update the session variable
         } else {
             // Session cart
             Cart cart = CartManager.getSessionCart(session);

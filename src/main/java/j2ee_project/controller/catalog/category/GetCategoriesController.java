@@ -1,7 +1,6 @@
 package j2ee_project.controller.catalog.category;
 
 import j2ee_project.Application;
-import j2ee_project.repository.catalog.category.CategoryDAO;
 import j2ee_project.service.catalog.category.CategoryService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;

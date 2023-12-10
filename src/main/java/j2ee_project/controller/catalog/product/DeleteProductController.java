@@ -1,9 +1,11 @@
 package j2ee_project.controller.catalog.product;
 
-import j2ee_project.repository.catalog.product.ProductDAO;
+import j2ee_project.Application;
+import j2ee_project.service.catalog.product.ProductService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -12,6 +14,15 @@ import java.io.IOException;
  */
 @WebServlet("/delete-product")
 public class DeleteProductController extends HttpServlet {
+
+    private static ProductService productService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        productService = context.getBean(ProductService.class);
+    }
+
     /**
      * Delete a product whose ID is given in the param "id"
      * @param request Request object received by the servlet
@@ -34,7 +45,7 @@ public class DeleteProductController extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product ID must be positive");
             return;
         }
-        ProductDAO.deleteProduct(productId);
+        productService.deleteProduct(productId);
         try {
             response.sendRedirect("dashboard?tab=products");
         }catch (Exception err){

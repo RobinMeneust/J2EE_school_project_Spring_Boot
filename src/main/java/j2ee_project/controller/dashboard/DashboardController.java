@@ -1,20 +1,31 @@
 package j2ee_project.controller.dashboard;
 
+import j2ee_project.Application;
 import j2ee_project.model.user.Moderator;
 import j2ee_project.model.user.TypePermission;
+import j2ee_project.service.user.PermissionService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
-import static j2ee_project.repository.user.PermissionDAO.getPermission;
 
 /**
  * This class is a servlet used to get the dashboard page. It's a controller in the MVC architecture of this project.
  */
 @WebServlet("/dashboard")
 public class DashboardController extends HttpServlet {
+
+    private static PermissionService permissionService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        permissionService = context.getBean(PermissionService.class);
+    }
+
     /**
      * Get the categories list
      * @param request Request object received by the servlet
@@ -28,27 +39,27 @@ public class DashboardController extends HttpServlet {
             HttpSession session = request.getSession();
             Object obj = session.getAttribute("user");
             if(obj instanceof Moderator moderator) {
-                if (moderator.isAllowed(getPermission(TypePermission.CAN_MANAGE_CUSTOMER))){
+                if (moderator.isAllowed(permissionService.getPermission(TypePermission.CAN_MANAGE_CUSTOMER))){
                     RequestDispatcher dispatcherCustomers = getServletContext().getRequestDispatcher("/get-customers");
                     dispatcherCustomers.include(request, response);
                 }
-                if (moderator.isAllowed(getPermission(TypePermission.CAN_MANAGE_MODERATOR))) {
+                if (moderator.isAllowed(permissionService.getPermission(TypePermission.CAN_MANAGE_MODERATOR))) {
                     RequestDispatcher dispatcherModerators = getServletContext().getRequestDispatcher("/get-moderators");
                     dispatcherModerators.include(request, response);
                 }
-                if (moderator.isAllowed(getPermission(TypePermission.CAN_MANAGE_PRODUCT))) {
+                if (moderator.isAllowed(permissionService.getPermission(TypePermission.CAN_MANAGE_PRODUCT))) {
                     RequestDispatcher dispatcherProducts = getServletContext().getRequestDispatcher("/get-products");
                     dispatcherProducts.include(request, response);
                 }
-                if (moderator.isAllowed(getPermission(TypePermission.CAN_MANAGE_CATEGORY))) {
+                if (moderator.isAllowed(permissionService.getPermission(TypePermission.CAN_MANAGE_CATEGORY))) {
                     RequestDispatcher dispatcherCategories = getServletContext().getRequestDispatcher("/get-categories");
                     dispatcherCategories.include(request, response);
                 }
-                if (moderator.isAllowed(getPermission(TypePermission.CAN_MANAGE_DISCOUNT))) {
+                if (moderator.isAllowed(permissionService.getPermission(TypePermission.CAN_MANAGE_DISCOUNT))) {
                     RequestDispatcher dispatcherDiscounts = getServletContext().getRequestDispatcher("/get-discounts");
                     dispatcherDiscounts.include(request, response);
                 }
-                if (moderator.isAllowed(getPermission(TypePermission.CAN_MANAGE_LOYALTY))) {
+                if (moderator.isAllowed(permissionService.getPermission(TypePermission.CAN_MANAGE_LOYALTY))) {
 
                 }
                 RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/dashboard/dashboard.jsp");

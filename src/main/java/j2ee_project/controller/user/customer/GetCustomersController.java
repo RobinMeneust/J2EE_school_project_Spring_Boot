@@ -1,9 +1,11 @@
 package j2ee_project.controller.user.customer;
 
-import j2ee_project.repository.user.CustomerDAO;
+import j2ee_project.Application;
+import j2ee_project.service.user.CustomerService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -12,6 +14,15 @@ import java.io.IOException;
  */
 @WebServlet("/get-customers")
 public class GetCustomersController extends HttpServlet {
+
+    private static CustomerService customerService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        customerService = context.getBean(CustomerService.class);
+    }
+
     /**
      * Get the customers list
      * @param request Request object received by the servlet
@@ -22,7 +33,7 @@ public class GetCustomersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("customers", CustomerDAO.getCustomers());
+            request.setAttribute("customers", customerService.getCustomers());
         }catch (Exception err){
             System.err.println(err.getMessage());
             response.sendError(HttpServletResponse.SC_NOT_FOUND);

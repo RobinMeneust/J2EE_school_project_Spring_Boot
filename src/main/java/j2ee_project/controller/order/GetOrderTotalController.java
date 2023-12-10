@@ -1,11 +1,12 @@
 package j2ee_project.controller.order;
 
-import j2ee_project.repository.order.OrdersDAO;
+import j2ee_project.Application;
 import j2ee_project.model.order.Orders;
 import j2ee_project.model.user.Customer;
 import j2ee_project.model.user.User;
 import j2ee_project.service.AuthService;
 import j2ee_project.service.OrdersManager;
+import j2ee_project.service.order.OrdersService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
+import org.springframework.context.ApplicationContext;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -23,6 +26,17 @@ import java.io.PrintWriter;
  */
 @WebServlet("/get-order-total")
 public class GetOrderTotalController extends HttpServlet {
+
+    private static OrdersService ordersService;
+    private static AuthService authService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        ordersService = context.getBean(OrdersService.class);
+        authService = context.getBean(AuthService.class);
+    }
+
     /**
      * Get the total price of the order associated to the given "order-id" as a JSON object with the key "total"
      * @param request Request object received by the servlet
@@ -36,8 +50,8 @@ public class GetOrderTotalController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String orderId = request.getParameter("order-id");
-        Orders order = OrdersDAO.getOrder(orderId);
+        int orderId = Integer.parseInt(request.getParameter("order-id"));
+        Orders order = ordersService.getOrder(orderId);
 
         if(order == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No order is associated to this ID");
@@ -47,7 +61,7 @@ public class GetOrderTotalController extends HttpServlet {
         Object obj = session.getAttribute("user");
         Customer customer = null;
         if(obj instanceof User) {
-            customer = AuthService.getCustomer((User) obj);
+            customer = authService.getCustomer((User) obj);
         }
 
         String error = OrdersManager.checkOrder(order, customer);

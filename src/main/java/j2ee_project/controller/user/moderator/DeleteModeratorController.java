@@ -1,9 +1,11 @@
 package j2ee_project.controller.user.moderator;
 
-import j2ee_project.repository.user.ModeratorDAO;
+import j2ee_project.Application;
+import j2ee_project.service.user.ModeratorService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -12,6 +14,13 @@ import java.io.IOException;
  */
 @WebServlet("/delete-moderator")
 public class DeleteModeratorController extends HttpServlet {
+    private static ModeratorService moderatorService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        moderatorService = context.getBean(ModeratorService.class);
+    }
     /**
      * Remove the moderator whose id is given in the param "id"
      * @param request Request object received by the servlet
@@ -33,7 +42,7 @@ public class DeleteModeratorController extends HttpServlet {
         if(moderatorId<=0) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Moderator ID must be positive");
         }
-        ModeratorDAO.deleteModerator(moderatorId);
+        moderatorService.deleteModerator(moderatorId);
         try {
             response.sendRedirect("dashboard?tab=moderators");
         }catch (Exception err){

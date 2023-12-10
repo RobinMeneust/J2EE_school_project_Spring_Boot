@@ -1,13 +1,11 @@
 package j2ee_project.controller.order;
 
-import j2ee_project.repository.order.CartDAO;
-import j2ee_project.repository.order.CartItemDAO;
-import j2ee_project.repository.user.CustomerDAO;
-import j2ee_project.repository.user.UserDAO;
+import j2ee_project.Application;
 import j2ee_project.model.order.Cart;
 import j2ee_project.model.order.CartItem;
 import j2ee_project.model.user.Customer;
-import j2ee_project.model.user.User;
+import j2ee_project.service.order.CartItemService;
+import j2ee_project.service.order.CartService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,6 +19,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import j2ee_project.service.CartManager;
+import org.springframework.context.ApplicationContext;
 
 /**
  * This class is a servlet used to change the quantity of an item in a cart. It's a controller in the MVC architecture of this project.
@@ -29,6 +28,17 @@ import j2ee_project.service.CartManager;
  */
 @WebServlet("/edit-cart-item-quantity")
 public class EditCartItemQuantityController extends HttpServlet {
+
+    private static CartService cartService;
+    private static CartItemService cartItemService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        cartService = context.getBean(CartService.class);
+        cartItemService = context.getBean(CartItemService.class);
+    }
+
     /**
      * Edit the quantity of the cart item whose ID and new quantity are given
      * @param request Request object received by the servlet
@@ -99,9 +109,9 @@ public class EditCartItemQuantityController extends HttpServlet {
                 }
             }
         } else {
-            CartItemDAO.editItemQuantity(customer, id, quantity);
+            cartItemService.editItemQuantity(customer, id, quantity);
             // Refresh the user's cart
-            customer.setCart(CartDAO.getCartFromCustomerId(customer.getId()));
+            customer.setCart(cartService.getCartFromCustomerId(customer.getId()));
             session.setAttribute("user", customer);
         }
 

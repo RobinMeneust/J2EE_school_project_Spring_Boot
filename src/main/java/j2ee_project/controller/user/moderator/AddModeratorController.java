@@ -1,14 +1,15 @@
 package j2ee_project.controller.user.moderator;
 
-import j2ee_project.repository.user.ModeratorDAO;
-import j2ee_project.repository.user.PermissionDAO;
+import j2ee_project.Application;
 import j2ee_project.model.user.Moderator;
-import j2ee_project.model.user.Permission;
 import j2ee_project.model.user.TypePermission;
 import j2ee_project.service.HashService;
+import j2ee_project.service.user.ModeratorService;
+import j2ee_project.service.user.PermissionService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -19,6 +20,17 @@ import java.security.spec.InvalidKeySpecException;
  */
 @WebServlet("/add-moderator")
 public class AddModeratorController extends HttpServlet {
+
+    private static ModeratorService moderatorService;
+    private static PermissionService permissionService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        moderatorService = context.getBean(ModeratorService.class);
+        permissionService = context.getBean(PermissionService.class);
+    }
+
     /**
      * Get the page to add a moderator
      * @param request Request object received by the servlet
@@ -59,13 +71,13 @@ public class AddModeratorController extends HttpServlet {
 
         for (String permissionStr : request.getParameterValues("permissions")){
             TypePermission permission = TypePermission.values()[Integer.parseInt(permissionStr)];
-            moderator.addPermission(PermissionDAO.getPermission(permission));
+            moderator.addPermission(permissionService.getPermission(permission));
         }
 
         moderator.setEmail(request.getParameter("email"));
         moderator.setPhoneNumber((request.getParameter("phone-number").isEmpty()) ? null : request.getParameter("phone-number"));
 
-        ModeratorDAO.addModerator(moderator);
+        moderatorService.addModerator(moderator);
 
         try {
             response.sendRedirect("dashboard?tab=moderators");

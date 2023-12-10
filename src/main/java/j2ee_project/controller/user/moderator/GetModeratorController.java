@@ -1,11 +1,12 @@
 package j2ee_project.controller.user.moderator;
 
-import j2ee_project.repository.user.ModeratorDAO;
+import j2ee_project.Application;
 import j2ee_project.model.user.Moderator;
+import j2ee_project.service.user.ModeratorService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import org.dom4j.rule.Mode;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +16,13 @@ import java.util.List;
  */
 @WebServlet("/get-moderators")
 public class GetModeratorController extends HttpServlet {
+    private static ModeratorService moderatorService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        moderatorService = context.getBean(ModeratorService.class);
+    }
     /**
      * Get the moderators list
      * @param request Request object received by the servlet
@@ -25,7 +33,7 @@ public class GetModeratorController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<Moderator> moderators = ModeratorDAO.getModerators();
+            List<Moderator> moderators = moderatorService.getModerators();
             request.setAttribute("moderators", moderators);
         }catch (Exception err){
             System.err.println(err.getMessage());

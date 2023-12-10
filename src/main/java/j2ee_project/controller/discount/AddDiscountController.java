@@ -1,10 +1,12 @@
 package j2ee_project.controller.discount;
 
-import j2ee_project.repository.discount.DiscountDAO;
+import j2ee_project.Application;
 import j2ee_project.model.Discount;
+import j2ee_project.service.discount.DiscountService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -14,6 +16,15 @@ import java.sql.Date;
  */
 @WebServlet("/add-discount")
 public class AddDiscountController extends HttpServlet {
+
+    private static DiscountService discountService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        discountService = context.getBean(DiscountService.class);
+    }
+
     /**
      * Get the page to add a discount
      * @param request Request object received by the servlet
@@ -51,7 +62,7 @@ public class AddDiscountController extends HttpServlet {
         discount.setEndDate(endDate);
 
         discount.setDiscountPercentage(Integer.parseInt(request.getParameter("discount-percentage")));
-        DiscountDAO.addDiscount(discount);
+        discountService.addDiscount(discount);
 
         try {
             response.sendRedirect("dashboard?tab=discounts");

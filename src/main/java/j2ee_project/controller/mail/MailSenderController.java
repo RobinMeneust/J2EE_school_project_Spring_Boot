@@ -6,9 +6,10 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import j2ee_project.repository.MailDAO;
+import j2ee_project.Application;
 import j2ee_project.model.Mail;
 import j2ee_project.service.MailManager;
+import j2ee_project.service.mail.MailService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.springframework.context.ApplicationContext;
 
 /**
  * This class is a servlet used to send mails. It's a controller in the MVC architecture of this project.
@@ -26,6 +28,14 @@ import org.json.JSONTokener;
 @WebServlet("/send-mail")
 public class MailSenderController extends HttpServlet
 {
+    private static MailService mailService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        mailService = context.getBean(MailService.class);
+    }
+
     /**
      * Send a mail with the parameters given in the request object. An error is sent to the sender in the request object if the mail could not be sent
      * @param request Request object received by the servlet
@@ -66,7 +76,7 @@ public class MailSenderController extends HttpServlet
                 mail.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
             }
 
-            MailDAO.addMail(mail);
+            mailService.addMail(mail);
             mailManager.send(mail);
         }
         catch(Exception e) {

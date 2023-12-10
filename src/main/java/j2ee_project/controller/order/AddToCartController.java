@@ -1,13 +1,13 @@
 package j2ee_project.controller.order;
 
-import j2ee_project.repository.catalog.product.ProductDAO;
-import j2ee_project.repository.order.CartDAO;
+import j2ee_project.Application;
 import j2ee_project.model.catalog.Product;
 import j2ee_project.model.order.Cart;
 import j2ee_project.model.order.CartItem;
 import j2ee_project.model.user.Customer;
-import j2ee_project.service.AuthService;
 import j2ee_project.service.CartManager;
+import j2ee_project.service.catalog.product.ProductService;
+import j2ee_project.service.order.CartService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,6 +20,7 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 import org.json.JSONObject;
+import org.springframework.context.ApplicationContext;
 
 /**
  * This class is a servlet used to add items to the cart. It's a controller in the MVC architecture of this project.
@@ -28,6 +29,17 @@ import org.json.JSONObject;
  */
 @WebServlet("/add-to-cart")
 public class AddToCartController extends HttpServlet {
+
+    private static CartService cartService;
+    private static ProductService productService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        cartService = context.getBean(CartService.class);
+        productService = context.getBean(ProductService.class);
+    }
+
     /**
      * Add an item to the user cart
      * @param request Request object received by the servlet
@@ -49,7 +61,7 @@ public class AddToCartController extends HttpServlet {
             } catch(Exception ignore) {}
         }
 
-        Product product = ProductDAO.getProduct(id);
+        Product product = productService.getProduct(id);
 
         if(product == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "The provided product ID doesn't exist");
@@ -72,7 +84,7 @@ public class AddToCartController extends HttpServlet {
             cart = new Cart();
             cart.setCustomer(customer);
 
-            CartDAO.addCart(cart);
+            cartService.addCart(cart);
         }
 
         Set<CartItem> cartItems = cart.getCartItems();
@@ -102,9 +114,9 @@ public class AddToCartController extends HttpServlet {
             cart.getCartItems().add(newItem); // Add to the cart object (not saved in the db)
             session.setAttribute("sessionCart", cart);
         } else {
-            CartDAO.addItem(cart, newItem); // Add to the cart of the customer (saved in the db)
+            cartService.addItem(cart, newItem); // Add to the cart of the customer (saved in the db)
             // Refresh the user's cart
-            customer.setCart(CartDAO.getCartFromCustomerId(customer.getId()));
+            customer.setCart(cartService.getCartFromCustomerId(customer.getId()));
             session.setAttribute("user", customer);
         }
         response.setStatus(HttpServletResponse.SC_OK);

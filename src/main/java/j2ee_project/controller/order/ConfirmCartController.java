@@ -1,18 +1,17 @@
 package j2ee_project.controller.order;
 
-import j2ee_project.repository.AddressDAO;
-import j2ee_project.repository.discount.DiscountDAO;
-import j2ee_project.repository.order.CartItemDAO;
-import j2ee_project.repository.order.OrdersDAO;
+import j2ee_project.Application;
 import j2ee_project.dto.AddressDTO;
 import j2ee_project.model.Address;
 import j2ee_project.model.Discount;
 import j2ee_project.model.order.Cart;
 import j2ee_project.model.order.CartItem;
-import j2ee_project.model.order.OrderItem;
 import j2ee_project.model.order.Orders;
 import j2ee_project.service.CartManager;
 import j2ee_project.service.DTOService;
+import j2ee_project.service.address.AddressService;
+import j2ee_project.service.discount.DiscountService;
+import j2ee_project.service.order.OrdersService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import j2ee_project.model.user.Customer;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -35,6 +35,19 @@ import java.util.Set;
  */
 @WebServlet("/confirm-cart")
 public class ConfirmCartController extends HttpServlet {
+
+    private static DiscountService discountService;
+    private static AddressService addressService;
+    private static OrdersService ordersService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        discountService = context.getBean(DiscountService.class);
+        addressService = context.getBean(AddressService.class);
+        ordersService = context.getBean(OrdersService.class);
+    }
+
     /**
      * Confirm the current cart
      * @param request Request object received by the servlet
@@ -71,7 +84,7 @@ public class ConfirmCartController extends HttpServlet {
 
         if(discountIdStr != null && !discountIdStr.trim().isEmpty()) {
             try {
-                Discount discount = DiscountDAO.getDiscount(Integer.parseInt(discountIdStr));
+                Discount discount = discountService.getDiscount(Integer.parseInt(discountIdStr));
                 cart.setDiscount(discount);
             } catch (Exception ignore) {}
         }
@@ -91,10 +104,10 @@ public class ConfirmCartController extends HttpServlet {
         }
 
         Address deliveryAddress = new Address(deliveryAddressDTO);
-        deliveryAddress = AddressDAO.addAddressIfNotExists(deliveryAddress);
+        deliveryAddress = addressService.addAddressIfNotExists(deliveryAddress);
 
         Orders newOrder = new Orders(cart, cart.getDiscount(), new Date(Calendar.getInstance().getTimeInMillis()), customer, deliveryAddress);
-        OrdersDAO.addOrder(newOrder);
+        ordersService.addOrder(newOrder);
 
         response.sendRedirect("pay?order-id="+newOrder.getId());
     }

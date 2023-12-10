@@ -3,17 +3,12 @@ package j2ee_project.controller.image;
 import j2ee_project.Application;
 
 import j2ee_project.model.catalog.Product;
-import j2ee_project.model.user.Moderator;
-import j2ee_project.model.user.TypePermission;
-import j2ee_project.service.AuthService;
-import j2ee_project.service.FileService;
 import j2ee_project.service.catalog.product.ProductService;
 import j2ee_project.service.user.PermissionService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import java.io.*;
@@ -29,13 +24,6 @@ import java.nio.file.Paths;
 @WebServlet(value = "/product/image")
 @MultipartConfig
 public class ProductImageController extends HttpServlet {
-    /**
-     * Get a product image from its ID
-     * @param request Request object received by the servlet
-     * @param response Response to be sent
-     * @throws ServletException If the request for the GET could not be handled
-     * @throws IOException If an input or output error is detected when the servlet handles the GET request
-     */
 
     private static ProductService productService;
     private static PermissionService permissionService;
@@ -47,6 +35,13 @@ public class ProductImageController extends HttpServlet {
         permissionService = context.getBean(PermissionService.class);
     }
 
+    /**
+     * Get a product image from its ID
+     * @param request Request object received by the servlet
+     * @param response Response to be sent
+     * @throws ServletException If the request for the GET could not be handled
+     * @throws IOException If an input or output error is detected when the servlet handles the GET request
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {

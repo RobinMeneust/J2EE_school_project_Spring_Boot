@@ -1,17 +1,19 @@
 package j2ee_project.controller.profile;
 
-import j2ee_project.repository.user.CustomerDAO;
-import j2ee_project.repository.profile.LoyaltyDAO;
+import j2ee_project.Application;
 import j2ee_project.model.loyalty.LoyaltyAccount;
 import j2ee_project.model.loyalty.LoyaltyLevel;
 import j2ee_project.model.user.Customer;
+import j2ee_project.service.loyalty.LoyaltyAccountService;
+import j2ee_project.service.loyalty.LoyaltyLevelService;
+import j2ee_project.service.user.CustomerService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.hibernate.Session;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,6 +23,18 @@ import java.util.List;
  */
 @WebServlet("/loyalty-redeem")
 public class LoyaltyRedeemController extends HttpServlet {
+
+    private static LoyaltyLevelService loyaltyLevelService;
+    private static CustomerService customerService;
+    private static LoyaltyAccountService loyaltyAccountService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        loyaltyLevelService = context.getBean(LoyaltyLevelService.class);
+        customerService = context.getBean(CustomerService.class);
+        loyaltyAccountService = context.getBean(LoyaltyAccountService.class);
+    }
 
     /**
      * get the loyalty account of the customer as well as loyalty levels
@@ -41,15 +55,15 @@ public class LoyaltyRedeemController extends HttpServlet {
             }
         }
 
-        Customer customer = CustomerDAO.getCustomer(customerId);
+        Customer customer = customerService.getCustomer(customerId);
         List<LoyaltyLevel> loyaltyLevels = null;
         LoyaltyAccount loyaltyAccount = customer.getLoyaltyAccount();
 
         if (loyaltyAccount != null){
-            loyaltyLevels = LoyaltyDAO.getLoyaltyLevels();
+            loyaltyLevels = loyaltyLevelService.getLoyaltyLevels();
         }
         try {
-                loyaltyLevels = LoyaltyDAO.getLoyaltyLevels();
+                loyaltyLevels = loyaltyLevelService.getLoyaltyLevels();
 
                 request.setAttribute("customer", customer);
                 request.setAttribute("loyaltyAccount", loyaltyAccount);
@@ -92,7 +106,7 @@ public class LoyaltyRedeemController extends HttpServlet {
         }
 
         try{
-            LoyaltyDAO.createLevelUsed(loyaltyAccountId,loyaltyLevelId);
+            loyaltyAccountService.createLevelUsed(loyaltyAccountId,loyaltyLevelId);
             doGet(request,response);
         }catch (Exception err) {
             // The forward didn't work

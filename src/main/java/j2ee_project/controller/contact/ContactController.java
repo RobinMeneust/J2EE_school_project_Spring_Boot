@@ -1,13 +1,15 @@
 package j2ee_project.controller.contact;
 
-import j2ee_project.repository.MailDAO;
+import j2ee_project.Application;
 import j2ee_project.dto.ContactDTO;
 import j2ee_project.model.Mail;
 import j2ee_project.service.DTOService;
 import j2ee_project.service.MailManager;
+import j2ee_project.service.mail.MailService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -21,6 +23,14 @@ import java.util.Map;
  */
 @WebServlet(name = "ContactController", value = "/contact-controller")
 public class ContactController extends HttpServlet {
+
+    private static MailService mailService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        mailService = context.getBean(MailService.class);
+    }
 
     /**
      * Send a contact mail to our mailbox and register the mail in the database Different errors can be sent to the sender in the request object if a problem occur
@@ -88,7 +98,7 @@ public class ContactController extends HttpServlet {
                 mail.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
             }
 
-            MailDAO.addMail(mail);
+            mailService.addMail(mail);
             mailManager.send(mail);
         }
         catch(Exception ignore) {}

@@ -1,13 +1,15 @@
 package j2ee_project.controller.profile;
 
-import j2ee_project.repository.user.CustomerDAO;
+import j2ee_project.Application;
 import j2ee_project.model.user.Customer;
+import j2ee_project.service.user.CustomerService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -16,6 +18,14 @@ import java.io.IOException;
  */
 @WebServlet("/order-history")
 public class OrdersHistoryController extends HttpServlet {
+
+    private static CustomerService customerService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        customerService = context.getBean(CustomerService.class);
+    }
 
     /**
      * Get the orders' history page
@@ -36,7 +46,7 @@ public class OrdersHistoryController extends HttpServlet {
         }
 
         try{
-            Customer customer = CustomerDAO.getCustomer(customerId);
+            Customer customer = customerService.getCustomer(customerId);
             request.setAttribute("customer", customer);
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/profile.jsp?active-tab=3&has-loyalty-account=1");
             view.forward(request,response);

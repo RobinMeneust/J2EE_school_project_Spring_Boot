@@ -1,7 +1,5 @@
 package j2ee_project.controller.order;
 
-import j2ee_project.repository.catalog.product.ProductDAO;
-import j2ee_project.model.catalog.Product;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

@@ -1,11 +1,14 @@
 package j2ee_project.controller.catalog.product;
 
+import j2ee_project.Application;
 import j2ee_project.model.catalog.Category;
 import j2ee_project.model.catalog.Product;
 import j2ee_project.service.catalog.category.CategoryService;
+import j2ee_project.service.catalog.product.ProductService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -14,6 +17,17 @@ import java.io.IOException;
  */
 @WebServlet("/add-product")
 public class AddProductController extends HttpServlet {
+
+    private static CategoryService categoryService;
+    private static ProductService productService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        categoryService = context.getBean(CategoryService.class);
+        productService = context.getBean(ProductService.class);
+    }
+
     /**
      * Get the page to add a product
      * @param request Request object received by the servlet
@@ -24,7 +38,7 @@ public class AddProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("categories", CategoryService.getCategories());
+            request.setAttribute("categories", categoryService.getCategories());
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/dashboard/add/addProduct.jsp");
             view.forward(request,response);
         }catch (Exception err){
@@ -55,10 +69,10 @@ public class AddProductController extends HttpServlet {
         }
 
         int categoryId = Integer.parseInt(request.getParameter("category"));
-        Category category = CategoryDAO.getCategory(categoryId);
+        Category category = categoryService.getCategory(categoryId);
         product.setCategory(category);
 
-        ProductDAO.addProduct(product);
+        productService.addProduct(product);
 
         try {
             response.sendRedirect("dashboard?tab=products");

@@ -5,12 +5,13 @@ import com.stripe.Stripe;
 
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
-import j2ee_project.repository.order.OrdersDAO;
+import j2ee_project.Application;
 import j2ee_project.model.order.Orders;
 import j2ee_project.model.user.Customer;
 import j2ee_project.model.user.User;
 import j2ee_project.service.AuthService;
 import j2ee_project.service.OrdersManager;
+import j2ee_project.service.order.OrdersService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +34,17 @@ import java.io.PrintWriter;
 
 @WebServlet("/create-payment-intent")
 public class CreatePaymentIntentController extends HttpServlet {
+
+    private static OrdersService ordersService;
+    private static AuthService authService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        ordersService = context.getBean(OrdersService.class);
+        authService = context.getBean(AuthService.class);
+    }
+
     /**
      * Gson reader
      */
@@ -88,8 +101,8 @@ public class CreatePaymentIntentController extends HttpServlet {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
 
-            String orderId = request.getParameter("order-id");
-            Orders order = OrdersDAO.getOrder(orderId);
+            int orderId = Integer.parseInt(request.getParameter("order-id"));
+            Orders order = ordersService.getOrder(orderId);
 
             if(order == null) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No order is associated to this ID");
@@ -99,7 +112,7 @@ public class CreatePaymentIntentController extends HttpServlet {
             Object obj = session.getAttribute("user");
             Customer customer = null;
             if(obj instanceof User) {
-                customer = AuthService.getCustomer((User) obj);
+                customer = authService.getCustomer((User) obj);
             }
 
             String error = OrdersManager.checkOrder(order, customer);

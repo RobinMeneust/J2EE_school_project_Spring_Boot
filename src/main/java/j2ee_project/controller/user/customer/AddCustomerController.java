@@ -1,11 +1,13 @@
 package j2ee_project.controller.user.customer;
 
-import j2ee_project.repository.user.CustomerDAO;
+import j2ee_project.Application;
 import j2ee_project.model.Address;
 import j2ee_project.model.user.Customer;
+import j2ee_project.service.user.CustomerService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -14,6 +16,15 @@ import java.io.IOException;
  */
 @WebServlet("/add-customer")
 public class AddCustomerController extends HttpServlet {
+
+    private static CustomerService customerService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        customerService = context.getBean(CustomerService.class);
+    }
+
     /**
      * Get the page to add a customer
      * @param request Request object received by the servlet
@@ -57,7 +68,7 @@ public class AddCustomerController extends HttpServlet {
         customer.setEmail(request.getParameter("email"));
         customer.setPhoneNumber((request.getParameter("phone-number").isEmpty()) ? null : request.getParameter("phone-number"));
 
-        CustomerDAO.addCustomer(customer);
+        customerService.addCustomer(customer);
 
         try {
             response.sendRedirect("dashboard?tab=customers");

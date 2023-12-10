@@ -1,19 +1,12 @@
 package j2ee_project.controller.order;
 
-import j2ee_project.repository.catalog.product.ProductDAO;
-import j2ee_project.repository.discount.DiscountDAO;
-import j2ee_project.repository.loyalty.LoyaltyLevelDAO;
-import j2ee_project.repository.order.CartDAO;
-import j2ee_project.repository.user.CustomerDAO;
+import j2ee_project.Application;
 import j2ee_project.model.Discount;
-import j2ee_project.model.catalog.Product;
 import j2ee_project.model.loyalty.LoyaltyAccount;
-import j2ee_project.model.loyalty.LoyaltyLevel;
-import j2ee_project.model.loyalty.LoyaltyProgram;
 import j2ee_project.model.order.Cart;
-import j2ee_project.model.order.CartItem;
 import j2ee_project.model.user.Customer;
-import j2ee_project.service.CartManager;
+import j2ee_project.service.discount.DiscountService;
+import j2ee_project.service.order.CartService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,11 +15,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.springframework.context.ApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -36,6 +28,18 @@ import java.util.Set;
  */
 @WebServlet("/cart/loyalty-level-discount")
 public class AddLoyaltyLevelDiscountToCart extends HttpServlet {
+
+    private static DiscountService discountService;
+    private static CartService cartService;
+
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        discountService = context.getBean(DiscountService.class);
+        cartService = context.getBean(CartService.class);
+    }
+
     /**
      * Add a loyalty level discount to the cart
      * @param request Request object received by the servlet
@@ -54,7 +58,7 @@ public class AddLoyaltyLevelDiscountToCart extends HttpServlet {
             id = paramsObject.getInt("id");
         } catch (Exception ignore) {}
 
-        Discount discount = DiscountDAO.getDiscount(id);
+        Discount discount = discountService.getDiscount(id);
 
         HttpSession session = request.getSession();
 
@@ -93,7 +97,7 @@ public class AddLoyaltyLevelDiscountToCart extends HttpServlet {
             }
         }
 
-        Cart cart = CartDAO.getCartFromCustomerId(customer.getId());
+        Cart cart = cartService.getCartFromCustomerId(customer.getId());
 
         if(cart == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You don't have a cart");
@@ -101,10 +105,10 @@ public class AddLoyaltyLevelDiscountToCart extends HttpServlet {
             return;
         }
 
-        CartDAO.setDiscount(cart.getId(), discount);
+        cartService.setDiscount(cart.getId(), discount);
 
         // Refresh the user's cart
-        customer.setCart(CartDAO.getCartFromCustomerId(customer.getId()));
+        customer.setCart(cartService.getCartFromCustomerId(customer.getId()));
         session.setAttribute("user", customer);
 
         response.setStatus(HttpServletResponse.SC_OK);

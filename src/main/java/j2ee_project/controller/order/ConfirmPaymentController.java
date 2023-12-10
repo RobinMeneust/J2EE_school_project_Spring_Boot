@@ -1,14 +1,15 @@
 package j2ee_project.controller.order;
 
-import j2ee_project.repository.MailDAO;
-import j2ee_project.repository.loyalty.LoyaltyAccountDAO;
-import j2ee_project.repository.order.OrdersDAO;
+import j2ee_project.Application;
 import j2ee_project.model.Discount;
 import j2ee_project.model.Mail;
 import j2ee_project.model.order.OrderStatus;
 import j2ee_project.model.order.Orders;
 import j2ee_project.model.user.Customer;
 import j2ee_project.service.MailManager;
+import j2ee_project.service.loyalty.LoyaltyAccountService;
+import j2ee_project.service.mail.MailService;
+import j2ee_project.service.order.OrdersService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -29,6 +31,19 @@ import java.util.Calendar;
 @WebServlet("/confirm-payment")
 public class ConfirmPaymentController extends HttpServlet
 {
+
+    private static OrdersService ordersService;
+    private static LoyaltyAccountService loyaltyAccountService;
+    private static MailService mailService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        ordersService = context.getBean(OrdersService.class);
+        loyaltyAccountService = context.getBean(LoyaltyAccountService.class);
+        mailService = context.getBean(MailService.class);
+    }
+
     /**
      * Confirm the payment and send a receipt via email if it's successful. Either redirect to the cart (discount expired) or to the order receipt. We also update the Order status.
      * @param request Request object received by the servlet
@@ -48,8 +63,8 @@ public class ConfirmPaymentController extends HttpServlet
 
         Customer customer = (Customer) obj;
 
-        String orderId = request.getParameter("order-id");
-        Orders order = OrdersDAO.getOrder(orderId);
+        int orderId = Integer.parseInt(request.getParameter("order-id"));
+        Orders order = ordersService.getOrder(orderId);
 
         if(order == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No order is associated to this ID");
@@ -63,7 +78,7 @@ public class ConfirmPaymentController extends HttpServlet
             if (discount != null) {
                 if(discount.hasExpired()) {
                     System.err.println("Error: The discount has expired. This order is invalid");
-                    OrdersDAO.setStatus(order, OrderStatus.CANCELLED); //The customer will be refunded.
+                    ordersService.setStatus(order, OrderStatus.CANCELLED); //The customer will be refunded.
                     order.setOrderStatus(OrderStatus.CANCELLED);
                     request.setAttribute("order",order);
                     dispatch("cart?tab=confirmation",request, response);
@@ -71,10 +86,10 @@ public class ConfirmPaymentController extends HttpServlet
                 }
                 if (customer.getLoyaltyAccount() != null && customer.getLoyaltyAccount().getAvailableDiscounts() != null && customer.getLoyaltyAccount().getAvailableDiscounts().contains(discount)) {
                     // Use the discount (remove it from the user discounts list)
-                    LoyaltyAccountDAO.removeDiscount(customer.getLoyaltyAccount(), discount);
+                    loyaltyAccountService.removeDiscount(customer.getLoyaltyAccount(), discount);
                 }
             }
-            OrdersDAO.setStatus(order, OrderStatus.PREPARING);
+            ordersService.setStatus(order, OrderStatus.PREPARING);
             order.setOrderStatus(OrderStatus.PREPARING);
             request.setAttribute("order",order);
 
@@ -119,7 +134,7 @@ public class ConfirmPaymentController extends HttpServlet
             mail.setSubject("Receipt of the order n°"+order.getId());
             mail.setBody("Hello,\nYou will find your receipt below:\n\n"+order);
             mail.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
-            MailDAO.addMail(mail);
+            mailService.addMail(mail);
             mailManager.send(mail);
         }
         catch(Exception ignore) {}

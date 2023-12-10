@@ -1,12 +1,16 @@
 package j2ee_project.controller.catalog.product;
 
-import j2ee_project.repository.catalog.product.ProductDAO;
+import j2ee_project.Application;
+import j2ee_project.service.catalog.category.CategoryService;
+import j2ee_project.service.catalog.product.ProductService;
+import j2ee_project.service.discount.DiscountService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -18,6 +22,15 @@ import java.io.IOException;
 @WebServlet("/browse-products")
 public class BrowseProductsController extends HttpServlet
 {
+
+    private static ProductService productService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        productService = context.getBean(ProductService.class);
+    }
+
     /**
      * Get a page to browse the list of products. Manages pagination and search filters
      * @param request Request object received by the servlet
@@ -38,12 +51,12 @@ public class BrowseProductsController extends HttpServlet
 
         String name = request.getParameter("name");
         String category = request.getParameter("category");
-        String minPrice = request.getParameter("min-price");
-        String maxPrice = request.getParameter("max-price");
+        float minPrice = Float.parseFloat(request.getParameter("min-price"));
+        float maxPrice = Float.parseFloat(request.getParameter("max-price"));
 
         request.setAttribute("page", page);
-        request.setAttribute("products", ProductDAO.getProducts(15*(page-1),15, name, category, minPrice, maxPrice));
-        long totalPages = ((ProductDAO.getSize(name, category, minPrice, maxPrice)-1) / 15) + 1;
+        request.setAttribute("products", productService.getProducts(name, category, minPrice, maxPrice, 15*(page-1),15));
+        long totalPages = ((productService.getSize(name, category, minPrice, maxPrice)-1) / 15) + 1;
         request.setAttribute("totalPages", totalPages);
 
 

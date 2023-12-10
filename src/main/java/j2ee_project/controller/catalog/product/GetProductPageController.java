@@ -1,13 +1,15 @@
 package j2ee_project.controller.catalog.product;
 
-import j2ee_project.repository.catalog.product.ProductDAO;
+import j2ee_project.Application;
 import j2ee_project.model.catalog.Product;
+import j2ee_project.service.catalog.product.ProductService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -19,6 +21,15 @@ import java.io.IOException;
 @WebServlet("/get-product-page")
 public class GetProductPageController extends HttpServlet
 {
+
+    private static ProductService productService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        productService = context.getBean(ProductService.class);
+    }
+
     /**
      * Get a page giving information a product by giving its ID
      * @param request Request object received by the servlet
@@ -43,7 +54,7 @@ public class GetProductPageController extends HttpServlet
         }
 
         try {
-            Product product = ProductDAO.getProduct(productId);
+            Product product = productService.getProduct(productId);
             request.setAttribute("product", product);
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/product.jsp");
             view.forward(request, response);

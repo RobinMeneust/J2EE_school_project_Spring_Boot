@@ -1,10 +1,11 @@
 package j2ee_project.controller.user.customer;
 
-import j2ee_project.repository.user.CustomerDAO;
-import j2ee_project.model.user.Customer;
+import j2ee_project.Application;
+import j2ee_project.service.user.CustomerService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -13,6 +14,15 @@ import java.io.IOException;
  */
 @WebServlet("/delete-customer")
 public class DeleteCustomerController extends HttpServlet {
+
+    private static CustomerService customerService;
+
+    @Override
+    public void init() {
+        ApplicationContext context = Application.getContext();
+        customerService = context.getBean(CustomerService.class);
+    }
+
     /**
      * Remove the customer whose id is given in the param "id"
      * @param request Request object received by the servlet
@@ -34,7 +44,7 @@ public class DeleteCustomerController extends HttpServlet {
         if(customerId<=0) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Customer ID must be positive");
         }
-        CustomerDAO.deleteCustomer(customerId);
+        customerService.deleteCustomer(customerId);
         try {
             response.sendRedirect("dashboard?tab=customers");
         }catch (Exception err){
