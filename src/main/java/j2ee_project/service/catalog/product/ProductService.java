@@ -72,7 +72,7 @@ public class ProductService {
 
     private Specification<Product> likeCategory(String category) {
         return (root, query, criteriaBuilder) ->
-                category != null ? criteriaBuilder.like(criteriaBuilder.lower(root.get("category")), "%" + category.toLowerCase() + "%") : null;
+                category != null ? criteriaBuilder.like(criteriaBuilder.lower(root.get("category").get("name")), "%" + category.toLowerCase() + "%") : null;
     }
 
     private Specification<Product> betweenPrice(Float minPrice, Float maxPrice) {

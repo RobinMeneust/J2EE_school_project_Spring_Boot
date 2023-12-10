@@ -51,8 +51,8 @@ public class BrowseProductsController extends HttpServlet
 
         String name = request.getParameter("name");
         String category = request.getParameter("category");
-        float minPrice = Float.parseFloat(request.getParameter("min-price"));
-        float maxPrice = Float.parseFloat(request.getParameter("max-price"));
+        Float minPrice = request.getParameter("min-price") != null ? Float.parseFloat(request.getParameter("min-price")) : null;
+        Float maxPrice = request.getParameter("max-price") != null ? Float.parseFloat(request.getParameter("max-price")) : null;
 
         request.setAttribute("page", page);
         request.setAttribute("products", productService.getProducts(name, category, minPrice, maxPrice, 15*(page-1),15));
