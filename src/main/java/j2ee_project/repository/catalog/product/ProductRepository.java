@@ -16,9 +16,37 @@ import java.util.List;
  */
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    /**
+     * Find products in the database according to its specifications
+     *
+     * @param productSpec the specifications
+     * @param pageable information to know how page the result
+     * @return a list of found products
+     */
     List<Product> findAll(Specification<Product> productSpec, Pageable pageable);
+
+    /**
+     * Count products in the database according to its specifications
+     *
+     * @param productSpec the specifications
+     * @return the number of corresponding products
+     */
     int count(Specification<Product> productSpec);
+
+    /**
+     * Find a product according to its id
+     *
+     * @param id the id
+     * @return the found product
+     */
     Product findProductById(int id);
+
+    /**
+     * Delete a product according to its id
+     *
+     * @param id the id
+     */
     void deleteProductById(int id);
 
 }

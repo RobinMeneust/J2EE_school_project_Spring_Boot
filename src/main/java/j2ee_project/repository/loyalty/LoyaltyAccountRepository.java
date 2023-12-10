@@ -11,5 +11,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface LoyaltyAccountRepository extends JpaRepository<LoyaltyAccount, Long> {
+    /**
+     * Find a loyalty account in the database according to its id
+     *
+     * @param id the id
+     * @return the found loyalty account
+     */
     LoyaltyAccount findLoyaltyAccountById(int id);
 }

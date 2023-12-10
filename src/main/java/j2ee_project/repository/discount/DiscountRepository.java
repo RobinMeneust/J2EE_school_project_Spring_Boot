@@ -11,6 +11,19 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DiscountRepository extends JpaRepository<Discount,Long> {
-    public Discount findDiscountById(int discountId);
-    public void deleteDiscountById(int discountId);
+
+    /**
+     * Find a discount in the database according to its id
+     *
+     * @param discountId the id
+     * @return the found discount
+     */
+    Discount findDiscountById(int discountId);
+
+    /**
+     * Delete a discount in the database according to its id
+     *
+     * @param discountId the id
+     */
+    void deleteDiscountById(int discountId);
 }

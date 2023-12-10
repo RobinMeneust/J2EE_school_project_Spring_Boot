@@ -11,5 +11,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface LoyaltyLevelRepository extends JpaRepository<LoyaltyLevel, Long> {
+
+    /**
+     * Find a loyalty level in the database according to its id
+     *
+     * @param id the id
+     * @return the found loyalty level
+     */
     LoyaltyLevel findLoyaltyLevelById(int id);
 }

@@ -12,6 +12,19 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+    /**
+     * Search a category in the database according to its id
+     *
+     * @param id the id
+     * @return the found category
+     */
     Category findCategoryById(int id);
+
+    /**
+     * Delete a category in the database according to its id
+     *
+     * @param id the id
+     */
     void deleteCategoryById(int id);
 }

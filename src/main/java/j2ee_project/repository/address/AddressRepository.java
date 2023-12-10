@@ -11,5 +11,15 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AddressRepository extends JpaRepository<Address,Long> {
+
+    /**
+     * Search an address in the database with according to characteristic
+     *
+     * @param streetAddress the street address
+     * @param postalCode the postal code
+     * @param city the city
+     * @param country the country
+     * @return the found address
+     */
     Address findAddressByStreetAddressAndPostalCodeAndCityAndCountry(String streetAddress, String postalCode, String city, String country);
 }

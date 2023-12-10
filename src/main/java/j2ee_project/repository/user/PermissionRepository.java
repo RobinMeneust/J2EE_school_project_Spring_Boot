@@ -12,5 +12,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission,Long> {
+    /**
+     * Search a permission in the database according to a permission type
+     *
+     * @param permissionType the permission type
+     * @return the found permission
+     */
     Permission getPermissionByPermission(TypePermission permissionType);
 }

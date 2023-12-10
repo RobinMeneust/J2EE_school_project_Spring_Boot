@@ -10,11 +10,27 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
+    /**
+     * Search customer in the database according to its id
+     *
+     * @param id the id
+     * @return the found customer
+     */
     Customer findCustomerById(int id);
+
+    /**
+     * Remove customer in the database according to its id
+     *
+     * @param id the id
+     */
     void removeCustomerById(int id);
 
+    /**
+     * Count customer in the database according to its address
+     *
+     * @param address_id the address id
+     * @return the number of found customers
+     */
     int countCustomerByAddress_Id(int address_id);
-
-
 
 }

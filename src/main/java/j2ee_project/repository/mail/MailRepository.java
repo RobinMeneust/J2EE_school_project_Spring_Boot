@@ -11,5 +11,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface MailRepository extends JpaRepository<Mail,Long> {
+    /**
+     * Delete a mail in the database according to its id
+     *
+     * @param id the id
+     */
     void removeMailById(int id);
 }

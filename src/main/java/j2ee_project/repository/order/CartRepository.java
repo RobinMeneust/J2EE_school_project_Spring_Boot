@@ -17,10 +17,27 @@ import java.util.Set;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
+    /**
+     * Search a cart in the database according to the customer
+     *
+     * @param customer_id the customer id
+     * @return the found cart
+     */
     Cart getCartByCustomerId(int customer_id);
 
+    /**
+     * Search a cart in the database according to its id
+     *
+     * @param id the id
+     * @return the found cart
+     */
     Cart getCartById(int id);
 
+    /**
+     * Remove a cart in the database according to its id
+     *
+     * @param id the id
+     */
     void removeCartById(int id);
 }
 
