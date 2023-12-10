@@ -20,7 +20,7 @@
             $('#discounts-table').DataTable();
         });
     </script>
-    <link rel="stylesheet" href="/content/css/dashboard/dashboard.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard/dashboard.css">
     <script>
         function confirmDelete(type, id) {
             let confirmation = confirm("Are you sure you want to delete this one?");
@@ -144,7 +144,7 @@
                             </c:if>
                         </div>
                     </c:if>
-                    <c:if test="${user.isAllowed(cf:getPermission(TypePermission.CAN_MANAGE_DISCOUNT)) || user.isAllowed(cf:getPermission(TypePermission.CAN_MANAGE_LOYALTY))}">
+                    <c:if test="${user.isAllowed(cf:getPermission(TypePermission.CAN_MANAGE_DISCOUNT))}">
                         <div class="mt-5">
                             <span class="field-title">Offers</span>
                             <hr>
@@ -167,31 +167,6 @@
                                                 Discounts
                                             </span>
                                             <span class="material-symbols-outlined" id="span-chevron-discounts">
-                                                chevron_right
-                                            </span>
-                                        </span>
-                                    </button>
-                                </span>
-                            </c:if>
-                            <c:if test="${user.isAllowed(cf:getPermission(TypePermission.CAN_MANAGE_LOYALTY))}">
-                                <span class="d-flex justify-content-between flex-row">
-                                    <button onclick="changeURLParameter('loyalty-program')"
-                                        class="nav-link
-                                        <c:if test="${tab=='loyalty-program'}">
-                                            <c:out value="active"/>
-                                        </c:if>"
-                                        id="pills-loyalty-program-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-loyalty-program"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-loyalty-program"
-                                        aria-selected="false">
-                                        <span class="d-flex justify-content-between flex-row">
-                                            <span>
-                                                Loyalty Program
-                                            </span>
-                                            <span class="material-symbols-outlined" id="span-chevron-loyalty-program">
                                                 chevron_right
                                             </span>
                                         </span>
@@ -243,7 +218,7 @@
                                         <td class="text-center"><c:out value = "${customer.email}"/></td>
                                         <td class="text-center"><c:out value = "${customer.phoneNumber}"/></td>
                                         <td class="text-center col-1">
-                                            <a href="">
+                                            <a href="edit-customer?id=<c:out value = '${customer.id}'/>">
                                                 <button class="btn rounded"><span class="material-symbols-outlined">edit</span></button>
                                             </a>
                                         </td>
@@ -302,7 +277,7 @@
                                     <td class="text-center"><c:out value = "${moderator.email}"/></td>
                                     <td class="text-center"><c:out value = "${moderator.phoneNumber}"/></td>
                                     <td class="text-center col-1">
-                                        <a href="">
+                                        <a href="edit-moderator?id=${moderator.id}">
                                             <button class="btn rounded"><span class="material-symbols-outlined">edit</span></button>
                                         </a>
                                     </td>
@@ -350,7 +325,7 @@
                                         <td>
                                             <img style="width: 78px; height: 50px; object-fit: contain;"
                                                  alt="product_img"
-                                                 src="<c:out value="product/image?id=${product.getId()}" />"
+                                                 src="<c:out value="product/image?id=${product.id}" />"
                                                  class="card-img-top">
                                         </td>
                                         <td class="text-center"><c:out value="${product.name}"/></td>
@@ -360,7 +335,7 @@
                                         <td class="text-center"><c:out value="${product.weight}"/></td>
                                         <td class="text-center"><c:out value="${product.category.name}"/></td>
                                         <td class="text-center col-1">
-                                            <a href="">
+                                            <a href="edit-product?id=${product.id}">
                                                 <button class="btn rounded"><span class="material-symbols-outlined">edit</span></button>
                                             </a>
                                         </td>
@@ -409,7 +384,7 @@
                                         </c:if>
                                     </td>
                                     <td class="text-center col-1">
-                                        <a href="">
+                                        <a href="edit-category?id=${category.id}">
                                             <button class="btn rounded"><span class="material-symbols-outlined">edit</span></button>
                                         </a>
                                     </td>
@@ -456,7 +431,7 @@
                                     <td class="text-center"><c:out value = "${discount.endDate}"/></td>
                                     <td class="text-center"><c:out value = "${discount.discountPercentage}"/></td>
                                     <td class="text-center col-1">
-                                        <a href="">
+                                        <a href="edit-discount?id=${discount.id}">
                                             <button class="btn rounded"><span class="material-symbols-outlined">edit</span></button>
                                         </a>
                                     </td>
@@ -469,18 +444,6 @@
                             </c:forEach>
                             </tbody>
                         </table>
-                    </div>
-                </c:if>
-                <c:if test="${user.isAllowed(cf:getPermission(TypePermission.CAN_MANAGE_LOYALTY))}">
-                    <div class="tab-pane fade
-                                    <c:if test="${tab=='loyalty-program'}">
-                                        <c:out value="show"/>
-                                        <c:out value="active"/>
-                                    </c:if>"
-                         id="pills-loyalty-program"
-                         role="tabpanel"
-                         aria-labelledby="pills-loyalty-program-tab">
-                        <span>test</span>
                     </div>
                 </c:if>
             </div>
