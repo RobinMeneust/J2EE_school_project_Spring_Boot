@@ -16,18 +16,39 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    /**
+     * Get the list of all the categories
+     *
+     * @return List of categories
+     */
     public List<Category> getCategories() {
         return categoryRepository.findAll();
     }
 
+    /**
+     * Get category from its id
+     *
+     * @param categoryId the category id
+     * @return the category
+     */
     public Category getCategory(int categoryId) {
         return categoryRepository.findCategoryById(categoryId);
     }
 
+    /**
+     * Delete category.
+     *
+     * @param categoryId the category id
+     */
     public void deleteCategory(int categoryId) {
         categoryRepository.deleteCategoryById(categoryId);
     }
 
+    /**
+     * Add category.
+     *
+     * @param category the category
+     */
     public void addCategory(Category category) {
         categoryRepository.save(category);
     }

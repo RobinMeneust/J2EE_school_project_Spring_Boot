@@ -16,10 +16,21 @@ public class LoyaltyLevelService {
         this.loyaltyLevelRepository = loyaltyLevelRepository;
     }
 
+    /**
+     * Get loyalty level by id
+     *
+     * @param id the id of the loyalty level fetched
+     * @return the loyalty level fetched
+     */
     public LoyaltyLevel getLoyaltyLevel(int id) {
         return loyaltyLevelRepository.findLoyaltyLevelById(id);
     }
 
+    /**
+     * Get all loyalty levels
+     *
+     * @return the list of loyalty level
+     */
     public List<LoyaltyLevel> getLoyaltyLevels() {
         return loyaltyLevelRepository.findAll();
     }

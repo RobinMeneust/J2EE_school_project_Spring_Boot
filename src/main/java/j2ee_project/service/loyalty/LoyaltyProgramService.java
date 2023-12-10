@@ -14,6 +14,11 @@ public class LoyaltyProgramService {
         this.loyaltyProgramRepository = loyaltyProgramRepository;
     }
 
+    /**
+     * Get the loyalty program
+     *
+     * @return the loyalty program
+     */
     public LoyaltyProgram getLoyaltyProgram() {
         return loyaltyProgramRepository.findLoyaltyProgramById(1);
     }

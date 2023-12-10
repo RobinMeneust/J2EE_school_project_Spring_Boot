@@ -275,6 +275,14 @@ public class AuthService {
         return null;
     }
 
+    /**
+     * Change password process
+     *
+     * @param password the password
+     * @param confirmPassword the confirmation password
+     * @param token the token
+     * @return error message if it needs
+     */
     public Map<String, String> changePassword(String password, String confirmPassword, String token){
 
         ForgottenPassword forgottenPassword = forgottenPasswordService.getForgottenPasswordFromToken(token);

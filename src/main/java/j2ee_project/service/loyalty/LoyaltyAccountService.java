@@ -24,6 +24,12 @@ public class LoyaltyAccountService {
         this.loyaltyLevelRepository = loyaltyLevelRepository;
     }
 
+    /**
+     * Remove the given discount from the given loyalty account
+     *
+     * @param loyaltyAccount the loyalty account from which the discount is deleted
+     * @param discount       the discount deleted
+     */
     public void removeDiscount(LoyaltyAccount loyaltyAccount, Discount discount) {
         LoyaltyAccount loyaltyAccountDBObj = loyaltyAccountRepository.findLoyaltyAccountById(loyaltyAccount.getId());
         if(loyaltyAccountDBObj != null) {
@@ -33,10 +39,22 @@ public class LoyaltyAccountService {
         }
     }
 
+    /**
+     * Get loyalty account from its id
+     *
+     * @param loyaltyAccountId the loyalty account id
+     * @return the loyalty account
+     */
     public LoyaltyAccount getLoyaltyAccount(int loyaltyAccountId) {
         return loyaltyAccountRepository.findLoyaltyAccountById(loyaltyAccountId);
     }
 
+    /**
+     * Define a loyally level used for a loyalty account
+     *
+     * @param idLoyaltyAccount the loyalty account id
+     * @param idLoyaltyLevel the loyalty level id
+     */
     public void createLevelUsed(int idLoyaltyAccount, int idLoyaltyLevel) {
         LoyaltyAccount loyaltyAccount = loyaltyAccountRepository.findLoyaltyAccountById(idLoyaltyAccount);
         LoyaltyLevel loyaltyLevel = loyaltyLevelRepository.findLoyaltyLevelById(idLoyaltyLevel);

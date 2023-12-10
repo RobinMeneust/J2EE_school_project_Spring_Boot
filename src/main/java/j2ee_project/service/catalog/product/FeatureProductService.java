@@ -18,6 +18,11 @@ public class FeatureProductService {
         this.featuredProductRepository = featuredProductRepository;
     }
 
+    /**
+     * Get the list of all the featured products
+     *
+     * @return List of featured products
+     */
     public List<FeaturedProduct> getFeaturedProducts() {
         return featuredProductRepository.findAll();
     }

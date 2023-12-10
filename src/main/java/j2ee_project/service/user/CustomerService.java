@@ -29,6 +29,11 @@ public class CustomerService {
         this.addressRepository = addressRepository;
     }
 
+    /**
+     * Get the list of all customers
+     *
+     * @return the list of customers
+     */
     @Transactional
     public List<Customer> getCustomers(){
         return this.customerRepository.findAll();
