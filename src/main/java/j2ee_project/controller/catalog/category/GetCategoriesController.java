@@ -16,11 +16,15 @@ import java.io.IOException;
 public class GetCategoriesController extends HttpServlet {
     private static CategoryService categoryService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
         categoryService = context.getBean(CategoryService.class);
     }
+
     /**
      * Get the categories list
      * @param request Request object received by the servlet

@@ -22,12 +22,16 @@ public class AddCategoryController extends HttpServlet {
     private static CategoryService categoryService;
     private static DiscountService discountService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
         categoryService = context.getBean(CategoryService.class);
         discountService = context.getBean(DiscountService.class);
     }
+
     /**
      * Get the page to add a category
      * @param request Request object received by the servlet
@@ -54,7 +58,6 @@ public class AddCategoryController extends HttpServlet {
      * @throws ServletException If the request for the GET could not be handled
      * @throws IOException If an input or output error is detected when the servlet handles the GET request
      */
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Category category = new Category();

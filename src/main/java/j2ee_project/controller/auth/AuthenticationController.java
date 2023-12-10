@@ -2,12 +2,14 @@ package j2ee_project.controller.auth;
 
 import j2ee_project.dto.CustomerDTO;
 import j2ee_project.service.AuthService;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.util.Map;
 
@@ -17,18 +19,32 @@ public class AuthenticationController {
     @Autowired
     private AuthService authService;
 
+    /**
+     * Get a page to register on the website
+     * @return the page to go
+     */
     @GetMapping(value = "/register")
     public ModelAndView getRegisterPage()
     {
         return new ModelAndView("register");
     }
 
+    /**
+     * Get a page to login on the website
+     * @return the page to go
+     */
     @GetMapping(value = "/login")
     public ModelAndView getLoginPage()
     {
         return new ModelAndView("login");
     }
 
+    /**
+     * Log out the current user.
+     *
+     * @param request Request object received by the servlet
+     * @return the page to go
+     */
     @GetMapping(value = "/logout")
     public ModelAndView logOutUser(HttpServletRequest request)
     {
@@ -37,6 +53,11 @@ public class AuthenticationController {
         return new ModelAndView("index");
     }
 
+    /**
+     * Register a customer with the parameters given in the request object. Different errors can be sent to the sender in the request object if a problem occur
+     * @param request Request object received by the servlet
+     * @return the page to go
+     */
     @PostMapping(value = "/register")
     public ModelAndView registerCustomer(@ModelAttribute CustomerDTO customerDTO, HttpServletRequest request)
     {
@@ -51,6 +72,11 @@ public class AuthenticationController {
         return modelAndView;
     }
 
+    /**
+     * Log in a user with the parameters given in the request object. Different errors can be sent to the sender in the request object if a problem occur
+     * @param request Request object received by the servlet
+     * @return the page to go
+     */
     @PostMapping(value = "/login")
     public ModelAndView login(@RequestParam String email, @RequestParam String password, HttpServletRequest request)
     {

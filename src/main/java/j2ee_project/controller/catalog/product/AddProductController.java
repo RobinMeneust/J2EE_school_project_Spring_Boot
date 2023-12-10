@@ -21,6 +21,9 @@ public class AddProductController extends HttpServlet {
     private static CategoryService categoryService;
     private static ProductService productService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
@@ -54,7 +57,6 @@ public class AddProductController extends HttpServlet {
      * @throws ServletException If the request for the GET could not be handled
      * @throws IOException If an input or output error is detected when the servlet handles the GET request
      */
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Product product = new Product();

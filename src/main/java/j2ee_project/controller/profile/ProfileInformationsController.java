@@ -29,6 +29,9 @@ public class ProfileInformationsController extends HttpServlet {
     private static CustomerService customerService;
     private static UserService userService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

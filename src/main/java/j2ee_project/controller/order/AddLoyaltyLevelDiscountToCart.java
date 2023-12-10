@@ -32,7 +32,9 @@ public class AddLoyaltyLevelDiscountToCart extends HttpServlet {
     private static DiscountService discountService;
     private static CartService cartService;
 
-
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

@@ -24,6 +24,9 @@ public class AddModeratorController extends HttpServlet {
     private static ModeratorService moderatorService;
     private static PermissionService permissionService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

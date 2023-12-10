@@ -26,11 +26,15 @@ public class GetPayPageController extends HttpServlet
 {
     private static OrdersService ordersService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
         ordersService = context.getBean(OrdersService.class);
     }
+
     /**
      * Get the page to pay for an order
      * @param request Request object received by the servlet

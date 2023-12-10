@@ -16,11 +16,15 @@ import java.io.IOException;
 public class DeleteCategoryController extends HttpServlet {
     private static CategoryService categoryService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
         categoryService = context.getBean(CategoryService.class);
     }
+
     /**
      * Remove the category whose id is given in the param "id"
      * @param request Request object received by the servlet
@@ -28,7 +32,6 @@ public class DeleteCategoryController extends HttpServlet {
      * @throws ServletException If the request for the GET could not be handled
      * @throws IOException If an input or output error is detected when the servlet handles the GET request
      */
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String categoryIdStr = request.getParameter("id");

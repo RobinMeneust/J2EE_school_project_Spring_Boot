@@ -6,6 +6,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomePageController {
+
+    /**
+     * Get the first page (root) of the website
+     * @return the page to go
+     */
     @GetMapping(value = "/")
     public ModelAndView firstView()
     {

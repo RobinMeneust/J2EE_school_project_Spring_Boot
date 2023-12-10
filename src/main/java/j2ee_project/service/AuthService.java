@@ -61,7 +61,7 @@ public class AuthService {
      * @param email the email
      * @param password the password
      * @param request the request object
-     * @return Error if it needs
+     * @return error message if it needs
      */
     public String loginProcess(String email, String password, HttpServletRequest request){
         try {
@@ -116,7 +116,7 @@ public class AuthService {
      *
      * @param customerDTO the customerDto of the customer to register
      * @param request the request object
-     * @return Error if it needs
+     * @return error message if it needs
      */
     public Map<String, String> newCustomerProcess(CustomerDTO customerDTO, HttpServletRequest request){
         Map<String, String> inputErrors = DTOService.userDataValidation(customerDTO);
@@ -173,6 +173,11 @@ public class AuthService {
         return customer;
     }
 
+    /**
+     * Send the registering confirmation email
+     *
+     * @param email the destination email
+     */
     private void sendConfirmationMail(String email){
         Mail mail = new Mail();
         MailManager mailManager = MailManager.getInstance();
@@ -195,9 +200,14 @@ public class AuthService {
         catch(Exception ignore) {}
     }
 
+    /**
+     * Start the forgotten password process
+     *
+     * @param email the destination email
+     * @param request Request object received by the servlet
+     * @return error message if it needs
+     */
     public String startForgottenPasswordProcess(String email, HttpServletRequest request){
-
-        Map<String, String> errorMessages = new HashMap<>();
 
         if(!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")){
             return "Email is not valid.";
@@ -221,6 +231,12 @@ public class AuthService {
         return null;
     }
 
+    /**
+     * Send the email to start the recovery password process
+     *
+     * @param email the destination email
+     * @param link the link in the message
+     */
     private void sendForgottenPasswordEmail(String email, String link){
         Mail mail = new Mail();
         MailManager mailManager = MailManager.getInstance();
@@ -243,6 +259,12 @@ public class AuthService {
         catch(Exception ignore) {}
     }
 
+    /**
+     * Verify the token
+     *
+     * @param token the token
+     * @return error message if it needs
+     */
     public String  changePasswordPageVerifications(String token){
         ForgottenPassword forgottenPassword = forgottenPasswordService.getForgottenPasswordFromToken(token);
 

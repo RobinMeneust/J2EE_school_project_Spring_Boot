@@ -19,6 +19,9 @@ public class AddDiscountController extends HttpServlet {
 
     private static DiscountService discountService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

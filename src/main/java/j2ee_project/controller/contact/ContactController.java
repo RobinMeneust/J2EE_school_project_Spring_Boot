@@ -26,6 +26,9 @@ public class ContactController extends HttpServlet {
 
     private static MailService mailService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

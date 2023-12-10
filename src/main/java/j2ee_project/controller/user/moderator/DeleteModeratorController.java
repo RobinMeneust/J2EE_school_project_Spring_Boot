@@ -16,11 +16,15 @@ import java.io.IOException;
 public class DeleteModeratorController extends HttpServlet {
     private static ModeratorService moderatorService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
         moderatorService = context.getBean(ModeratorService.class);
     }
+
     /**
      * Remove the moderator whose id is given in the param "id"
      * @param request Request object received by the servlet

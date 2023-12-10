@@ -38,6 +38,9 @@ public class CreatePaymentIntentController extends HttpServlet {
     private static OrdersService ordersService;
     private static AuthService authService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

@@ -40,6 +40,9 @@ public class ConfirmCartController extends HttpServlet {
     private static AddressService addressService;
     private static OrdersService ordersService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

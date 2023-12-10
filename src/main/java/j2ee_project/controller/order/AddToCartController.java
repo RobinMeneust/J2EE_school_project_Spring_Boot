@@ -33,6 +33,9 @@ public class AddToCartController extends HttpServlet {
     private static CartService cartService;
     private static ProductService productService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

@@ -32,6 +32,9 @@ public class EditCartItemQuantityController extends HttpServlet {
     private static CartService cartService;
     private static CartItemService cartItemService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

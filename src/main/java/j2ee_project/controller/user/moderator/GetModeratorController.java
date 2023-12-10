@@ -18,11 +18,15 @@ import java.util.List;
 public class GetModeratorController extends HttpServlet {
     private static ModeratorService moderatorService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
         moderatorService = context.getBean(ModeratorService.class);
     }
+
     /**
      * Get the moderators list
      * @param request Request object received by the servlet

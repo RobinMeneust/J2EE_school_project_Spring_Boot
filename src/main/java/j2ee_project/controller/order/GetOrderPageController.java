@@ -25,11 +25,15 @@ public class GetOrderPageController extends HttpServlet
 {
     private static OrdersService ordersService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
         ordersService = context.getBean(OrdersService.class);
     }
+
     /**
      * Get a page with information about the order whose ID is given in the param "order-id"
      * The current logged-in user must be the one who created this order

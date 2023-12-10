@@ -28,6 +28,9 @@ public class RemoveCartController extends HttpServlet {
     private static CartService cartService;
     private static CustomerService customerService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

@@ -19,6 +19,9 @@ public class AddCustomerController extends HttpServlet {
 
     private static CustomerService customerService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();

@@ -28,6 +28,9 @@ public class ProductImageController extends HttpServlet {
     private static ProductService productService;
     private static PermissionService permissionService;
 
+    /**
+     * Initialize the services used by the class
+     */
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
