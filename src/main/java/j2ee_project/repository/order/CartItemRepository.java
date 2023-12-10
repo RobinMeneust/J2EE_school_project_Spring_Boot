@@ -5,6 +5,9 @@ import j2ee_project.model.order.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.security.Signature;
+import java.util.List;
+
 
 /**
  * The interface Cart repository to interacts with the Cart table in the DB
@@ -33,5 +36,13 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
      * @param id the id
      */
     void removeCartItemsById(int id);
+
+    /**
+     * Search all cart items in the database with the product id
+     *
+     * @param product_Id the product id
+     * @return the found categories list
+     */
+    List<CartItem> findCartItemsByProductId(int product_Id);
 }
 

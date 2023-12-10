@@ -30,6 +30,15 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findByEmail(String email);
 
     /**
+     * Search user in the database according to its email or its phone number
+     *
+     * @param email the email
+     * @param phoneNumber the phone number
+     * @return the found user
+     */
+    User findByEmailAndPhoneNumber(String email, String phoneNumber);
+
+    /**
      * Search user in the database according to its id
      *
      * @param id the id

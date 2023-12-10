@@ -82,19 +82,19 @@ public class CustomerService {
         try {
             customerToBeEdited = this.customerRepository.findCustomerById(customer.getId());
 
-            if (!customer.getFirstName().isEmpty()){
+            if (customer.getFirstName() != null && !customer.getFirstName().isEmpty()){
                 customerToBeEdited.setFirstName(customer.getFirstName());
             }
-            if (!customer.getLastName().isEmpty()){
+            if (customer.getLastName() != null && !customer.getLastName().isEmpty()){
                 customerToBeEdited.setLastName(customer.getLastName());
             }
             if (customer.getPassword()!=null){
                 customerToBeEdited.setPassword(customer.getPassword());
             }
-            if (!customer.getEmail().isEmpty()){
+            if (customer.getEmail() != null && !customer.getEmail().isEmpty()){
                 customerToBeEdited.setEmail(customer.getEmail());
             }
-            if (!customer.getPhoneNumber().isEmpty()){
+            if (customer.getPhoneNumber() != null && !customer.getPhoneNumber().isEmpty()){
                 customerToBeEdited.setPhoneNumber(customer.getPhoneNumber());
             }
 

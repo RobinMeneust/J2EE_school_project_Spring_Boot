@@ -1,7 +1,11 @@
 package j2ee_project.service.discount;
 
+import j2ee_project.model.catalog.Category;
+import j2ee_project.repository.catalog.category.CategoryRepository;
 import j2ee_project.repository.discount.DiscountRepository;
 import j2ee_project.model.Discount;
+import j2ee_project.service.catalog.category.CategoryService;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,9 +15,11 @@ import java.util.List;
 @Transactional
 public class DiscountService {
     private final DiscountRepository discountRepository;
+    private final CategoryRepository categoryRepository;
 
-    public DiscountService(DiscountRepository discountRepository) {
+    public DiscountService(DiscountRepository discountRepository, CategoryRepository categoryRepository) {
         this.discountRepository = discountRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     /**
@@ -41,7 +47,13 @@ public class DiscountService {
      * @param discountId the discount id
      */
     public void deleteDiscount(int discountId) {
-        discountRepository.deleteById(discountId);
+
+        List<Category> categoriesWithDiscount = categoryRepository.findCategoriesByDiscountId(discountId);
+        for (Category category: categoriesWithDiscount) {
+            category.setDiscount(null);
+            categoryRepository.save(category);
+        }
+        discountRepository.deleteById((long) discountId);
     }
 
     /**

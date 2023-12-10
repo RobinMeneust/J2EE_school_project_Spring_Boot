@@ -104,11 +104,7 @@ public class EditProductController extends HttpServlet {
         Product product = productService.getProduct(productId);
 
         int categoryId = Integer.parseInt(request.getParameter("category"));
-        Optional<Category> categoryOptional = categoryService.getCategory(categoryId);
-        Category category = null;
-        if (categoryOptional.isPresent()){
-            category = categoryOptional.get();
-        }
+        Category category= categoryService.getCategory(categoryId);
 
         String imagePath = request.getParameter("imagePath");
 

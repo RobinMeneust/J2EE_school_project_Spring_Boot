@@ -60,11 +60,7 @@ public class EditCategoryController extends HttpServlet {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Category ID must be positive");
                 }
 
-                Optional<Category> categoryOptional = categoryService.getCategory(categoryId);
-                Category category = null;
-                if (categoryOptional.isPresent()) {
-                    category = categoryOptional.get();
-                }
+                Category category = categoryService.getCategory(categoryId);
                 request.setAttribute("category", category);
                 request.setAttribute("discounts", discountService.getDiscounts());
                 RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/dashboard/edit/editCategory.jsp");
@@ -101,7 +97,7 @@ public class EditCategoryController extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Category ID must be positive");
         }
 
-        Optional<Category> categoryOptional = categoryService.getCategory(categoryId);
+        Category category = categoryService.getCategory(categoryId);
         
         
 
@@ -127,10 +123,7 @@ public class EditCategoryController extends HttpServlet {
 
             if (inputErrors.isEmpty()) {
                 try {
-                    if (categoryOptional.isPresent()) {
-                        Category category = getCategory(categoryOptional, categoryDTO);
-                        categoryService.updateCategory(category);
-                    }
+                    categoryService.updateCategory(category);
                     response.sendRedirect("dashboard?tab=categories");
                 } catch (Exception exception) {
                     System.err.println(exception.getMessage());

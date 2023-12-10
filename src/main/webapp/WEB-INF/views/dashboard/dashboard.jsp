@@ -380,7 +380,7 @@
                                     <td class="td-description"><c:out value = "${category.description}"/></td>
                                     <td class="text-center">
                                         <c:if test="${category.discount!=null}">
-                                            <c:out value = "${category.discount.name}"/>
+                                            <c:out value = "${category.discount.name} : ${category.discount.discountPercentage}%"/>
                                         </c:if>
                                     </td>
                                     <td class="text-center col-1">
@@ -389,9 +389,11 @@
                                         </a>
                                     </td>
                                     <td class="text-center col-1">
-                                        <button onclick="confirmDelete('category', ${category.id})" class="btn rounded">
-                                            <span class="material-symbols-outlined">delete</span>
-                                        </button>
+                                        <c:if test="${category.name != 'default category'}">
+                                            <button onclick="confirmDelete('category', ${category.id})" class="btn rounded">
+                                                <span class="material-symbols-outlined">delete</span>
+                                            </button>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>

@@ -124,7 +124,7 @@ public class AuthService {
         if(!inputErrors.isEmpty()){
             return inputErrors;
         }
-        if (userService.emailOrPhoneNumberIsInDb(customerDTO.getEmail(), customerDTO.getPhoneNumber())) {
+        if (userService.emailOrPhoneNumberIsInDb(null, customerDTO.getEmail(), customerDTO.getPhoneNumber())) {
             inputErrors.put("emailOrPhoneNumberInDbError", "Email or phone number already used");
             return inputErrors;
         }

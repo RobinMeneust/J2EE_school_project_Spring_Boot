@@ -28,16 +28,6 @@
 <c:set var="product" value="${requestScope.product}"/>
 <div class="d-flex flex-column align-items-center div-form">
     <h2>Edit Product</h2>
-    <div>
-        <img style="width: 156px; height: 100px; object-fit: contain;"
-              alt="product_img"
-              src="<c:out value="product/image?id=${product.id}"/>"
-             class="card-img-top">
-        <form id="updateImage" action="product/image?id=${product.id}" method="post" enctype="multipart/form-data">
-            <label class="custom-file-label btn btn-primary" for="file">Upload new image</label>
-            <input class="custom-file-input" type="file" id="file" name="file" accept="image/*" onchange="updateProductImage(this)">
-        </form>
-    </div>
     <form class="d-flex align-items-center flex-column flex-wrap" id="edit-product-form" name="edit-product-form" action="edit-product?id=${product.id}" method="post">
         <div class="row mb-3 input-group" id="div-main-informations">
             <div class="col">

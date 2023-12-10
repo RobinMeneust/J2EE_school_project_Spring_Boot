@@ -51,8 +51,14 @@ public class UserService {
      * @return the boolean indicating the presence of the email
      */
     @Transactional
-    public boolean emailOrPhoneNumberIsInDb(String email, String phoneNumber){
+    public boolean emailOrPhoneNumberIsInDb(Integer userId, String email, String phoneNumber){
         Integer count = userRepository.countByEmailOrPhoneNumber(email,phoneNumber);
+        if (userId != null){
+            User user = userRepository.findById(userId);
+            if (count != null && (user.getEmail().equals(email) || user.getPhoneNumber().equals(phoneNumber))){
+                count--;
+            }
+        }
         return count != null && count > 0;
     }
 

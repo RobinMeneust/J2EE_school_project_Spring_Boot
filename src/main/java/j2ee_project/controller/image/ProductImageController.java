@@ -153,7 +153,7 @@ public class ProductImageController extends HttpServlet {
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
             request.setAttribute("UploadProcessError", "You did not specify a file to upload or the file could not be uploaded");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("../edit-product?id="+productId);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("../dashboard?");
             dispatcher.forward(request, response);
         } finally {
             if (out != null) {

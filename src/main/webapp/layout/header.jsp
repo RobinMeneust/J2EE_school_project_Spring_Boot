@@ -78,7 +78,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item mx-2" title="Logout">
-                                    <a href="logout-controller" class="nav-link">
+                                    <a href="logout" class="nav-link">
                                         <span class="material-symbols-outlined">logout</span>
                                         Log out
                                     </a>

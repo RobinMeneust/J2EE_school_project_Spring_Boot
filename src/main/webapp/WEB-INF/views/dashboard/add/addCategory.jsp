@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -25,7 +26,9 @@
                         <option value=""></option>
                         <c:set var="discounts" value="${requestScope.discounts}"/>
                         <c:forEach var="discount" items="${discounts}">
-                            <option id="${discount.name}" name="${discount.name}" value="${discount.id}">${discount.name}</option>
+                            <c:if test="${not fn:contains(discount.name, 'Loyalty') || fn:contains(discount.name, 'loyalty')}">
+                                <option id="${discount.name}" name="${discount.name}" value="${discount.id}">${discount.name} : ${discount.discountPercentage}%</option>
+                            </c:if>
                         </c:forEach>
                     </select>
                 </div>

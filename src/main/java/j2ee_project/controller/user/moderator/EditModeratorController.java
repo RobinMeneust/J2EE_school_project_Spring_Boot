@@ -134,7 +134,7 @@ public class EditModeratorController extends HttpServlet {
                 RequestDispatcher dispatcher = null;
 
                 if (inputErrors.isEmpty()) {
-                    if (!userService.emailOrPhoneNumberIsInDb(moderatorDTO.getEmail(), moderatorDTO.getPhoneNumber())) {
+                    if (!userService.emailOrPhoneNumberIsInDb(moderatorId, moderatorDTO.getEmail(), moderatorDTO.getPhoneNumber())) {
                         try {
 
                             if (moderatorDTO.getFirstName()!= null && !moderatorDTO.getFirstName().isEmpty()){

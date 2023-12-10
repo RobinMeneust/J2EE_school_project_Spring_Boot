@@ -75,47 +75,45 @@ public class AddProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int categoryId = Integer.parseInt(request.getParameter("category"));
-        Optional<Category> optionalCategory = categoryService.getCategory(categoryId);
-        if (optionalCategory.isPresent()) {
-            Category category = optionalCategory.get();
+        Category category = categoryService.getCategory(categoryId);
 
-            String weightStr = request.getParameter("weight");
-            Float weight = null;
-            if (weightStr != null && !weightStr.isEmpty()) {
-                weight = Float.valueOf(weightStr);
-            }
+        String weightStr = request.getParameter("weight");
+        Float weight = null;
+        if (weightStr != null && !weightStr.isEmpty()) {
+            weight = Float.valueOf(weightStr);
+        }
 
-            ProductDTO productDTO = new ProductDTO(
-                    request.getParameter("name"),
-                    Integer.parseInt(request.getParameter("stockQuantity")),
-                    Float.parseFloat(request.getParameter("unitPrice")),
-                    request.getParameter("description"),
-                    weight,
-                    category
-            );
+        ProductDTO productDTO = new ProductDTO(
+                request.getParameter("name"),
+                Integer.parseInt(request.getParameter("stockQuantity")),
+                Float.parseFloat(request.getParameter("unitPrice")),
+                request.getParameter("description"),
+                weight,
+                category
+        );
 
-            Map<String, String> inputErrors = DTOService.productDataValidation(productDTO);
+        Map<String, String> inputErrors = DTOService.productDataValidation(productDTO);
 
-            String errorDestination = "WEB-INF/views/dashboard/add/addProduct.jsp";
-            RequestDispatcher dispatcher = null;
+        String errorDestination = "WEB-INF/views/dashboard/add/addProduct.jsp";
+        RequestDispatcher dispatcher = null;
 
-            if (inputErrors.isEmpty()) {
-                try {
-                    productService.addProduct(new Product(productDTO));
-                    response.sendRedirect("dashboard?tab=products");
-                } catch (Exception exception) {
-                    System.err.println(exception.getMessage());
-                    request.setAttribute("RegisterProcessError", "Error during register process");
-                    dispatcher = request.getRequestDispatcher(errorDestination);
-                    dispatcher.include(request, response);
-                }
-            } else {
-                request.setAttribute("InputError", inputErrors);
+        if (inputErrors.isEmpty()) {
+            try {
+                productService.addProduct(new Product(productDTO));
+                response.sendRedirect("dashboard?tab=products");
+            } catch (Exception exception) {
+                System.err.println(exception.getMessage());
+                request.setAttribute("RegisterProcessError", "Error during register process");
                 dispatcher = request.getRequestDispatcher(errorDestination);
                 dispatcher.include(request, response);
             }
-
-            if (dispatcher != null) doGet(request, response);
+        } else {
+            request.setAttribute("InputError", inputErrors);
+            dispatcher = request.getRequestDispatcher(errorDestination);
+            dispatcher.include(request, response);
         }
+
+        if (dispatcher != null) doGet(request, response);
+
     }
 }

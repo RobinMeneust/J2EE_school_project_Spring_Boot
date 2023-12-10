@@ -130,7 +130,7 @@ public class EditCustomerController extends HttpServlet {
                 RequestDispatcher dispatcher = null;
 
                 if (inputErrors.isEmpty()) {
-                    if (!userService.emailOrPhoneNumberIsInDb(customerDTO.getEmail(), customerDTO.getPhoneNumber()) || true) {
+                    if (!userService.emailOrPhoneNumberIsInDb(customerId, customerDTO.getEmail(), customerDTO.getPhoneNumber())) {
                         try {
 
                             if (customerDTO.getFirstName()!= null && !customerDTO.getFirstName().isEmpty()){
@@ -152,7 +152,7 @@ public class EditCustomerController extends HttpServlet {
                                 customer.setPhoneNumber(customerDTO.getPhoneNumber());
                             }
 
-                            userService.updateUser(customer);
+                            customerService.modifyCustomer(customer);
                             response.sendRedirect("dashboard?tab=customers");
                         } catch (Exception exception) {
                             System.err.println(exception.getMessage());

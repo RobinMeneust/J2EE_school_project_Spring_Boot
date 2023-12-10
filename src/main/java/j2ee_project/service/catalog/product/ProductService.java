@@ -1,7 +1,10 @@
 package j2ee_project.service.catalog.product;
 
+import j2ee_project.model.order.CartItem;
 import j2ee_project.repository.catalog.product.ProductRepository;
 import j2ee_project.model.catalog.Product;
+import j2ee_project.repository.order.CartItemRepository;
+import j2ee_project.service.order.CartItemService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,9 +19,13 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CartItemRepository cartItemRepository;
+    private final CartItemService cartItemService;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CartItemRepository cartItemRepository, CartItemService cartItemService) {
         this.productRepository = productRepository;
+        this.cartItemRepository = cartItemRepository;
+        this.cartItemService = cartItemService;
     }
 
     /**
@@ -65,7 +72,12 @@ public class ProductService {
      * @param productId the product id
      */
     public void deleteProduct(int productId){
-        productRepository.deleteById(productId);
+        List<CartItem> cartItemsWithProductId = cartItemRepository.findCartItemsByProductId(productId);
+        for (CartItem cartItem: cartItemsWithProductId) {
+            cartItemService.editItemQuantity(cartItem.getCart().getCustomer(), cartItem.getId(), 0);
+        }
+
+        productRepository.deleteById((long) productId);
     }
 
     /**
@@ -126,7 +138,14 @@ public class ProductService {
                                 maxPrice != null ? criteriaBuilder.lessThanOrEqualTo(root.get("unitPrice"), maxPrice) : null;
     }
 
+    /**
+     * Update a category in the database.
+     *
+     * @param product the category
+     */
     public void updateProduct(Product product) {
         productRepository.save(product);
     }
+
+
 }

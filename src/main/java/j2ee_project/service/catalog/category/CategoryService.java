@@ -1,21 +1,25 @@
 package j2ee_project.service.catalog.category;
 
+import j2ee_project.model.catalog.Product;
 import j2ee_project.repository.catalog.category.CategoryRepository;
 import j2ee_project.model.catalog.Category;
+import j2ee_project.repository.catalog.product.ProductRepository;
+import j2ee_project.service.catalog.product.ProductService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository,  ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
     }
 
     /**
@@ -43,7 +47,14 @@ public class CategoryService {
      * @param categoryId the category id
      */
     public void deleteCategory(int categoryId) {
-        categoryRepository.deleteById(categoryId);
+
+        List<Product> productsWithDiscount = productRepository.findProductsByCategoryId(categoryId);
+        for (Product product: productsWithDiscount) {
+            product.setCategory(categoryRepository.findCategoryById(1));
+            productRepository.save(product);
+        }
+
+        categoryRepository.deleteById((long) categoryId);
     }
 
     /**
@@ -55,8 +66,14 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
+    /**
+     * Update a category in the database.
+     *
+     * @param category the category
+     */
     public void updateCategory(Category category) {
         categoryRepository.save(category);
     }
+
 }
 

@@ -1,5 +1,6 @@
 package j2ee_project.repository.catalog.product;
 
+import j2ee_project.model.catalog.Category;
 import j2ee_project.model.catalog.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -41,6 +42,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @return the found product
      */
     Product findProductById(int id);
+
+    /**
+     * Search all products in the database with the category id
+     *
+     * @param category_id the category id
+     * @return the found categories list
+     */
+    List<Product> findProductsByCategoryId(int category_id);
 
     /**
      * Delete a product according to its id

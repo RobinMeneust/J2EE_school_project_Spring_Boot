@@ -96,7 +96,7 @@ public class AddCustomerController extends HttpServlet {
         RequestDispatcher dispatcher = null;
 
         if(inputErrors.isEmpty()){
-            if (!userService.emailOrPhoneNumberIsInDb(customerDTO.getEmail(), customerDTO.getPhoneNumber())){
+            if (!userService.emailOrPhoneNumberIsInDb(null, customerDTO.getEmail(), customerDTO.getPhoneNumber())){
                 try {
                     authService.registerCustomer(customerDTO);
                     response.sendRedirect("dashboard?tab=customers");
