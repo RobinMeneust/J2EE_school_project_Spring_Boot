@@ -83,7 +83,7 @@ public class CustomerService {
             if (!customer.getLastName().isEmpty()){
                 customerToBeEdited.setLastName(customer.getLastName());
             }
-            if (!customer.getPassword().isEmpty()){
+            if (customer.getPassword()!=null){
                 customerToBeEdited.setPassword(customer.getPassword());
             }
             if (!customer.getEmail().isEmpty()){
@@ -94,19 +94,22 @@ public class CustomerService {
             }
 
             Address oldAddress = customerToBeEdited.getAddress();
-            Address newAddress = oldAddress;
+            Address newAddress;
             boolean isDetached = false;
 
-            long nbAddressRefsInCustomer = this.customerRepository.countCustomerByAddress_Id(oldAddress.getId());
-            long nbAddressRefsInOrders = this.ordersRepository.countOrdersByAddress_Id(oldAddress.getId());
+            if (oldAddress!=null){
+                newAddress = oldAddress;
+                int nbCustomerWithSameAddress = this.customerRepository.countCustomerByAddress_Id(oldAddress.getId());
 
-            // Check if any referencing entities exist
-            if (nbAddressRefsInCustomer+nbAddressRefsInOrders > 1) {
-                // Refs exist so we create a new Address entry
-                entityManager.detach(newAddress);
-                newAddress.setId(0); // Reset the ID to add a new Address with a new auto-generated ID
-                isDetached = true;
+                if (nbCustomerWithSameAddress>1){
+                    entityManager.detach(newAddress);
+                    newAddress.setId(0); // Reset the ID to add a new Address with a new auto-generated ID
+                    isDetached = true;
+                }
+            }else {
+                newAddress = new Address();
             }
+
 
             if (!customer.getAddress().getStreetAddress().isEmpty()){
                 newAddress.setStreetAddress(customer.getAddress().getStreetAddress());

@@ -15,6 +15,7 @@
         <%@ page import="j2ee_project.service.AuthService" %>
         <%@ page import="j2ee_project.model.user.User" %>
         <%@ page import="java.util.TreeSet" %>
+        <%@ page import="java.util.stream.Stream" %>
         <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -81,12 +82,24 @@
 
 <%
     Customer customer = (Customer) request.getAttribute("customer");
-    if(customer == null) {
-        response.sendRedirect("login");
-    }
-    LoyaltyAccount loyaltyAccount = customer.getLoyaltyAccount();
-    List<LoyaltyLevel> loyaltyLevels = (List<LoyaltyLevel>) request.getAttribute("loyaltyLevels");
-    String activeTab = request.getParameter("active-tab");
+    User user = (User) request.getAttribute("user");
+    LoyaltyAccount loyaltyAccount;
+    List<LoyaltyLevel> loyaltyLevels;
+    Stream<LoyaltyLevel> loyaltyLevelStream;
+    Set<LoyaltyLevel> loyaltyLevelsSet;
+    int isNotCustomer = 0;
+    if (customer == null){
+        isNotCustomer = 1;
+        loyaltyAccount = null;
+        loyaltyLevelsSet = null;
+        loyaltyLevelStream = null;
+        loyaltyLevels = null;
+    }else {
+        loyaltyAccount = customer.getLoyaltyAccount();
+        loyaltyLevelsSet = customer.getLoyaltyAccount().getLoyaltyProgram().getLoyaltyLevels();
+        loyaltyLevelStream = loyaltyLevelsSet.stream().sorted();
+        loyaltyLevels = loyaltyLevelStream.toList();
+    }    String activeTab = request.getParameter("active-tab");
     Address address;
     String customerFirstName = null;
     String customerLastName = null;
@@ -111,7 +124,13 @@
             customerCity = address.getCity();
         }
         orders = new TreeSet<>(customer.getOrders());
+    }else if (request.getAttribute("user") !=null) {
+        customerFirstName = user.getFirstName();
+        customerLastName = user.getLastName();
+        customerPhoneNumber = user.getPhoneNumber();
+        customerEmail = user.getEmail();
     }%>
+<c:set var="isNotCustomer" value="<%=isNotCustomer%>"/>
 <c:set var="orders" value="<%=orders%>"/>
 <c:set var="customer" value="<%=customer%>"/>
 <c:set var="loyaltyLevels" value="<%=loyaltyLevels%>"/>
@@ -125,8 +144,8 @@
             <nav>
                 <div class="nav nav-tabs flex-column" id="nav-tab" role="tablist">
                     <button class="nav-link <c:if test="${activeTab == 1}">active</c:if>" id="nav-profile-informations-tab" data-bs-toggle="tab" data-bs-target="#nav-profile-informations" type="submit" role="tab" aria-controls="nav-profile-informations" aria-selected="true"><a href="profile-informations?customerId=${customer.id}">Profile informations</a></button>
-                        <button class="nav-link <c:if test="${activeTab == 2}">active</c:if>" id="nav-loyalty-account-tab" data-bs-toggle="tab" data-bs-target="#nav-loyalty-account" type="submit" role="tab" aria-controls="nav-loyalty-account" aria-selected="false"><a href="loyalty-redeem?customerId=${customer.id}&loyaltyAccountId=${customer.loyaltyAccount.id}">Loyalty account</a></button>
-                        <button class="nav-link <c:if test="${activeTab == 3}">active</c:if>" id="nav-order-history-tab" data-bs-toggle="tab" data-bs-target="#nav-order-history" type="submit" role="tab" aria-controls="nav-order-history" aria-selected="false"><a href="order-history?id=${customer.id}">Order history</a></button>
+                    <c:if test="${customer != null}">    <button class="nav-link <c:if test="${activeTab == 2}">active</c:if>" id="nav-loyalty-account-tab" data-bs-toggle="tab" data-bs-target="#nav-loyalty-account" type="submit" role="tab" aria-controls="nav-loyalty-account" aria-selected="false"><a href="loyalty-redeem?customerId=${customer.id}&loyaltyAccountId=${customer.loyaltyAccount.id}">Loyalty account</a></button>
+                    <button class="nav-link <c:if test="${activeTab == 3}">active</c:if>" id="nav-order-history-tab" data-bs-toggle="tab" data-bs-target="#nav-order-history" type="submit" role="tab" aria-controls="nav-order-history" aria-selected="false"><a href="order-history?id=${customer.id}">Order history</a></button></c:if>
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
@@ -170,7 +189,7 @@
                             <input type="text" class="form-control" id="userCountry" name="userCountry" value="<%=customerCountry%>">
                         </div>
                         <p></p>
-                        <button type="submit" class="btn btn-primary">Update profile</button>
+                        <c:if test="${isNotCustomer == 0}"><button type="submit" class="btn btn-primary">Update profile</button> </c:if>
                     </form>
                 </div>
                 <div class="tab-pane fade <c:if test="${activeTab == 2}">show active</c:if>" id="nav-loyalty-account" role="tabpanel" aria-labelledby="nav-loyalty-account-tab"> <h2>Loyalty account</h2>

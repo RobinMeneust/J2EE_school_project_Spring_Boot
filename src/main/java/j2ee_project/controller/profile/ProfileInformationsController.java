@@ -3,14 +3,17 @@ package j2ee_project.controller.profile;
 import j2ee_project.Application;
 import j2ee_project.model.Address;
 import j2ee_project.model.user.Customer;
+import j2ee_project.model.user.User;
 import j2ee_project.service.HashService;
 import j2ee_project.service.user.CustomerService;
+import j2ee_project.service.user.UserService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
@@ -24,11 +27,13 @@ import java.security.spec.InvalidKeySpecException;
 public class ProfileInformationsController extends HttpServlet {
 
     private static CustomerService customerService;
+    private static UserService userService;
 
     @Override
     public void init() {
         ApplicationContext context = Application.getContext();
         customerService = context.getBean(CustomerService.class);
+        userService = context.getBean(UserService.class);
     }
 
     /**
@@ -41,6 +46,12 @@ public class ProfileInformationsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String customerIdStr = request.getParameter("customerId");
+        HttpSession session = request.getSession();
+        Object obj = session.getAttribute("user");
+        if(!(obj instanceof User)) {
+            response.sendRedirect("login");
+            return;
+        }
         int customerId = 1;
         if(customerIdStr != null && !customerIdStr.trim().isEmpty()) {
             try {
@@ -49,6 +60,10 @@ public class ProfileInformationsController extends HttpServlet {
         }
 
         try {
+            if (!(obj instanceof Customer)) {
+                User user = userService.getUser(((User) obj).getId());
+                request.setAttribute("user", user);
+            }
             Customer customer = customerService.getCustomer(customerId);
             request.setAttribute("customer", customer);
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/profile.jsp?active-tab=1&has-loyalty-account=1");
@@ -89,7 +104,7 @@ public class ProfileInformationsController extends HttpServlet {
         Customer customer = new Customer();
 
         customer.setId(userId);
-        if(request.getParameter("userPassword")!=null){
+        if(!request.getParameter("userPassword").isBlank()){
             String passwordNotHashed = request.getParameter("userPassword");
             String hashedPassword;
             try {
