@@ -26,6 +26,12 @@ public class Administrator extends Moderator{
         super();
     }
 
+    /**
+     * Administrator is allowed regardless the permission
+     *
+     * @param permission the permission tested
+     * @return True if he has the permission and false otherwise
+     */
     @Override
     public boolean isAllowed(Permission permission) {
         return true;

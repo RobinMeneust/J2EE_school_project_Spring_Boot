@@ -190,6 +190,11 @@ public class LoyaltyAccount {
     }
 
 
+    /**
+     * Add points loyalty points
+     *
+     * @param nbPointsAdded points to add
+     */
     public void addLoyaltyPoints(int nbPointsAdded) {
         if(nbPointsAdded>0) setLoyaltyPoints(getLoyaltyPoints()+nbPointsAdded);
     }
