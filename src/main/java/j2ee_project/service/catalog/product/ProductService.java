@@ -78,8 +78,8 @@ public class ProductService {
     private Specification<Product> betweenPrice(Float minPrice, Float maxPrice) {
         return (root, query, criteriaBuilder) ->
                 (minPrice != null && maxPrice != null) ?
-                        criteriaBuilder.between(root.get("price"), minPrice, maxPrice) :
-                        minPrice != null ? criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice)  :
-                                maxPrice != null ? criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice) : null;
+                        criteriaBuilder.between(root.get("unitPrice"), minPrice, maxPrice) :
+                        minPrice != null ? criteriaBuilder.greaterThanOrEqualTo(root.get("unitPrice"), minPrice)  :
+                                maxPrice != null ? criteriaBuilder.lessThanOrEqualTo(root.get("unitPrice"), maxPrice) : null;
     }
 }
