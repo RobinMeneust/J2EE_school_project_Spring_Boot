@@ -20,7 +20,7 @@
             $('#discounts-table').DataTable();
         });
     </script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard/dashboard.css">
+    <link rel="stylesheet" href="/content/css/dashboard/dashboard.css">
     <script>
         function confirmDelete(type, id) {
             let confirmation = confirm("Are you sure you want to delete this one?");

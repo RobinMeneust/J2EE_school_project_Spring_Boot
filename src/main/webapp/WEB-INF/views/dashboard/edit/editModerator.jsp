@@ -6,7 +6,7 @@
 <head>
     <title>Dashboard</title>
     <jsp:include page="../../../../include.jsp" />
-    <script src="${pageContext.request.contextPath}/dependencies/jquery/jquery.validate.min.js"></script>
+    <script src="/content/dependencies/jquery/jquery.validate.min.js"></script>
 </head>
 <body>
 <jsp:include page="../../../../layout/header.jsp" />

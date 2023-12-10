@@ -38,9 +38,9 @@
 <!--        <function-class>j2ee_project.dao.order.OrdersDAO</function-class>-->
 <!--        <function-signature>j2ee_project.model.order.Orders getOrder(java.lang.String)</function-signature>-->
 <!--    </function>-->
-<!--    <function>-->
-<!--        <name>getPermission</name>-->
-<!--        <function-class>j2ee_project.dao.user.PermissionDAO</function-class>-->
-<!--        <function-signature>j2ee_project.model.user.Permission getPermission(j2ee_project.model.user.TypePermission)</function-signature>-->
-<!--    </function>-->
+    <function>
+        <name>getPermission</name>
+        <function-class>j2ee_project.staticServices.PermissionHelper</function-class>
+        <function-signature>j2ee_project.model.user.Permission getPermission(j2ee_project.model.user.TypePermission)</function-signature>
+    </function>
 </taglib>

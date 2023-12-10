@@ -65,7 +65,7 @@ public class DashboardController extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/dashboard/dashboard.jsp");
                 view.forward(request,response);
             } else {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("");
             }
         }catch (Exception err){
             System.err.println(err.getMessage());
