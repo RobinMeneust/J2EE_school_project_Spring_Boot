@@ -73,11 +73,9 @@ public class ProductService {
      */
     public void deleteProduct(int productId){
         List<CartItem> cartItemsWithProductId = cartItemRepository.findCartItemsByProductId(productId);
-        for (CartItem cartItem: cartItemsWithProductId) {
-            cartItemService.editItemQuantity(cartItem.getCart().getCustomer(), cartItem.getId(), 0);
+        if (cartItemsWithProductId.isEmpty()) {
+            productRepository.deleteById((long) productId);
         }
-
-        productRepository.deleteById((long) productId);
     }
 
     /**
