@@ -282,9 +282,11 @@
                                         </a>
                                     </td>
                                     <td class="text-center col-1">
-                                        <button onclick="confirmDelete('moderator', ${moderator.id})" class="btn rounded">
-                                            <span class="material-symbols-outlined">delete</span>
-                                        </button>
+                                        <c:if test="${moderator.firstName != 'root' && moderator.firstName != user.firstName}">
+                                            <button onclick="confirmDelete('moderator', ${moderator.id})" class="btn rounded">
+                                                <span class="material-symbols-outlined">delete</span>
+                                            </button>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>
