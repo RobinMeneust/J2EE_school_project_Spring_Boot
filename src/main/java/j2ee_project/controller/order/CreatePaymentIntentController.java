@@ -31,7 +31,6 @@ import java.io.PrintWriter;
  *
  * @author Robin Meneust
  */
-
 @WebServlet("/create-payment-intent")
 public class CreatePaymentIntentController extends HttpServlet {
 

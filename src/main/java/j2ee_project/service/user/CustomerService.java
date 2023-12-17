@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * The type Customer service.
+ */
 @Service
 public class CustomerService {
 
@@ -23,6 +26,13 @@ public class CustomerService {
 
     private final AddressRepository addressRepository;
 
+    /**
+     * Instantiates a new Customer service.
+     *
+     * @param customerRepository the customer repository
+     * @param ordersRepository   the orders repository
+     * @param addressRepository  the address repository
+     */
     public CustomerService(CustomerRepository customerRepository, OrdersRepository ordersRepository, AddressRepository addressRepository) {
         this.customerRepository = customerRepository;
         this.ordersRepository = ordersRepository;

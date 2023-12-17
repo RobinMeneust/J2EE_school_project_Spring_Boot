@@ -13,15 +13,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CartManager {
-	@Autowired
+    /**
+     * The Cart service.
+     */
+    @Autowired
 	CartService cartService;
-	/**
-	 * Gets session cart.
-	 *
-	 * @param session the session
-	 * @return the session cart
-	 */
-	public static Cart getSessionCart(HttpSession session) {
+
+    /**
+     * Gets session cart.
+     *
+     * @param session the session
+     * @return the session cart
+     */
+    public static Cart getSessionCart(HttpSession session) {
 		Object cartObj = session.getAttribute("sessionCart");
 		Cart cart;
 
@@ -35,14 +39,14 @@ public class CartManager {
 		return cart;
 	}
 
-	/**
-	 * Gets cart (either from DB or session). The priority is given to the database cart
-	 *
-	 * @param session  the session in which we look for the cart
-	 * @param customer the customer in the database from whom we look for the cart
-	 * @return the cart
-	 */
-	public static Cart getCart(HttpSession session, Customer customer) {
+    /**
+     * Gets cart (either from DB or session). The priority is given to the database cart
+     *
+     * @param session  the session in which we look for the cart
+     * @param customer the customer in the database from whom we look for the cart
+     * @return the cart
+     */
+    public static Cart getCart(HttpSession session, Customer customer) {
 		if(customer != null) {
 			return customer.getCart();
 		} else {
@@ -50,14 +54,14 @@ public class CartManager {
 		}
 	}
 
-	/**
-	 * Gets cart.
-	 *
-	 * @param sessionCart the session cart
-	 * @param customer    the customer
-	 * @return the cart
-	 */
-	public static Cart getCart(Cart sessionCart, Customer customer) {
+    /**
+     * Gets cart.
+     *
+     * @param sessionCart the session cart
+     * @param customer    the customer
+     * @return the cart
+     */
+    public static Cart getCart(Cart sessionCart, Customer customer) {
 		if(customer != null /* && AUTHENTICATED && IS IN DATABASE*/) {
 			return customer.getCart();
 		} else if(sessionCart != null && sessionCart.getId() <= 0) {
@@ -67,13 +71,13 @@ public class CartManager {
 		return null;
 	}
 
-	/**
-	 * Copy session cart to a database cart and associate it to a specific customer only if the customer cart is empty
-	 *
-	 * @param request  the request with the session
-	 * @param customer the customer whose cart might  change
-	 */
-	public void copySessionCartToCustomerEmptyCart(HttpServletRequest request, Customer customer) {
+    /**
+     * Copy session cart to a database cart and associate it to a specific customer only if the customer cart is empty
+     *
+     * @param request  the request with the session
+     * @param customer the customer whose cart might  change
+     */
+    public void copySessionCartToCustomerEmptyCart(HttpServletRequest request, Customer customer) {
 		HttpSession session = request.getSession();
 		if(customer != null) {
 			Cart cart = CartManager.getSessionCart(session);

@@ -14,6 +14,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.util.List;
 
+/**
+ * The type Auth service helper.
+ */
 public class AuthServiceHelper {
 
     private static final AuthService authService;

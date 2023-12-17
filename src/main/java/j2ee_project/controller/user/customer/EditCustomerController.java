@@ -22,6 +22,9 @@ import java.util.Map;
 
 import static j2ee_project.staticServices.PermissionHelper.getPermission;
 
+/**
+ * The type Edit customer controller.
+ */
 @WebServlet("/edit-customer")
 public class EditCustomerController extends HttpServlet {
 

@@ -58,9 +58,9 @@ public class AuthService {
     /**
      * Process the login
      *
-     * @param email the email
+     * @param email    the email
      * @param password the password
-     * @param request the request object
+     * @param request  the request object
      * @return error message if it needs
      */
     public String loginProcess(String email, String password, HttpServletRequest request){
@@ -94,11 +94,11 @@ public class AuthService {
     /**
      * Method used to check if the login information are in the database
      *
-     * @param email email
+     * @param email    email
      * @param password password
      * @return the found user
      * @throws NoSuchAlgorithmException exception throws by password hash methods
-     * @throws InvalidKeySpecException exception throws by password hash methods
+     * @throws InvalidKeySpecException  exception throws by password hash methods
      */
     public User logIn(String email, String password) throws NoSuchAlgorithmException, InvalidKeySpecException{
         User user = userService.getUserFromEmail(email);
@@ -115,7 +115,7 @@ public class AuthService {
      * Treat the new customer registering
      *
      * @param customerDTO the customerDto of the customer to register
-     * @param request the request object
+     * @param request     the request object
      * @return error message if it needs
      */
     public Map<String, String> newCustomerProcess(CustomerDTO customerDTO, HttpServletRequest request){
@@ -155,10 +155,11 @@ public class AuthService {
 
     /**
      * Register a customer in the database after hashed password generation
+     *
      * @param customerDTO customer data transfer object
      * @return the registered user
      * @throws NoSuchAlgorithmException exception throws by password hash methods
-     * @throws InvalidKeySpecException exception throws by password hash methods
+     * @throws InvalidKeySpecException  exception throws by password hash methods
      */
     public User registerCustomer(CustomerDTO customerDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
         customerDTO.setPassword(HashService.generatePasswordHash(customerDTO.getPassword()));
@@ -203,7 +204,7 @@ public class AuthService {
     /**
      * Start the forgotten password process
      *
-     * @param email the destination email
+     * @param email   the destination email
      * @param request Request object received by the servlet
      * @return error message if it needs
      */
@@ -278,9 +279,9 @@ public class AuthService {
     /**
      * Change password process
      *
-     * @param password the password
+     * @param password        the password
      * @param confirmPassword the confirmation password
-     * @param token the token
+     * @param token           the token
      * @return error message if it needs
      */
     public Map<String, String> changePassword(String password, String confirmPassword, String token){
@@ -320,10 +321,11 @@ public class AuthService {
 
     /**
      * Register a moderator in the database after hashed password generation
+     *
      * @param moderatorDTO moderator data transfer object
      * @return the registered user
      * @throws NoSuchAlgorithmException exception throws by password hash methods
-     * @throws InvalidKeySpecException exception throws by password hash methods
+     * @throws InvalidKeySpecException  exception throws by password hash methods
      */
     public User registerModerator(ModeratorDTO moderatorDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
         moderatorDTO.setPassword(HashService.generatePasswordHash(moderatorDTO.getPassword()));
@@ -336,7 +338,7 @@ public class AuthService {
     /**
      * Check if a moderator has a precise permission
      *
-     * @param user the moderator to check
+     * @param user           the moderator to check
      * @param typePermission the tested permission
      * @return true or false if the moderator has or no the permission
      */

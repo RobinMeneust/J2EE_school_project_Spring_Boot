@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
+/**
+ * The type Product service.
+ */
 @Service
 @Transactional
 public class ProductService {
@@ -22,6 +25,13 @@ public class ProductService {
     private final CartItemRepository cartItemRepository;
     private final CartItemService cartItemService;
 
+    /**
+     * Instantiates a new Product service.
+     *
+     * @param productRepository  the product repository
+     * @param cartItemRepository the cart item repository
+     * @param cartItemService    the cart item service
+     */
     public ProductService(ProductRepository productRepository, CartItemRepository cartItemRepository, CartItemService cartItemService) {
         this.productRepository = productRepository;
         this.cartItemRepository = cartItemRepository;
@@ -44,8 +54,8 @@ public class ProductService {
      * @param category The products' category must match with it (exactly like the name filter)
      * @param minPrice The products' price must be greater or equal to this value
      * @param maxPrice The products' price must be lesser or equal to this value
-     * @param pageNum    Index of the first element (e.g. begin=4 will ignore the 3 first products)
-     * @param pageSize     Max number of elements returned
+     * @param pageNum  Index of the first element (e.g. begin=4 will ignore the 3 first products)
+     * @param pageSize Max number of elements returned
      * @return List of products that match with all of those filters
      */
     public List<Product> getProducts(String name, String category, Float minPrice, Float maxPrice, int pageNum, int pageSize) {

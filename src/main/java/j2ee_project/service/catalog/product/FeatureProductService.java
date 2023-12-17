@@ -8,12 +8,20 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
+/**
+ * The type Feature product service.
+ */
 @Service
 @Transactional
 public class FeatureProductService {
 
     private final FeaturedProductRepository featuredProductRepository;
 
+    /**
+     * Instantiates a new Feature product service.
+     *
+     * @param featuredProductRepository the featured product repository
+     */
     public FeatureProductService(FeaturedProductRepository featuredProductRepository) {
         this.featuredProductRepository = featuredProductRepository;
     }

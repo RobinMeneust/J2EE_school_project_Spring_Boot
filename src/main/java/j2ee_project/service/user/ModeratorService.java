@@ -7,10 +7,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * The type Moderator service.
+ */
 @Service
 public class ModeratorService {
+    /**
+     * The Moderator repository.
+     */
     ModeratorRepository moderatorRepository;
 
+    /**
+     * Instantiates a new Moderator service.
+     *
+     * @param moderatorRepository the moderator repository
+     */
     public ModeratorService(ModeratorRepository moderatorRepository) {
         this.moderatorRepository = moderatorRepository;
     }

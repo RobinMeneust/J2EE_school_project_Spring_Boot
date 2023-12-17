@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * Find products in the database according to its specifications
      *
      * @param productSpec the specifications
-     * @param pageable information to know how page the result
+     * @param pageable    information to know how page the result
      * @return a list of found products
      */
     List<Product> findAll(Specification<Product> productSpec, Pageable pageable);

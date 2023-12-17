@@ -37,6 +37,7 @@ public class MailManager {
 
     /**
      * Get this class instance.
+     *
      * @return This class instance
      */
     public static MailManager getInstance() {
@@ -48,6 +49,7 @@ public class MailManager {
 
     /**
      * Test if a String is null or empty or with only blank spaces
+     *
      * @param s String tested
      * @return True if the String is empty and false otherwise
      */
@@ -98,6 +100,7 @@ public class MailManager {
 
     /**
      * Send a mail by using the server defined in the session associated to this class
+     *
      * @param mail Object containing the data of the mail to be sent
      * @throws SendMailFailureException If the mail could not be sent (invalid session, invalid parameters...)
      */

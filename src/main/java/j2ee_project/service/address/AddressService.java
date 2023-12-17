@@ -15,6 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class AddressService {
     private final AddressRepository addressRepository;
 
+    /**
+     * Instantiates a new Address service.
+     *
+     * @param addressRepository the address repository
+     */
     public AddressService(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
     }
@@ -23,6 +28,7 @@ public class AddressService {
      * Add address
      *
      * @param newAddress the new address
+     * @return the address
      */
     public Address addAddress(Address newAddress) {
         return addressRepository.save(newAddress);

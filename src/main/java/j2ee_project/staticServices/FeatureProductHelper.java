@@ -8,6 +8,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.util.List;
 
+/**
+ * The type Feature product helper.
+ */
 public class FeatureProductHelper {
 
     private static final FeatureProductService featureProductService;

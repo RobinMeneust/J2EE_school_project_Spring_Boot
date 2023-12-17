@@ -5,10 +5,18 @@ import j2ee_project.model.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The type User service.
+ */
 @Service
 public class UserService {
     private final UserRepository userRepository;
 
+    /**
+     * Instantiates a new User service.
+     *
+     * @param userRepository the user repository
+     */
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -46,6 +54,7 @@ public class UserService {
     /**
      * Check if an email and a phone number are in the database
      *
+     * @param userId      the user id
      * @param email       the email to check
      * @param phoneNumber the phone number
      * @return the boolean indicating the presence of the email

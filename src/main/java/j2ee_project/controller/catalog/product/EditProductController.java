@@ -20,6 +20,9 @@ import java.util.Optional;
 
 import static j2ee_project.staticServices.PermissionHelper.getPermission;
 
+/**
+ * The type Edit product controller.
+ */
 @WebServlet("/edit-product")
 public class EditProductController extends HttpServlet {
 

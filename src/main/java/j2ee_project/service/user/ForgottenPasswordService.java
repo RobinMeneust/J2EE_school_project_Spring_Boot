@@ -6,10 +6,18 @@ import j2ee_project.model.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Service to manipulate forgotten password queries
+ */
 @Service
 public class ForgottenPasswordService {
     private final ForgottenPasswordRepository forgottenPasswordRepository;
 
+    /**
+     * Instantiates a new Forgotten password service.
+     *
+     * @param forgottenPasswordRepository the forgotten password repository
+     */
     public ForgottenPasswordService(ForgottenPasswordRepository forgottenPasswordRepository) {
         this.forgottenPasswordRepository = forgottenPasswordRepository;
     }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
  *
  * @author Robin Meneust
  */
-
 public class SendMailFailureException extends Exception {
     /**
      * Constructs a new exception with the given error message that is added to the exception: "ERROR: The mail could not be sent\n " followed by the full error message

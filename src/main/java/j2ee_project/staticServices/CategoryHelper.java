@@ -10,6 +10,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.util.List;
 
+/**
+ * The type Category helper.
+ */
 public class CategoryHelper {
 
     private static final CategoryService categoryService;

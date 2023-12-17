@@ -10,6 +10,9 @@ import j2ee_project.model.user.Customer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The type Cart service.
+ */
 @Service
 @Transactional
 public class CartService {
@@ -19,6 +22,13 @@ public class CartService {
 
     private final CustomerRepository customerRepository;
 
+    /**
+     * Instantiates a new Cart service.
+     *
+     * @param cartRepository     the cart repository
+     * @param cartItemRepository the cart item repository
+     * @param customerRepository the customer repository
+     */
     public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, CustomerRepository customerRepository) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;

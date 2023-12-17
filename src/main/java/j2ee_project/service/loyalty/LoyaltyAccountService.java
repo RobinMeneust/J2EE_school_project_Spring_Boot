@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
+/**
+ * Service to manage loyalty accounts
+ */
 @Service
 @Transactional
 public class LoyaltyAccountService {
@@ -18,6 +21,14 @@ public class LoyaltyAccountService {
     private final DiscountRepository discountRepository;
     private final LoyaltyLevelRepository loyaltyLevelRepository;
 
+
+    /**
+     * Instantiates a new Loyalty account service.
+     *
+     * @param loyaltyAccountRepository the loyalty account repository
+     * @param discountRepository       the discount repository
+     * @param loyaltyLevelRepository   the loyalty level repository
+     */
     public LoyaltyAccountService(LoyaltyAccountRepository loyaltyAccountRepository, DiscountRepository discountRepository, LoyaltyLevelRepository loyaltyLevelRepository) {
         this.loyaltyAccountRepository = loyaltyAccountRepository;
         this.discountRepository = discountRepository;
@@ -53,7 +64,7 @@ public class LoyaltyAccountService {
      * Define a loyally level used for a loyalty account
      *
      * @param idLoyaltyAccount the loyalty account id
-     * @param idLoyaltyLevel the loyalty level id
+     * @param idLoyaltyLevel   the loyalty level id
      */
     public void createLevelUsed(int idLoyaltyAccount, int idLoyaltyLevel) {
         LoyaltyAccount loyaltyAccount = loyaltyAccountRepository.findLoyaltyAccountById(idLoyaltyAccount);
