@@ -323,7 +323,7 @@
                             <tr>
                                 <th>N°</th>
                                 <th>Date</th>
-                                <th>number of items purchased</th>
+                                <th>Total paid</th>
                                 <th>Status</th>
                             </tr>
                         </thead>

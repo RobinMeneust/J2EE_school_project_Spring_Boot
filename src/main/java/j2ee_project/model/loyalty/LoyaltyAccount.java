@@ -179,7 +179,6 @@ public class LoyaltyAccount {
      */
     public void addLoyaltyLevelUsed(LoyaltyLevel level){
         this.loyaltyLevelsUsed.add(level);
-        this.getAvailableDiscounts().add(level.getDiscount());
     }
 
     /**

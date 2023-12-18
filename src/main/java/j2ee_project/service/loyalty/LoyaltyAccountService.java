@@ -1,5 +1,6 @@
 package j2ee_project.service.loyalty;
 
+import j2ee_project.dto.discount.DiscountDTO;
 import j2ee_project.repository.discount.DiscountRepository;
 import j2ee_project.repository.loyalty.LoyaltyAccountRepository;
 import j2ee_project.repository.loyalty.LoyaltyLevelRepository;
@@ -9,6 +10,8 @@ import j2ee_project.model.loyalty.LoyaltyLevel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Set;
 
 /**
@@ -69,6 +72,17 @@ public class LoyaltyAccountService {
         LoyaltyAccount loyaltyAccount = loyaltyAccountRepository.findLoyaltyAccountById(idLoyaltyAccount);
         LoyaltyLevel loyaltyLevel = loyaltyLevelRepository.findLoyaltyLevelById(idLoyaltyLevel);
         loyaltyAccount.addLoyaltyLevelUsed(loyaltyLevel);
+
+        Date startDate = new java.sql.Date(new java.util.Date().getTime());
+        Calendar c = Calendar.getInstance();
+        c.setTime(startDate);
+        c.add(Calendar.DATE, 30);
+        Date endDate = new Date(c.getTimeInMillis());
+
+        Discount newDiscount = new Discount(new DiscountDTO(loyaltyLevel.getDiscount().getName(),startDate,endDate,loyaltyLevel.getDiscount().getDiscountPercentage()));
+        discountRepository.save(newDiscount);
+        loyaltyAccount.getAvailableDiscounts().add(newDiscount);
+
         loyaltyAccountRepository.save(loyaltyAccount);
     }
 
