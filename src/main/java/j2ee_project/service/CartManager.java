@@ -1,6 +1,7 @@
 package j2ee_project.service;
 
 import j2ee_project.model.order.Cart;
+import j2ee_project.model.order.CartItem;
 import j2ee_project.model.user.Customer;
 import j2ee_project.service.order.CartService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -83,6 +84,9 @@ public class CartManager {
 			Cart cart = CartManager.getSessionCart(session);
 
 			if(cart != null && cart.getCartItems() != null && !cart.getCartItems().isEmpty()) {
+				for(CartItem item : cart.getCartItems()) {
+					item.setId(0);
+				}
 				// Copy the cart
 				cartService.updateCart(customer, cart);
 			}

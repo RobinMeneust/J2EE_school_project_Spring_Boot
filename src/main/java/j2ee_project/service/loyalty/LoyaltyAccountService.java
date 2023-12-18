@@ -46,7 +46,6 @@ public class LoyaltyAccountService {
         if(loyaltyAccountDBObj != null) {
             Set<Discount> discounts = loyaltyAccountDBObj.getAvailableDiscounts();
             discounts.remove(discount);
-            discountRepository.delete(discount);
         }
     }
 

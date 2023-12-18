@@ -133,4 +133,14 @@ public class CartService {
         }
     }
 
+    /**
+     * Save the cart
+     *
+     * @param cart the cart to be saved
+     */
+    @Transactional
+    public void save(Cart cart) {
+        if(cart==null) return;
+        cartRepository.save(cart);
+    }
 }

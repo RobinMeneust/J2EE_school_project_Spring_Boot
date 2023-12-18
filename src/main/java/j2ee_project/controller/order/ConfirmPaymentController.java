@@ -3,12 +3,14 @@ package j2ee_project.controller.order;
 import j2ee_project.Application;
 import j2ee_project.model.Discount;
 import j2ee_project.model.Mail;
+import j2ee_project.model.order.Cart;
 import j2ee_project.model.order.OrderStatus;
 import j2ee_project.model.order.Orders;
 import j2ee_project.model.user.Customer;
 import j2ee_project.service.MailManager;
 import j2ee_project.service.loyalty.LoyaltyAccountService;
 import j2ee_project.service.mail.MailService;
+import j2ee_project.service.order.CartService;
 import j2ee_project.service.order.OrdersService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -33,6 +35,7 @@ public class ConfirmPaymentController extends HttpServlet
 {
 
     private static OrdersService ordersService;
+    private static CartService cartService;
     private static LoyaltyAccountService loyaltyAccountService;
     private static MailService mailService;
 
@@ -45,6 +48,7 @@ public class ConfirmPaymentController extends HttpServlet
         ordersService = context.getBean(OrdersService.class);
         loyaltyAccountService = context.getBean(LoyaltyAccountService.class);
         mailService = context.getBean(MailService.class);
+        cartService = context.getBean(CartService.class);
     }
 
     /**
@@ -91,6 +95,11 @@ public class ConfirmPaymentController extends HttpServlet
                     // Use the discount (remove it from the user discounts list)
                     loyaltyAccountService.removeDiscount(customer.getLoyaltyAccount(), discount);
                 }
+                Cart cart = cartService.getCartFromCustomerId(customer.getId());
+                if(cart.getDiscount().getId() == discount.getId()) {
+                    cart.setDiscount(null);
+                }
+                cartService.save(cart);
             }
             ordersService.setStatus(order, OrderStatus.PREPARING);
             order.setOrderStatus(OrderStatus.PREPARING);

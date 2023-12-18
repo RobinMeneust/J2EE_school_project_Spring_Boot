@@ -36,8 +36,6 @@ public class CartItemService {
      */
     @Transactional
     public void editItemQuantity(Customer customer, int cartItemId, int quantity) {
-        System.out.println(customer);
-        System.out.println(cartItemId);
         CartItem cartItemDBObj = this.cartItemRepository.getCartItemById(cartItemId);
 
         if(cartItemDBObj == null || cartItemDBObj.getCart() == null || customer == null || !customer.equals(cartItemDBObj.getCart().getCustomer())) {
