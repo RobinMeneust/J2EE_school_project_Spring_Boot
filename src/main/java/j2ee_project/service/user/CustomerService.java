@@ -1,10 +1,10 @@
 package j2ee_project.service.user;
 
 import j2ee_project.repository.address.AddressRepository;
-import j2ee_project.repository.order.OrdersRepository;
 import j2ee_project.repository.user.CustomerRepository;
 import j2ee_project.model.Address;
 import j2ee_project.model.user.Customer;
+import j2ee_project.repository.user.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class CustomerService {
     private EntityManager entityManager;
 
     private final CustomerRepository customerRepository;
-    private final OrdersRepository ordersRepository;
+    private final UserRepository userRepository;
 
     private final AddressRepository addressRepository;
 
@@ -30,12 +30,12 @@ public class CustomerService {
      * Instantiates a new Customer service.
      *
      * @param customerRepository the customer repository
-     * @param ordersRepository   the orders repository
+     * @param userRepository   the users repository
      * @param addressRepository  the address repository
      */
-    public CustomerService(CustomerRepository customerRepository, OrdersRepository ordersRepository, AddressRepository addressRepository) {
+    public CustomerService(CustomerRepository customerRepository, UserRepository userRepository, AddressRepository addressRepository) {
         this.customerRepository = customerRepository;
-        this.ordersRepository = ordersRepository;
+        this.userRepository = userRepository;
         this.addressRepository = addressRepository;
     }
 
@@ -137,6 +137,13 @@ public class CustomerService {
             }
             if (!customer.getAddress().getCountry().isEmpty()){
                 newAddress.setCountry(customer.getAddress().getCountry());
+            }
+			
+			if (oldAddress==null){
+                addressRepository.save(newAddress);
+                customerToBeEdited.setAddress(newAddress);
+                userRepository.save(customerToBeEdited);
+
             }
 
             if(isDetached) {
