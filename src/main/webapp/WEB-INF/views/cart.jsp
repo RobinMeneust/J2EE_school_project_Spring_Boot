@@ -28,9 +28,23 @@
 <%--  Default current tab value      --%>
         <c:set var="tab" value="cart"/>
     </c:if>
+    <c:set value="${requestScope.get('not-enough-stock-items')}" var="outOfStockItems"/>
 
     <c:choose>
         <c:when test="${cart != null && cart.getCartItems() != null && !cart.getCartItems().isEmpty()}">
+            <c:if test="${not empty outOfStockItems}">
+                <div id="error-alert-box" class="my-5 alert alert-warning fade show" role="alert">
+
+                    <ul>
+                    <c:forEach var="item" items="${outOfStockItems}">
+                        <li><c:out value="${item.getProduct().getName()}"/> quantity must be lesser or equal to <c:out value="${item.getProduct().getStockQuantity()}"/></li>
+                    </c:forEach>
+                    </ul>
+                </div>
+            </c:if>
+
+
+
             <form action="confirm-cart" method="post">
                 <c:if test="${not empty customer}">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">

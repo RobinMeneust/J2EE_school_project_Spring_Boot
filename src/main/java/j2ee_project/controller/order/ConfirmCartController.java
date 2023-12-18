@@ -24,9 +24,7 @@ import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.util.Calendar;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class is a servlet used to confirm the user's cart and redirect him to a payment page. It's a controller in the MVC architecture of this project.
@@ -59,6 +57,7 @@ public class ConfirmCartController extends HttpServlet {
      * @throws IOException If an input or output error is detected when the servlet handles the GET request
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("not-enough-stock-items",null);
         HttpSession session = request.getSession();
         Object obj = session.getAttribute("user");
         Customer customer = null;
@@ -76,11 +75,17 @@ public class ConfirmCartController extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "the cart is empty");
             return;
         }
+        List<CartItem> notEnoughStockItems = new ArrayList<>();
         for(CartItem item : cartItems) {
             if(item.getQuantity() > item.getProduct().getStockQuantity()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "the stock quantities has been updated and are lesser than the quantity you ordered");
-                return;
+                notEnoughStockItems.add(item);
             }
+        }
+        if(!notEnoughStockItems.isEmpty()) {
+            request.setAttribute("not-enough-stock-items",notEnoughStockItems);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("cart");
+            dispatcher.forward(request,response);
+            return;
         }
 
         String discountIdStr = request.getParameter("discount-id");
