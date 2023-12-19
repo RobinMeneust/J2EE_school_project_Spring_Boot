@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="cf" uri="/WEB-INF/functions.tld"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="j2ee_project.model.user.TypePermission" %>
 <html>
 <head>
@@ -429,6 +430,7 @@
                             </thead>
                             <tbody class="align-middle">
                             <c:forEach var = "discount" items = "${discounts}">
+                                <c:if test="${not fn:contains(discount.name, 'Loyalty') || fn:contains(discount.name, 'loyalty')}">
                                 <tr>
                                     <td class="text-center"><c:out value = "${discount.name}"/></td>
                                     <td class="text-center"><c:out value = "${discount.startDate}"/></td>
@@ -445,6 +447,7 @@
                                         </button>
                                     </td>
                                 </tr>
+                                </c:if>
                             </c:forEach>
                             </tbody>
                         </table>
